@@ -5,7 +5,28 @@
  * Date: 08/08/14
  * Time: 11:36
  */
+include "include/DB.php";
+// получаем значение для сортировки товара
+$sorting = $_GET['sort'];
+switch ( $sorting ) {
+    case 'price-asc':
+        $sorting = 'price ASC';
+        $sort_name = 'От дешевых к дорогим';
+        break;
+    case 'price-desc':
+        $sorting = 'price DESC';
+        $sort_name = 'От дорогих к дешевым';
+        break;
+        case 'popular'
+            $sorting = '';
+            $sort_name = 'По популярности';
+            break;
+            case 'news'
+                $sorting = '';
+        $sort_name = '';
+                case 'brand'
 
+}
 ?>
 
 <!DOCTYPE html>
@@ -41,18 +62,116 @@
                 <li><img id="style-list" src="images/icon-list.png" /></li>
 
                 <li>Сортировать: </li>
-                <li><a href="" id="select-sort">Без сортировки</a>
+                <li><a href="#" id="select-sort">Без сортировки</a>
                     <ul id="sorting-list">
-                        <li><a href="" >От дешевых к дорогим</a> </li>
-                        <li><a href="" >От дорогих к дешевым</a> </li>
-                        <li><a href="" >Популярное</a> </li>
-                        <li><a href="" >Новинки</a> </li>
-                        <li><a href="" >От А до Я</a> </li>
+                        <li><a href="index.php?sort=price-asc" >От дешевых к дорогим</a> </li>
+                        <li><a href="index.php?sort=price-desc" >От дорогих к дешевым</a> </li>
+                        <li><a href="index.php?sort=popular" >Популярное</a> </li>
+                        <li><a href="index.php?sort=news" >Новинки</a> </li>
+                        <li><a href="index.php?sort=brand" >От А до Я</a> </li>
                     </ul>
                 </li>
             </ul>
         </div>
-    </div>
+<?php try { ?>
+
+        <ul id="block-tovar-grid">
+
+        <?php
+
+            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1'" );
+            $sth->execute();
+            $result = $sth->fetchAll();
+
+            foreach ( $result as $row ):
+
+                if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                        $img_path   = 'uploads_images/'.$row['image'];
+                        $max_width  = 200;
+                        $max_height = 200;
+                        list( $width, $height ) = getimagesize( $img_path );
+                        $ratioh = $max_height / $height;
+                        $ratiow = $max_width / $width;
+                        $ratio  = min( $ratioh, $ratiow );
+                        $width  = intval( $ratio * $width );
+                        $height = intval( $ratio * $height );
+                } else {
+                    $img_path = "images/no-image.png";
+                    $width    = 110;
+                    $height   = 200;
+                }
+//echo "<tt><pre>".print_r( $row['image'], true ). "</pre></tt>";
+                ?>
+                <li>
+                    <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
+                    <p class="style-title-grid"><a href="" ><?php echo $row['title'];  ?></a></p>
+                    <ul class="reviews-and-counts-grid">
+                        <li><img src="images/eye-icon.png" /><p>0</p></li>
+                        <li><img src="images/comment-icon.png" /><p>0</p></li>
+                    </ul>
+                    <a href="" class="add-cart-style-grid"></a>
+                    <p class="style-price-grid"><strong><?php echo $row['price']; ?></strong> руб.</p>
+                    <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
+                </li>
+
+            <?php endforeach; ?>
+
+        </ul>
+
+        <ul id="block-tovar-list">
+
+            <?php
+
+            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1'" );
+            $sth->execute();
+            $result = $sth->fetchAll();
+
+            foreach ( $result as $row ):
+
+                if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                    $img_path   = 'uploads_images/'.$row['image'];
+                    $max_width  = 150;
+                    $max_height = 150;
+                    list( $width, $height ) = getimagesize( $img_path );
+                    $ratioh = $max_height / $height;
+                    $ratiow = $max_width / $width;
+                    $ratio  = min( $ratioh, $ratiow );
+                    $width  = intval( $ratio * $width );
+                    $height = intval( $ratio * $height );
+                } else {
+                    $img_path = "images/noimages80x70.png";
+                    $width    = 80;
+                    $height   = 70;
+                }
+    //echo "<tt><pre>".print_r( $row['image'], true ). "</pre></tt>";
+                ?>
+                <li>
+                    <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
+
+                    <ul class="reviews-and-counts-list">
+                        <li><img src="images/eye-icon.png" /><p>0</p></li>
+                        <li><img src="images/comment-icon.png" /><p>0</p></li>
+                    </ul>
+                    <p class="style-title-list"><a href="" ><?php echo $row['title'];  ?></a></p>
+                    <a href="" class="add-cart-style-list"></a>
+                    <p class="style-price-list"><strong><?php echo $row['price']; ?></strong> руб.</p>
+                    <div class="style-text-list"><?php echo $row['mini_description'];  ?></div>
+                </li>
+
+            <?php endforeach; ?>
+
+        </ul>
+
+        <?php
+        } catch( PDOException $ex ) {
+            echo $ex->getMessage();
+        }
+
+        ?>
+
+
+    </div><!-- end block-content -->
+
 
     <?php include( 'include/block-footer.php' ); ?>
 
