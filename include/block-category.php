@@ -14,8 +14,8 @@
             <ul class="category-section">
                 <li><a href="view_cat.php?type=mobile"><strong>Все модели</strong></a></li>
                 <?php
-                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara = 'mobile'" );
-                $sth->execute();
+                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara=?" );
+                $sth->execute(array('mobile'));
                 $rows = $sth->fetchAll();
                 foreach( $rows as $row ) {
 //                    echo "<tt><pre>".print_r( $row, true ). "</pre></tt>";
@@ -29,8 +29,8 @@
                 <li><a href="view_cat.php?type=notebook"><strong>Все модели</strong></a></li>
 
                 <?php
-                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara = 'notebook'" );
-                $sth->execute();
+                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara=?" );
+                $sth->execute(array('notebook'));
                 $rows = $sth->fetchAll();
                 foreach( $rows as $row ) {
 //                    echo "<tt><pre>".print_r( $row, true ). "</pre></tt>";
@@ -44,8 +44,8 @@
                 <li><a href="view_cat.php?type=notepad"><strong>Все модели</strong></a></li>
 
                 <?php
-                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara = 'notepad'" );
-                $sth->execute();
+                $sth = DB::getStatement( "SELECT * FROM table_products WHERE type_tovara=?" );
+                $sth->execute(array('notepad'));
                 $rows = $sth->fetchAll();
                 foreach( $rows as $row ) {
 //                    echo "<tt><pre>".print_r( $row, true ). "</pre></tt>";

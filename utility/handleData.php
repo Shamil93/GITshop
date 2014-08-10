@@ -12,10 +12,12 @@
  * @return string
  */
 function handleData( $str ) {
-    $str = trim( $str );
-    $str = strip_tags( $str );
-    $str = htmlspecialchars( stripslashes( $str ) );
-    $str = htmlentities( $str );
-    return $str;
+    if (! empty($str)) {
+        $str = trim( $str );
+        $str = strip_tags( $str );
+        $str = htmlspecialchars( stripslashes( $str ) );
+        $str = htmlentities( $str );
+        return $str;
+    }
 }
 ?>

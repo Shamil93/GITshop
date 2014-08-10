@@ -5,38 +5,43 @@
  * Date: 08/08/14
  * Time: 11:36
  */
-require_once( 'include/Exceptions.php' );
+require_once('include/Exceptions.php');
 include "include/DB.php";
 try {
 // получаем значение для сортировки товара
-$sorting = $_GET['sort'];
-switch ( $sorting ) {
-    case 'price-asc':
-        $sorting = 'price ASC';
-        $sort_name = 'От дешевых к дорогим';
-        break;
-    case 'price-desc':
-        $sorting = 'price DESC';
-        $sort_name = 'От дорогих к дешевым';
-        break;
-    case 'popular':
-        $sorting = 'count DESC';
-        $sort_name = 'Популярные';
-        break;
-    case 'news':
-        $sorting = 'datetime DESC';
-        $sort_name = 'Новинки';
-        break;
-    case 'brand':
-        $sorting = 'brand ASC';
-        $sort_name = 'По алфавиту';
-        break;
-    default:
-        $sorting = 'products_id ASC';
-        $sort_name = 'Нет сортировки';
-        break;
+    if (isset ($_GET['sort'])) {
+        $sorting = $_GET['sort'];
+    } else {
+        $sorting = '';
+    }
 
-}
+    switch ($sorting) {
+        case 'price-asc':
+            $sorting = 'price ASC';
+            $sort_name = 'От дешевых к дорогим';
+            break;
+        case 'price-desc':
+            $sorting = 'price DESC';
+            $sort_name = 'От дорогих к дешевым';
+            break;
+        case 'popular':
+            $sorting = 'count DESC';
+            $sort_name = 'Популярные';
+            break;
+        case 'news':
+            $sorting = 'datetime DESC';
+            $sort_name = 'Новинки';
+            break;
+        case 'brand':
+            $sorting = 'brand ASC';
+            $sort_name = 'По алфавиту';
+            break;
+        default:
+            $sorting = 'products_id ASC';
+            $sort_name = 'Нет сортировки';
+            break;
+
+    }
 ?>
 
 <!DOCTYPE html>
@@ -46,9 +51,11 @@ switch ( $sorting ) {
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link href="TrackBar/jQuery/trackbar.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
     <script type="text/javascript" src="js/jcarouserllite_1.0.1.js"></script>
     <script type="text/javascript" src="js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="TrackBar/jQuery/jquery.trackbar.js"></script>
     <script type="text/javascript" src="js/shop-script.js"></script>
 </head>
 <body>
@@ -56,12 +63,12 @@ switch ( $sorting ) {
 <div id="block-body">
 
     <!--    подключаем блок block-header-->
-    <?php include( 'include/block-header.php' ); ?>
+    <?php include('include/block-header.php'); ?>
 
     <div id="block-right">
-        <?php include( 'include/block-category.php' ); ?>
-        <?php include( 'include/block-parameter.php' ); ?>
-        <?php include( 'include/block-news.php' ); ?>
+        <?php include('include/block-category.php'); ?>
+        <?php include('include/block-parameter.php'); ?>
+        <?php include('include/block-news.php'); ?>
     </div>
 
     <div id="block-content">
@@ -89,29 +96,29 @@ switch ( $sorting ) {
 
         <?php
 
-            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}" );
-            $sth->execute();
+            $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? ORDER BY $sorting");
+            $sth->execute(array(1));
             $rows = $sth->fetchAll();
 
 
-        foreach ( $rows as $row ):
+        foreach ($rows as $row):
 
-                if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
                         $img_path   = 'uploads_images/'.$row['image'];
                         $max_width  = 200;
                         $max_height = 200;
-                        list( $width, $height ) = getimagesize( $img_path );
+                        list($width, $height) = getimagesize($img_path);
                         $ratioh = $max_height / $height;
                         $ratiow = $max_width / $width;
-                        $ratio  = min( $ratioh, $ratiow );
-                        $width  = intval( $ratio * $width );
-                        $height = intval( $ratio * $height );
+                        $ratio  = min($ratioh, $ratiow);
+                        $width  = intval($ratio * $width);
+                        $height = intval($ratio * $height);
                 } else {
                     $img_path = "images/no-image.png";
                     $width    = 110;
                     $height   = 200;
                 }
-//echo "<tt><pre>".print_r( $row['image'], true ). "</pre></tt>";
+//echo "<tt><pre>".print_r($row['image'], true). "</pre></tt>";
                 ?>
                 <li>
                     <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
@@ -133,29 +140,29 @@ switch ( $sorting ) {
 
             <?php
 
-            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}" );
-            $sth->execute();
-            $rows = $sth->fetchAll();
+//            $sth = DB::getStatement("SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}");
+//            $sth->execute();
+//            $rows = $sth->fetchAll();
 
 
-            foreach ( $rows as $row ):
+            foreach ($rows as $row):
 
-                if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
                     $img_path   = 'uploads_images/'.$row['image'];
                     $max_width  = 150;
                     $max_height = 150;
-                    list( $width, $height ) = getimagesize( $img_path );
+                    list($width, $height) = getimagesize($img_path);
                     $ratioh = $max_height / $height;
                     $ratiow = $max_width / $width;
-                    $ratio  = min( $ratioh, $ratiow );
-                    $width  = intval( $ratio * $width );
-                    $height = intval( $ratio * $height );
+                    $ratio  = min($ratioh, $ratiow);
+                    $width  = intval($ratio * $width);
+                    $height = intval($ratio * $height);
                 } else {
                     $img_path = "images/noimages80x70.png";
                     $width    = 80;
                     $height   = 70;
                 }
-    //echo "<tt><pre>".print_r( $row['image'], true ). "</pre></tt>";
+    //echo "<tt><pre>".print_r($row['image'], true). "</pre></tt>";
                 ?>
                 <li>
                     <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
@@ -178,14 +185,14 @@ switch ( $sorting ) {
     </div><!-- end block-content -->
 
 
-    <?php include( 'include/block-footer.php' ); ?>
+    <?php include('include/block-footer.php'); ?>
 
 </div>
 
 </body>
 </html>
 <?php
-} catch( PDOException $ex ) {
-    throw new Exceptions( $ex );
+} catch(PDOException $ex) {
+    throw new Exceptions($ex);
 }
 ?>

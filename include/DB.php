@@ -12,14 +12,14 @@ class DB {
     private function __construct() { }
 
      static function  instance() {
-        if( ! isset( self::$instance ) ) {
+        if (! isset (self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
     }
 
-    private function get( $key ) {
-        if( isset( $this->value[$key] ) ) {
+    private function get($key) {
+        if (isset( $this->value[$key])) {
             return $this->value[$key];
         }
         try {
@@ -27,20 +27,20 @@ class DB {
                 array( PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC,
                     PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES UTF8' ) );
-        } catch( PDOException $ex ) {
+        } catch (PDOException $ex) {
             echo $ex->getMessage();
         }
         return $this->value[$key];
     }
 
     static function getDB() {
-        return self::instance()->get( 'dsn' );
+        return self::instance()->get('dsn');
     }
 
-    static function getStatement( $stmt ) {
-        $prepare = self::getDB()->prepare( $stmt );
-        if( ! $prepare ) {
-            throw new PDOException( 'Error in block_category - mobile - prepare' );
+    static function getStatement($stmt) {
+        $prepare = self::getDB()->prepare($stmt);
+        if (! $prepare) {
+            throw new PDOException('Error in block_category - mobile - prepare');
         }
         return $prepare;
     }

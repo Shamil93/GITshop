@@ -6,18 +6,29 @@
  * Time: 17:48
  */
 
-require_once( 'include/Exceptions.php' );
+require_once('include/Exceptions.php');
 include "include/DB.php";
-require_once( 'utility/handleData.php' );
+require_once('utility/handleData.php');
 
 try {
     // получаем подкатегорию товара
-    $cat = handleData( $_GET['cat'] );
+    if (isset ($_GET['cat'])) {
+         $cat = handleData($_GET['cat']);
+    }
     // получаем тип товара
-    $type = handleData( $_GET['type'] );
+    if (isset ($_GET['type'])) {
+        $type = handleData($_GET['type']);
+    }
     // получаем значение для сортировки товара
-    $sorting = handleData( $_GET['sort'] );
-    switch ( $sorting ) {
+//    $sorting = handleData($_GET['sort']);
+
+    if (isset ($_GET['sort'])) {
+        $sorting = $_GET['sort'];
+    } else {
+        $sorting = '';
+    }
+
+    switch ($sorting) {
         case 'price-asc':
             $sorting = 'price ASC';
             $sort_name = 'От дешевых к дорогим';
@@ -44,6 +55,8 @@ try {
             break;
 
     }
+
+
     ?>
 
     <!DOCTYPE html>
@@ -53,9 +66,11 @@ try {
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <link href="css/reset.css" rel="stylesheet" type="text/css" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="TrackBar/jQuery/trackbar.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="js/jcarouserllite_1.0.1.js"></script>
         <script type="text/javascript" src="js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="TrackBar/jQuery/jquery.trackbar.js"></script>
         <script type="text/javascript" src="js/shop-script.js"></script>
     </head>
     <body>
@@ -63,42 +78,51 @@ try {
     <div id="block-body">
 
         <!--    подключаем блок block-header-->
-        <?php include( 'include/block-header.php' ); ?>
+        <?php include('include/block-header.php'); ?>
 
         <div id="block-right">
-            <?php include( 'include/block-category.php' ); ?>
-            <?php include( 'include/block-parameter.php' ); ?>
-            <?php include( 'include/block-news.php' ); ?>
+            <?php include('include/block-category.php'); ?>
+            <?php include('include/block-parameter.php'); ?>
+            <?php include('include/block-news.php'); ?>
         </div>
 
         <div id="block-content">
                 <?php
 
-                if( ! empty( $cat ) && ! empty( $type ) ) {
-                    $where = "AND brand='$cat' AND type_tovara='$type'";
+                if (! empty($cat) && ! empty($type)) {
+//                    $where = "AND brand='$cat' AND type_tovara='$type'";
+                    $selectBrandType = "SELECT * FROM table_products WHERE visible=? AND brand=? AND type_tovara=?  ORDER BY $sorting";
+                    $sth = DB::getStatement($selectBrandType);
+                    $sth->execute(array(1, $cat, $type));
                     $catLink = "cat=$cat";
                 } else {
-                    if( ! empty( $type ) ) {
-                        $where = "AND type_tovara='$type'";
+                    if (! empty($type)) {
+//                        $where = "AND type_tovara='$type'";
+                        $selectType = "SELECT * FROM table_products WHERE visible=? AND type_tovara=?  ORDER BY $sorting";
+                        $sth = DB::getStatement($selectType);
+                        $sth->execute(array(1, $type));
                     } else {
-                        $where = "";
+//                        $where = "";
+                        $selectSimple = "SELECT * FROM table_products WHERE visible=? ORDER BY $sorting";
+                        $sth = DB::getStatement($selectSimple);
+                        $sth->execute(array(1));
                     }
-                    if( ! empty( $cat ) ) {
+                    if (! empty($cat)) {
                         $catLink = "cat=$cat&";
                     } else {
                         $catLink = "";
                     }
                 }
 
-                $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' $where ORDER BY {$sorting}" );
-                $sth->execute();
+//                $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? $where  ORDER BY $sorting");
+//                $sth->execute(array(1));
                 $rows = $sth->fetchAll();
 
 
 
-//echo "<tt><pre>".print_r( empty( $rows ), true ). "</pre></tt>";
+//echo "<tt><pre>".print_r(empty($rows), true). "</pre></tt>";
 
-                if( ! empty( $rows ) ) {
+                if (! empty($rows)) {
 
                 echo '<div id="block-sorting">
                         <p id="nav-breadcrumbs"><a href="index.php">Главная страница</a> \ <span>Все товары</span></p>
@@ -122,18 +146,18 @@ try {
 
                     <ul id="block-tovar-grid">';
 
-                    foreach ( $rows as $row ):
+                    foreach ($rows as $row):
 
-                        if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                        if (isset ($row['image']) && file_exists('uploads_images/'.$row['image'])) {
                             $img_path   = 'uploads_images/'.$row['image'];
                             $max_width  = 200;
                             $max_height = 200;
-                            list( $width, $height ) = getimagesize( $img_path );
+                            list ($width, $height) = getimagesize($img_path);
                             $ratioh = $max_height / $height;
                             $ratiow = $max_width / $width;
-                            $ratio  = min( $ratioh, $ratiow );
-                            $width  = intval( $ratio * $width );
-                            $height = intval( $ratio * $height );
+                            $ratio  = min($ratioh, $ratiow);
+                            $width  = intval($ratio * $width);
+                            $height = intval($ratio * $height);
                         } else {
                             $img_path = "images/no-image.png";
                             $width    = 110;
@@ -160,29 +184,29 @@ try {
 
                     <?php
 
-    //                $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' $where ORDER BY {$sorting}" );
+    //                $sth = DB::getStatement("SELECT * FROM table_products WHERE visible='1' $where ORDER BY {$sorting}");
     //                $sth->execute();
     //                $rows = $sth->fetchAll();
 
 
-                    foreach ( $rows as $row ):
+                    foreach ($rows as $row):
 
-                        if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
+                        if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
                             $img_path   = 'uploads_images/'.$row['image'];
                             $max_width  = 150;
                             $max_height = 150;
-                            list( $width, $height ) = getimagesize( $img_path );
+                            list($width, $height) = getimagesize($img_path);
                             $ratioh = $max_height / $height;
                             $ratiow = $max_width / $width;
-                            $ratio  = min( $ratioh, $ratiow );
-                            $width  = intval( $ratio * $width );
-                            $height = intval( $ratio * $height );
+                            $ratio  = min($ratioh, $ratiow);
+                            $width  = intval($ratio * $width);
+                            $height = intval($ratio * $height);
                         } else {
                             $img_path = "images/noimages80x70.png";
                             $width    = 80;
                             $height   = 70;
                         }
-                        //echo "<tt><pre>".print_r( $row['image'], true ). "</pre></tt>";
+                        //echo "<tt><pre>".print_r($row['image'], true). "</pre></tt>";
                         ?>
                         <li>
                             <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
@@ -211,14 +235,14 @@ try {
         </div><!-- end block-content -->
 
 
-        <?php include( 'include/block-footer.php' ); ?>
+        <?php include('include/block-footer.php'); ?>
 
     </div>
 
     </body>
     </html>
 <?php
-} catch( PDOException $ex ) {
-    throw new Exceptions( $ex );
+} catch(PDOException $ex) {
+    throw new Exceptions($ex);
 }
 ?>
