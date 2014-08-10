@@ -5,7 +5,9 @@
  * Date: 08/08/14
  * Time: 11:36
  */
+require_once( 'include/Exceptions.php' );
 include "include/DB.php";
+try {
 // получаем значение для сортировки товара
 $sorting = $_GET['sort'];
 switch ( $sorting ) {
@@ -17,14 +19,22 @@ switch ( $sorting ) {
         $sorting = 'price DESC';
         $sort_name = 'От дорогих к дешевым';
         break;
-        case 'popular'
-            $sorting = '';
-            $sort_name = 'По популярности';
-            break;
-            case 'news'
-                $sorting = '';
-        $sort_name = '';
-                case 'brand'
+    case 'popular':
+        $sorting = 'count DESC';
+        $sort_name = 'Популярные';
+        break;
+    case 'news':
+        $sorting = 'datetime DESC';
+        $sort_name = 'Новинки';
+        break;
+    case 'brand':
+        $sorting = 'brand ASC';
+        $sort_name = 'По алфавиту';
+        break;
+    default:
+        $sorting = 'products_id ASC';
+        $sort_name = 'Нет сортировки';
+        break;
 
 }
 ?>
@@ -63,7 +73,7 @@ switch ( $sorting ) {
                 <li><img id="style-list" src="images/icon-list.png" /></li>
 
                 <li>Сортировать: </li>
-                <li><a href="#" id="select-sort">Без сортировки</a>
+                <li><a href="#" id="select-sort"><?php echo $sort_name; ?> </a>
                     <ul id="sorting-list">
                         <li><a href="index.php?sort=price-asc" >От дешевых к дорогим</a> </li>
                         <li><a href="index.php?sort=price-desc" >От дорогих к дешевым</a> </li>
@@ -74,17 +84,17 @@ switch ( $sorting ) {
                 </li>
             </ul>
         </div>
-<?php try { ?>
 
         <ul id="block-tovar-grid">
 
         <?php
 
-            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1'" );
+            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}" );
             $sth->execute();
-            $result = $sth->fetchAll();
+            $rows = $sth->fetchAll();
 
-            foreach ( $result as $row ):
+
+        foreach ( $rows as $row ):
 
                 if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
                         $img_path   = 'uploads_images/'.$row['image'];
@@ -123,11 +133,12 @@ switch ( $sorting ) {
 
             <?php
 
-            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1'" );
+            $sth = DB::getStatement( "SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}" );
             $sth->execute();
-            $result = $sth->fetchAll();
+            $rows = $sth->fetchAll();
 
-            foreach ( $result as $row ):
+
+            foreach ( $rows as $row ):
 
                 if( isset( $row['image'] ) && file_exists( 'uploads_images/'.$row['image'] ) ) {
                     $img_path   = 'uploads_images/'.$row['image'];
@@ -163,13 +174,6 @@ switch ( $sorting ) {
 
         </ul>
 
-        <?php
-        } catch( PDOException $ex ) {
-            echo $ex->getMessage();
-        }
-
-        ?>
-
 
     </div><!-- end block-content -->
 
@@ -180,3 +184,8 @@ switch ( $sorting ) {
 
 </body>
 </html>
+<?php
+} catch( PDOException $ex ) {
+    throw new Exceptions( $ex );
+}
+?>

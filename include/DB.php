@@ -38,7 +38,11 @@ class DB {
     }
 
     static function getStatement( $stmt ) {
-        return self::getDB()->prepare( $stmt );
+        $prepare = self::getDB()->prepare( $stmt );
+        if( ! $prepare ) {
+            throw new PDOException( 'Error in block_category - mobile - prepare' );
+        }
+        return $prepare;
     }
 }
 

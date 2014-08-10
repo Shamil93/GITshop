@@ -224,18 +224,21 @@
     -o-border-radius: 5px 5px 0 0;
 
 }
-#block-category > ul li {
+#block-category > ul > li {
     border-bottom: 1px solid #EFEFEF;
 }
-#block-category > ul li a {
+#block-category > ul > li > a {
     font: 15px sans-serif;
     padding-top: 6px;
     padding-left: 30px;
     padding-bottom: 6px;
     display: block;
 }
-#block-category > ul li a:hover {
+#block-category > ul > li > a:hover {
     cursor: pointer;
+    background-color: #EEEEEE;
+}
+#block-category > ul > li > a.active {
     background-color: #EEEEEE;
 }
 #mobile-images {
@@ -255,6 +258,7 @@
 .category-section {
     margin-left: 25px;
     margin-bottom: 5px;
+    display: none;
 }
 .category-section li {
     margin-top: 3px;
