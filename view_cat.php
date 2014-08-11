@@ -9,25 +9,29 @@
 require_once('include/Exceptions.php');
 include "include/DB.php";
 require_once('utility/handleData.php');
+require_once('utility/pager.php');
+
 
 try {
     // получаем подкатегорию товара
     if (isset ($_GET['cat'])) {
          $cat = handleData($_GET['cat']);
+    } else {
+        $cat = '';
     }
     // получаем тип товара
     if (isset ($_GET['type'])) {
         $type = handleData($_GET['type']);
+    } else {
+        $type = '';
     }
     // получаем значение для сортировки товара
 //    $sorting = handleData($_GET['sort']);
-
     if (isset ($_GET['sort'])) {
         $sorting = $_GET['sort'];
     } else {
         $sorting = '';
     }
-
     switch ($sorting) {
         case 'price-asc':
             $sorting = 'price ASC';
@@ -55,7 +59,6 @@ try {
             break;
 
     }
-
 
     ?>
 
@@ -89,33 +92,92 @@ try {
         <div id="block-content">
                 <?php
 
+
+
+                /**
+                 * Постраничная навигация
+                 */
+                $pnumber = 10; // количество выводимых предметов
+                $pageLink = 5; // количество ссылок слева и справа
+                if( isset($_GET['page'])) {
+                    $page = intval($_GET['page']); // номер страницы
+                } else {
+                    $page = 0;
+                }
+                $page   = intval($page);
+
+
                 if (! empty($cat) && ! empty($type)) {
 //                    $where = "AND brand='$cat' AND type_tovara='$type'";
-                    $selectBrandType = "SELECT * FROM table_products WHERE visible=? AND brand=? AND type_tovara=?  ORDER BY $sorting";
-                    $sth = DB::getStatement($selectBrandType);
+                    $sth2 = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE visible=? AND brand=? AND type_tovara=?");
+//                    echo "<tt><pre>".print_r($sth2, true). "</pre></tt>";
+//                    echo "<tt><pre>".print_r(array(1, $cat, $type), true). "</pre></tt>";
+                    $sth2->execute(array(1, $cat, $type));
+                    $rows2   = $sth2->fetch();
+                    $total  = $rows2['count']; // всего позиций
+                    $number = (int)($total / $pnumber); // количество ссылок на странице
+                    if ((float)($total / $pnumber) - $number != 0 ) $number++; // если не равно 0, то добавляем 1
+//                    $number = intval($number); // и приводим к целому числу
+                    if (empty($page) || $page < 0 ) $page = 1; // номер страницы
+                    if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
+                    $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+                    $queryStart = " LIMIT $start, $pnumber"; // условие для выборки из БД
+
+                    $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? AND brand=? AND type_tovara=?  ORDER BY $sorting $queryStart");
                     $sth->execute(array(1, $cat, $type));
                     $catLink = "cat=$cat";
                 } else {
                     if (! empty($type)) {
 //                        $where = "AND type_tovara='$type'";
-                        $selectType = "SELECT * FROM table_products WHERE visible=? AND type_tovara=?  ORDER BY $sorting";
-                        $sth = DB::getStatement($selectType);
+                        $sth2 = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE visible=? AND type_tovara=?");
+                        $sth2->execute(array(1, $type));
+                        $rows2   = $sth2->fetch();
+                        $total  = $rows2['count']; // всего позиций
+                        $number = $total / $pnumber; // количество ссылок на странице
+                        if ($total / $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
+                        $number = intval($number); // и приводим к целому числу
+                        if (empty($page) || $page < 0 ) $page = 1; // номер страницы
+                        if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
+                        $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+                        $queryStart = " LIMIT $start, $pnumber"; // условие для выборки из БД
+
+                        $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? AND type_tovara=?  ORDER BY $sorting $queryStart");
                         $sth->execute(array(1, $type));
                     } else {
 //                        $where = "";
-                        $selectSimple = "SELECT * FROM table_products WHERE visible=? ORDER BY $sorting";
-                        $sth = DB::getStatement($selectSimple);
+                        $sth2 = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE visible=?");
+                        $sth2->execute(array(1));
+                        $rows2   = $sth2->fetch();
+                        $total  = $rows2['count']; // всего позиций
+                        $number = $total / $pnumber; // количество ссылок на странице
+                        if ($total / $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
+                        $number = intval($number); // и приводим к целому числу
+                        if (empty($page) || $page < 0 ) $page = 1; // номер страницы
+                        if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
+                        $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+                        $queryStart = " LIMIT $start, $pnumber"; // условие для выборки из БД
+
+                        $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? ORDER BY $sorting $queryStart");
                         $sth->execute(array(1));
                     }
-                    if (! empty($cat)) {
-                        $catLink = "cat=$cat&";
-                    } else {
-                        $catLink = "";
-                    }
+//                    if (! empty($cat)) {
+//                        $catLink = "cat=$cat&";
+//                    } else {
+//                        $catLink = "";
+//                    }
                 }
+                if (! empty($cat)) {
+                    $catLink = "cat=$cat&";
+                } else {
+                    $catLink = "";
+                }
+                if (isset( $_GET['sort'])) {
+                    $sortPar = '&sort='.$_GET['sort'];
+                } else {
+                    $sortPar = '';
+                }
+                $parameters = '&'.$catLink.'type='.$type.$sortPar;
 
-//                $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? $where  ORDER BY $sorting");
-//                $sth->execute(array(1));
                 $rows = $sth->fetchAll();
 
 
@@ -135,10 +197,10 @@ try {
                             <li><a href="#" id="select-sort">'.$sort_name.'</a>
                                 <ul id="sorting-list">
                                     <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=price-asc" >От дешевых к дорогим</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=price-desc" >От дорогих к дешевым</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=popular" >Популярное</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=news" >Новинки</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=brand" >От А до Я</a> </li>
+                                    <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=price-desc" >От дорогих к дешевым</a> </li>
+                                    <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=popular" >Популярное</a> </li>
+                                    <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=news" >Новинки</a> </li>
+                                    <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=brand" >От А до Я</a> </li>
                                 </ul>
                             </li>
                         </ul>
@@ -229,7 +291,14 @@ try {
 
                     ?>
 
-            </ul>
+                </ul>
+                    <?php
+
+                    echo '<div class="pstrnav"><ul>';
+                    echo pager( $page, $pageLink, $number, $total, $parameters );
+                    echo '</ul></div>';
+
+                    ?>
 
 
         </div><!-- end block-content -->

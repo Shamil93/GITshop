@@ -6,7 +6,9 @@
  * Time: 11:36
  */
 require_once('include/Exceptions.php');
+require_once('utility/pager.php');
 include "include/DB.php";
+
 try {
 // получаем значение для сортировки товара
     if (isset ($_GET['sort'])) {
@@ -94,45 +96,78 @@ try {
 
         <ul id="block-tovar-grid">
 
-        <?php
+            <?php
 
-            $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? ORDER BY $sorting");
+            if (isset( $_GET['sort'])) {
+                $sortPar = '&sort='.$_GET['sort'];
+            } else {
+                $sortPar = '';
+            }
+            $parameters = $sortPar;
+
+            /**
+             * Постраничная навигация
+            */
+            $pnumber = 10; // количество выводимых предметов
+            $pageLink = 5; // количество ссылок слева и справа
+            if( isset($_GET['page'])) {
+                $page = intval($_GET['page']); // номер страницы
+            } else {
+                $page = 0;
+            }
+            $page   = intval($page);
+            $sth    = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE visible=?");
+            $sth->execute(array(1));
+            $rows   = $sth->fetch();
+            $total  = $rows['count']; // всего позиций
+            $number = $total / $pnumber; // количество ссылок на странице
+            if ($total / $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
+            $number = intval($number); // и приводим к целому числу
+
+            if (empty($page) || $page < 0 ) $page = 1; // номер страницы
+            if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
+
+            $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+
+            $queryStart = " LIMIT $start, $pnumber";
+
+            $sth = DB::getStatement("SELECT * FROM table_products WHERE visible=? ORDER BY $sorting $queryStart");
             $sth->execute(array(1));
             $rows = $sth->fetchAll();
 
+    //        echo "<tt><pre> - asjfksajdfklsdjf - ".print_r(gettype($pnumber), true). "</pre></tt>";
 
-        foreach ($rows as $row):
+            foreach ($rows as $row):
 
-                if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
-                        $img_path   = 'uploads_images/'.$row['image'];
-                        $max_width  = 200;
-                        $max_height = 200;
-                        list($width, $height) = getimagesize($img_path);
-                        $ratioh = $max_height / $height;
-                        $ratiow = $max_width / $width;
-                        $ratio  = min($ratioh, $ratiow);
-                        $width  = intval($ratio * $width);
-                        $height = intval($ratio * $height);
-                } else {
-                    $img_path = "images/no-image.png";
-                    $width    = 110;
-                    $height   = 200;
-                }
-//echo "<tt><pre>".print_r($row['image'], true). "</pre></tt>";
-                ?>
-                <li>
-                    <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
-                    <p class="style-title-grid"><a href="" ><?php echo $row['title'];  ?></a></p>
-                    <ul class="reviews-and-counts-grid">
-                        <li><img src="images/eye-icon.png" /><p>0</p></li>
-                        <li><img src="images/comment-icon.png" /><p>0</p></li>
-                    </ul>
-                    <a href="" class="add-cart-style-grid"></a>
-                    <p class="style-price-grid"><strong><?php echo $row['price']; ?></strong> руб.</p>
-                    <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
-                </li>
+                    if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
+                            $img_path   = 'uploads_images/'.$row['image'];
+                            $max_width  = 200;
+                            $max_height = 200;
+                            list($width, $height) = getimagesize($img_path);
+                            $ratioh = $max_height / $height;
+                            $ratiow = $max_width / $width;
+                            $ratio  = min($ratioh, $ratiow);
+                            $width  = intval($ratio * $width);
+                            $height = intval($ratio * $height);
+                    } else {
+                        $img_path = "images/no-image.png";
+                        $width    = 110;
+                        $height   = 200;
+                    }
+                    ?>
+                    <li>
+                        <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
+                        <p class="style-title-grid"><a href="" ><?php echo $row['title'];  ?></a></p>
+                        <ul class="reviews-and-counts-grid">
+                            <li><img src="images/eye-icon.png" /><p>0</p></li>
+                            <li><img src="images/comment-icon.png" /><p>0</p></li>
+                        </ul>
+                        <a href="" class="add-cart-style-grid"></a>
+                        <p class="style-price-grid"><strong><?php echo $row['price']; ?></strong> руб.</p>
+                        <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
+                    </li>
 
-            <?php endforeach; ?>
+                <?php endforeach; ?>
 
         </ul>
 
@@ -143,7 +178,6 @@ try {
 //            $sth = DB::getStatement("SELECT * FROM table_products WHERE visible='1' ORDER BY {$sorting}");
 //            $sth->execute();
 //            $rows = $sth->fetchAll();
-
 
             foreach ($rows as $row):
 
@@ -180,6 +214,15 @@ try {
             <?php endforeach; ?>
 
         </ul>
+
+
+        <?php
+
+        echo '<div class="pstrnav"><ul>';
+        echo pager( $page, $pageLink, $number, $total, $parameters);
+        echo '</ul></div>';
+
+        ?>
 
 
     </div><!-- end block-content -->

@@ -10,41 +10,17 @@
     <img id="news-prev" src="images/img-prev.png">
     <div id="newsticker">
         <ul>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
-            <li>
-                <span>25.07.2013</span>
-                <a href="">Кредит без переплаты на планшеты Samsung</a>
-                <p>С июля до сентября во всех салонах-магазинах - планшеты Samsung в кредит буз переплат!</p>
-            </li>
+            <?php
+            $sth = DB::getStatement("SELECT * FROM news ORDER BY id DESC");
+            $sth->execute();
+            $rows = $sth->fetchAll();
+            foreach ($rows as $row): ?>
+                <li>
+                    <span><?php echo $row['date']; ?></span>
+                    <a href=""><?php echo $row['title']; ?></a>
+                    <p><?php echo $row['text']; ?></p>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </div>
     <img id="news-next" src="images/img-next.png">
