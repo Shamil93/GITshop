@@ -1,3 +1,6 @@
+
+/*Весь блок сайта*/
+
 #block-body {
     width: 1035px;
     height: auto;
@@ -5,23 +8,39 @@
     margin: 0 auto;
     /*background-color: #cecece;*/
 }
+
+
+/*Блок с логотипом/личными данными/регистрацией/навигацией*/
+
 #block-header {
     width: 1035px;
     height: 220px;
     /*background-color: #add8e6;*/
 }
+
+
+/*Правый блок с поиском по категориям/параметрам и новости*/
+
 #block-right {
     width: 220px;
     height: auto;
     /*height: 400px;*/
     float: right;
 }
+
+
+/*Блок с сортировкой и основным окном*/
+
 #block-content  {
     width: 800px;
     height: auto;
     /*height: 400px;*/
     /*background-color: #ffc0cb;*/
 }
+
+
+/*Самый верхний блок с городом и регистрацией*/
+
 #header-top-block {
     width: 1035px;
     height: 35px;
@@ -57,6 +76,11 @@
     color: #EF662B;
     border-bottom: 1px dashed #EF662B;
 }
+
+
+
+ /*Регистрация*/
+
 #reg-auth-title {
     margin-top: 10px;
     margin-right: 10px;
@@ -91,15 +115,28 @@
 #reg-auth-title a:hover {
     border-bottom: none;
 }
+
+
+
+/*Линия под регистрацией*/
+
 #top-line {
     background: url( ../images/line.png );
     width: 1035px;
     height: 5px;
 }
+
+
+/*Логотип*/
+
 #img-logo {
     margin-top: 12px;
     position: absolute;
 }
+
+
+/*Личная информация в верхнем баннере*/
+
 #personal-info {
     width: 300px;
     margin-top: 7px;
@@ -122,6 +159,10 @@
     margin-left: 265px;
     position: absolute;
 }
+
+
+/*Поиск по сайту*/
+
 #block-search {
     width: 345px;
     height: auto;
@@ -158,6 +199,11 @@
 #button-search:hover {
     background: url( ../images/grd-button-search-hover.png );
 }
+
+
+
+/*Верхнее меню с главной/новинками и т.д.*/
+
 #top-menu {
     width: 1033px;
     height: 45px;
@@ -207,6 +253,10 @@
     height: 5px;
     margin-top: -3px;
 }
+
+
+/*Поиск по категориям*/
+
 #block-category {
     width: 220px;
     height: auto;
@@ -224,6 +274,7 @@
     -o-border-radius: 5px 5px 0 0;
 
 }
+
 #block-category > ul > li {
     border-bottom: 1px solid #EFEFEF;
 }
@@ -271,6 +322,10 @@
 .category-section a:hover {
     text-decoration: underline;
 }
+
+
+/*Поиск по параметрам*/
+
 #block-parameter {
     width: 220px;
     margin-top: 10px;
@@ -328,6 +383,11 @@
 #button-param-search:active {
     background: url( ../images/button-search-active.png );
 }
+
+
+
+/*Блок новостей*/
+
 #block-news {
     width: 220px;
     height: auto;
@@ -374,6 +434,10 @@
     cursor: pointer;
     margin-left: 110px;
 }
+
+
+/*Футер*/
+
 #footer-phone {
     width: 270px;
     float: left;
@@ -418,6 +482,10 @@
     height: 5px;
     background: url( '../images/line.png' );
 }
+
+
+/*Блок навигации по открытым страницам*/
+
 #nav-breadcrumbs {
     margin-top: 5px;
 }
@@ -432,10 +500,15 @@
     color: #7F868E;
     font: 14px sans-serif;
 }
+
+
+/*Блок сортировки*/
+
 #block-sorting {
     height: 60px;
     border-bottom: 1px solid #EEEEEE;
 }
+
 #options-list > li {
     float: left;
     margin-left: 10px;
@@ -474,6 +547,10 @@
 #sorting-list a:hover {
     text-decoration: underline;
 }
+
+
+/*Категории товаров в виде сетки*/
+
 #block-tovar-grid > li {
     width: 380px;
     float: left;
@@ -541,6 +618,11 @@
 .add-cart-style-grid:active {
     background: url( '../images/add-cart-active.png' );
 }
+
+
+
+/*Категории в виде списка*/
+
 .mini-features {
     font: 14px/18px sans-serif;
     margin-top: 10px;
@@ -618,6 +700,10 @@
     font: 15px sans-serif;
     margin: 0;
 }
+
+
+/*Постраничная навигация*/
+
 .pstrnav {
     margin-top: 30px;
     margin-bottom: 30px;
@@ -657,4 +743,129 @@
     font: bold 14px sans-serif;
     margin-top: 8px;
     margin-bottom: 0;
+}
+
+
+/*Регистрация*/
+
+.h2-title {
+    font: 25px sans-serif;
+    border-bottom: 1px solid #EEEEEE;
+    padding-bottom: 3px;
+}
+#block-form-registration {
+    height: 450px;
+}
+#form-registration {
+    margin-top: 30px;
+}
+#form-registration li {
+    margin-top: 10px;
+}
+#form-registration > li > input {
+    height: 30px;
+    width: 320px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: #000000;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+#form-registration > li > label {
+    position: absolute;
+    font: 15px sans-serif;
+    margin-top: 7px;
+}
+.star {
+    font: 16px sans-serif;
+    color: #E35903;
+    position: absolute;
+    margin-left: 188px;
+    margin-top: 10px;
+}
+#genpass {
+    font: bold 13px sans-serif;
+    text-decoration: underline;
+    color: #000000;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#genpass:hover {
+    text-decoration: none;
+}
+#form-registration > li > input#reg_login,
+#form-registration > li > input#reg_pass  {
+    height: 30px;
+    width: 200px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: #000000;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+#form-registration > li > input:focus,
+#form-registration > li > input#reg_login:focus,
+#form-registration > li > input#reg_pass:focus,
+#block-captcha > input#reg_captcha:focus {
+    border: 1px solid #C4E1EB;
+}
+#block-captcha {
+    position: absolute;
+    margin-left: 200px;
+    height: 70px;
+}
+#block-captcha > input#reg_captcha  {
+    height: 30px;
+    width: 100px;
+    font: 19px sans-serif;
+    margin-left: 15px;
+    margin-top: 8px;
+    padding-left: 5px;
+    color: #000000;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+#block-captcha img {
+    float: left;
+}
+#block-captcha p {
+    margin-top: 0;
+    font: bold 13px sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+    clear: both;
+}
+#block-captcha p:hover {
+    text-decoration: none;
+}
+#form-submit {
+    background: url(../images/grd_reg_button.png);
+    border: 1px solid #E4E4E4;
+    font: bold 13px sans-serif;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding-left: 7px;
+    padding-right: 7px;
+    height: 33px;
+    cursor: pointer;
+    margin-top: -15px;
+    margin-right: 15px;
+}
+#form-submit:active {
+    background: url(../images/grd_reg_button_vert.png);
+}
+.error {
+    font: italic 14px sans-serif;
+    color: #CC0063;
+    margin-left: 5px;
 }

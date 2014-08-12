@@ -86,8 +86,28 @@ $(document).ready( function() {
     }
 
 
+    /**
+     * Для генерации пароля для формы регистрации
+     */
+    $('#genpass').click(function(){
+        $.ajax({
+            type: "POST",
+            url: "utility/genpass.php",
+            dataType: "html",
+            cache: false,
+            success: function(data) {
+                $('#reg_pass').val(data);
+            }
+        });
+    });
 
 
+    /**
+     * Для обновление изображения капчи
+     */
+    $('#reloadcaptcha').click(function(){
+        $('#block-captcha > img').attr('src','reg/reg_captcha.php?r='+Math.random());
+    });
 
 } );
 

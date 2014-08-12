@@ -59,24 +59,25 @@ try {
             if (isset($_GET['brand'])) {
                 $checkBrand = implode(',', $_GET['brand']);
             }
-                $startPrice = (int)$_GET['start_price'];
-                $endPrice = (int)$_GET['end_price'];
-                $value = array();
-                $value[] = 1; // ищем элемент, который отображается
+            $startPrice = (int)$_GET['start_price'];
+            $endPrice = (int)$_GET['end_price'];
+            $value = array();
+            $value[] = 1; // ищем элемент, который отображается
 //            if (!empty($checkBrand ) || !empty($end_price)) {
-                if (!empty($checkBrand)) {
-                    $queryBrand = " AND brand_id IN(?) ";
-                    $value[] = "$checkBrand";
-                } else {
-                    $queryBrand = '';
-                }
-                if (!empty($endPrice)) {
-                    $queryPrice = " AND price BETWEEN ? AND ? ";
-                    $value[] = "$startPrice";
-                    $value[] = "$endPrice";
-                } else {
-                    $queryPrice = '';
-                }
+            if (!empty($checkBrand)) {
+                $queryBrand = " AND brand_id IN(?) ";
+                $value[] = "$checkBrand";
+            } else {
+                $queryBrand = '';
+            }
+            if (!empty($endPrice)) {
+                $queryPrice = " AND price BETWEEN ? AND ? ";
+                $value[] = $startPrice;
+                $value[] = $endPrice;
+            } else {
+                $queryPrice = '';
+            }
+//            echo "<tt><pre>".print_r( $_GET, true )."</pre></tt>";
 
 
 //            echo "<tt><pre>".print_r($value, true). "</pre></tt>";
