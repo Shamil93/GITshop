@@ -86,9 +86,9 @@
     margin-right: 10px;
     float: right;
 }
-/*#reg-auth-title > a#active-button{*/
-/*background: url(/images/auth-butt-bg-click.png);*/
-/*}*/
+#reg-auth-title  > a#active-button {
+    background: url(../images/auth-butt-bg-click.png);
+}
 #reg-auth-title a.top-auth {
     font: 13px bold sans-serif;
     text-decoration: none;
@@ -115,6 +115,7 @@
 #reg-auth-title a:hover {
     border-bottom: none;
 }
+
 
 
 

@@ -109,5 +109,48 @@ $(document).ready( function() {
         $('#block-captcha > img').attr('src','reg/reg_captcha.php?r='+Math.random());
     });
 
+
+    /**
+     * Появление и сокрытие формы для входа пользователей
+     */
+    $('.top-auth').click(function(){
+        $("#block-top-auth").fadeToggle(200);
+        $(this).attr('id', ($(this).attr('id') === 'active-button' ? '' : 'active-button'));
+    });
+
+    /**
+     * Открыть закрыть пароль
+     */
+    $('#button-pass-show-hide').click(function(){
+        var statuspass = $('#button-pass-show-hide').attr('class');
+        if (statuspass == "pass-show") {
+            $('#button-pass-show-hide').attr('class', 'pass-hide');
+            var $input = $('#auth_pass');
+            var change = "text";
+            var rep = $("<input placeholder='Пароль' type='"+change+"' />")
+                .attr('id', $input.attr('id'))
+                .attr('name', $input.attr('name'))
+                .attr('class', $input.attr('class'))
+                .val($input.val())
+                .insertBefore($input);
+            $input.remove();
+            $input = rep;
+        } else {
+            $('#button-pass-show-hide').attr('class', 'pass-show');
+            var $input = $('#auth_pass');
+            var change = 'password';
+            var rep = $("<input placeholder='Пароль' type='"+change+"' />")
+                .attr('id', $input.attr('id'))
+                .attr('name', $input.attr('name'))
+                .attr('class', $input.attr('class'))
+                .val($input.val())
+                .insertBefore($input);
+            $input.remove();
+            $input = rep;
+        }
+    })
+
+
+
 } );
 
