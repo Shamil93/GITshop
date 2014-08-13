@@ -869,3 +869,150 @@
     color: #CC0063;
     margin-left: 5px;
 }
+.reg_message_good {
+    font: 18px sans-serif;
+    color: #000000;
+    background-color: #EDEDFF;
+    border: 1px solid #E6E6E6;
+}
+.reg_message_error {
+    font: bold 14px sans-serif;
+    color: #FF0000;
+    background-color: #F7EDEF;
+    border: 1px solid #FAC8D3;
+}
+#reg_message {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    display: none;
+}
+
+
+/*Авторизация пользователей*/
+
+#block-top-auth {
+    border: 1px solid #DBDBDB;
+    width: 210px;
+    height: auto;
+    margin-left: 719px;
+    margin-top: 40px;
+    background-color: #FFFFFF;
+    position: absolute;
+    z-index: 9999;
+    -khtml-box-shadow: 0 0 15px #DBDBDB;
+    -ms-box-shadow: 0 0 15px #DBDBDB;
+    -o-box-shadow: 0 0 15px #DBDBDB;
+    -moz-box-shadow: 0 0 15px #DBDBDB;
+    -webkit-box-shadow: 0 0 15px #DBDBDB;
+    box-shadow: 0 0 15px #DBDBDB;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    display: none;
+}
+.corner {
+    background: url('../images/bulleticon.png');
+    width: 19px;
+    height: 10px;
+    margin-left: 175px;
+    margin-top: -9px;
+}
+#input-email-pass h3 {
+    font: 15px sans-serif;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#message-auth {
+    font: bold 13px sans-serif;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #FDE7E7;
+    color: #FF0000;
+    display: none;
+}
+#input-email-pass > li {
+    margin-top: 7px;
+}
+#input-email-pass input#auth-login {
+    width: 180px;
+    height: 25px;
+    font: 15px sans-serif;
+    border: 1px solid #DBDBDB;
+    padding-left: 5px;
+    margin-left: 10px;
+}
+#input-email-pass input#auth-pass {
+    width: 180px;
+    height: 25px;
+    font: 15px sans-serif;
+    border: 1px solid #DBDBDB;
+    padding-left: 5px;
+    margin-left: 10px;
+}
+.pass-show {
+    width: 18px;
+    height: 11px;
+    background: url('../images/open_eye.png') no-repeat;
+}
+.pass-hide {
+    width: 20px;
+    height: 10px;
+    background: url('../images/eye_closed.png') no-repeat;
+}
+#input-email-pass span {
+    width: 25px;
+    height: 25px;
+    margin-top: 10px;
+    position: absolute;
+    margin-left: -28px;
+}
+#list-auth {
+    margin-top: 12px;
+
+}
+#list-auth li {
+    margin-top: 5px;
+    margin-left: 10px;
+    font: 14px sans-serif;
+}
+#list-auth a {
+    color: #000000;
+    text-decoration: none;
+    margin-left: 3px;
+    border-bottom: 1px dashed #000000;
+}
+#list-auth a:hover {
+    border-bottom: none;
+}
+#button-auth a {
+    margin-right: 10px;
+    cursor: pointer;
+    background: url('../images/button-grd.png');
+    font: bold 13px sans-serif;
+    /*padding-top: 5px;*/
+    /*padding-bottom: 5px;*/
+    /*padding-left: 10px;*/
+    /*padding-right: 10px;*/
+    padding: 5px 10px 5px 10px;
+    border: 1px solid #E8E8E8;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+#button-auth a:hover {
+    background: url('../images/button-grd-hover.png');
+}
+#button-auth a:active {
+    background: url('../images/button-grd-active.png');
+}
+.auth-loading {
+    display: none;
+    margin-right: 30px;
+    margin-top: 20px;
+}

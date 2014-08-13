@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sth = DB::getStatement('INSERT INTO reg_user(login, pass, surname, name, patronymic, email, phone, address, datetime, ip)
                                 VALUES(?,?,?,?,?,?,?,?,?,?)');
         $date = date('Y-m-d H:i:s', time());
-    //    $sth->execute(array($login, $pass, $surname, $name, $patronymic, $email, $phone, $address, $date, $ip));
+        $sth->execute(array($login, $pass, $surname, $name, $patronymic, $email, $phone, $address, $date, $ip));
     echo 'true';
     }
 }

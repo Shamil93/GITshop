@@ -24,6 +24,7 @@ try {
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="TrackBar/jQuery/trackbar.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+        <script type="text/javascript" src="js/jquery.migrate.js"></script>
         <script type="text/javascript" src="js/jcarouserllite_1.0.1.js"></script>
         <script type="text/javascript" src="js/jquery.cookie.js"></script>
         <script type="text/javascript" src="TrackBar/jQuery/jquery.trackbar.js"></script>
@@ -31,6 +32,7 @@ try {
         <script type="text/javascript" src="js/jquery.form.js"></script>
         <script type="text/javascript" src="js/jquery.validate.js"></script>
         <script type="text/javascript" src="js/check-form.js"></script>
+
     </head>
     <body>
 
@@ -50,6 +52,7 @@ try {
         <h2 class="h2-title" >Регистрация</h2>
         <form method="POST" id="form_reg" action="reg/handler_reg.php">
             <p id="reg_message"></p>
+<!--            <p id="reg_message" class="reg_message_good">Вы успешно зарегистрированы!</p>-->
             <div id="block-form-registration">
                 <ul id="form-registration">
                     <li>
