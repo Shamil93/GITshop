@@ -5,6 +5,7 @@
  * Date: 08/08/14
  * Time: 12:09
  */
+session_start();
 ?>
 <!--Основной верхний блок-->
 <div id="block-header">
@@ -18,7 +19,15 @@
             <li><a href="contacts.php">Контакты</a></li>
         </ul>
 <!--        Вход и регистрация-->
-        <p id="reg-auth-title" align="right"><a href="#" id="top-auth" class="top-auth">Вход</a><a class="top-auth-reg" href="registration.php">Регистрация</a></p>
+        <?php
+
+        if ((isset($_SESSION['auth'])) && $_SESSION['auth'] == 'yes_auth') {
+            echo '<p id="auth-user-info" align="right"><img src="images/user.png" />Здравствуйте, '.$_SESSION["auth_name"].'! </p>';
+
+        } else {
+            echo '<p id="reg-auth-title" align="right"><a href="#" id="top-auth" class="top-auth">Вход</a><a class="top-auth-reg" href="registration.php">Регистрация</a></p>';
+        }
+        ?>
         <div id="block-top-auth">
             <div class="corner"></div>
             <form method="POST">

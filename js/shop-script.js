@@ -152,25 +152,32 @@ $(document).ready( function() {
     });
 
 
+    /**
+     * При клике на кнопку Вход
+     * проверяем поле Логин, по ошибке отображаем красную границу
+     * проверяем поле Пароль, по ошибке отображаем красную границу
+     * если отмечен чекбокс Запомнить - сохраняем ее
+     * если нет ошибок, делаем ajax-запрос в обработчик auth.php
+     * по результату, либо перегружаем страницу, либо опять отображаем кнопку входа
+     */
     $('#button-auth').click(function() {
-        var auth_login = $('#auth_login').val(),
-            auth_pass = $('#auth_pass').val(),
+        var auth_login = $('#auth-login').val(),
+            auth_pass = $('#auth-pass').val(),
             send_login, send_pass, auth_rememberme;
 
-
         if (auth_login == "" || auth_login.length > 30) {
-            $('#auth_login').css("borderColor", "#FDB6B6");
+            $('#auth-login').css("borderColor", "#FDB6B6");
             send_login = 'no';
         } else {
-            $('#auth_login').css("borderColor", '#DBDBDB');
+            $('#auth-login').css("borderColor", '#DBDBDB');
             send_login = 'yes';
         }
 
         if (auth_pass == "" || auth_pass > 15) {
-            $('auth_pass').css("borderColor", '#FDB6B6');
+            $('#auth-pass').css("borderColor", '#FDB6B6');
             send_pass = 'no';
         } else {
-            $('#auth_pass').css('borderColor', '#DBDBDB');
+            $('#auth-pass').css('borderColor', '#DBDBDB');
             send_pass = 'yes';
         }
 
@@ -183,6 +190,23 @@ $(document).ready( function() {
         if (send_login == 'yes' && send_pass == 'yes') {
             $('#button-auth').hide();
             $('.auth-loading').show();
+
+            $.ajax({
+                type: 'POST',
+                url: 'include/auth.php',
+                data:  'login='+auth_login+'&pass='+auth_pass+'&rememberme='+auth_rememberme,
+                dataType: 'html',
+                cache: false,
+                success: function(data) {
+                    if (data == 'yes_auth') {
+                        location.reload();
+                    } else {
+                        $('#message-auth').slideDown(400);
+                        $('.auth-loading').hide();
+                        $('#button-auth').show();
+                    }
+                }
+            });
         }
 
     });

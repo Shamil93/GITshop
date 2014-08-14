@@ -1017,3 +1017,19 @@
     margin-right: 30px;
     margin-top: 20px;
 }
+#auth-user-info {
+    font: bold 14px sans-serif;
+    margin-top: 10px;
+    margin-right: 20px;
+    float: right;
+}
+#auth-user-info:hover {
+    color: #CF3A3A;
+    border-bottom: 1px dashed #CF3A3A;
+    cursor: pointer;
+}
+#auth-user-info > img {
+    position: absolute;
+    margin-left: -30px;
+    margin-top: -3px;
+}

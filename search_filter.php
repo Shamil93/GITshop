@@ -8,7 +8,8 @@
 require_once('include/Exceptions.php');
 include "include/DB.php";
 require_once('utility/handleData.php');
-
+session_start();
+include "include/auth-cookie.php";
 
 try {
 

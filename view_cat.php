@@ -10,7 +10,8 @@ require_once('include/Exceptions.php');
 include "include/DB.php";
 require_once('utility/handleData.php');
 require_once('utility/pager.php');
-
+session_start();
+include "include/auth-cookie.php";
 
 try {
     // получаем подкатегорию товара

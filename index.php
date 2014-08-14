@@ -8,7 +8,12 @@
 require_once('include/Exceptions.php');
 require_once('utility/pager.php');
 include "include/DB.php";
+include ('utility/handleData.php');
+session_start();
+include "include/auth-cookie.php";
 
+//unset($_SESSION['auth']);
+//setcookie('rememberme','',0,'/');
 try {
 // получаем значение для сортировки товара
     if (isset ($_GET['sort'])) {
