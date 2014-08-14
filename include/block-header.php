@@ -44,6 +44,14 @@ session_start();
                     <p align="right" class="auth-loading"><img src="images/loading.gif" /></p>
                 </ul>
             </form>
+            <div id="block-remind">
+                <h3>Восстановление<br /> пароля</h3>
+                <p id="message-remind" class="message-remind-success"></p>
+                <input type="text" placeholder="Ваш E-mail" id="remind-email" />
+                <p align="right" id="button-remind"><a>Готово</a></p>
+                <p align="right" class="auth-loading"><img src="images/loading.gif" /></p>
+                <p id="prev-auth">Назад</p>
+            </div>
         </div>
     </div>
 <!--    Линия под главным блоком-->

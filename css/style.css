@@ -990,7 +990,7 @@
 #list-auth a:hover {
     border-bottom: none;
 }
-#button-auth a {
+#button-auth a, #button-remind a{
     margin-right: 10px;
     cursor: pointer;
     background: url('../images/button-grd.png');
@@ -1006,10 +1006,10 @@
     -moz-border-radius: 5px;
     -o-border-radius: 5px;
 }
-#button-auth a:hover {
+#button-auth a:hover, #button-remind a:hover {
     background: url('../images/button-grd-hover.png');
 }
-#button-auth a:active {
+#button-auth a:active, #button-remind a:active {
     background: url('../images/button-grd-active.png');
 }
 .auth-loading {
@@ -1032,4 +1032,57 @@
     position: absolute;
     margin-left: -30px;
     margin-top: -3px;
+}
+
+
+/*Блок восстановления пароля*/
+#block-remind {
+    display: none;
+}
+#block-remind h3 {
+    font: 15px sans-serif;
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#block-remind input {
+    width: 150px;
+    height: 25px;
+    border: 1px solid #DBDBDB;
+    font: 15px sans-serif;
+    padding-left: 5px;
+    padding-right: 30px;
+    margin-left: 10px;
+}
+#block-remind p#prev-auth {
+    font: bold 13px sans-serif;
+    text-decoration: underline;
+    width: 10px;
+    margin-left: 10px;
+    margin-top: -32px;
+    cursor: pointer;
+    position: absolute;
+}
+#block-remind p#prev-auth:hover {
+    text-decoration: none;
+}
+.message-remind-error {
+    display: none;
+    font: bold 12px sans-serif;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #FF0000;
+    background-color: #FDE7E7;
+}
+.message-remind-success {
+    display: none;
+    font: bold 12px sans-serif;
+    margin-top: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #000000;
+    background-color: #D0E7AA;
 }
