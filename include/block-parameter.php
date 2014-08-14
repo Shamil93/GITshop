@@ -22,8 +22,9 @@
                     } else {
                         echo 1000;
                     }
+                } else {
+                    echo 1000;
                 }
-                echo 1000;
             ?>,
             rightLimit: 50000,
             rightValue: <?php
@@ -33,8 +34,9 @@
                     } else {
                         echo (int)$_GET['end_price'];
                     }
+                } else {
+                    echo 50000;
                 }
-                echo 50000;
             ?>,
             roundUp: 1000
         });

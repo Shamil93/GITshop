@@ -9,7 +9,9 @@ require_once('include/Exceptions.php');
 include "include/DB.php";
 require_once('utility/handleData.php');
 
+
 try {
+
     // получаем подкатегорию товара
     if (isset ($_GET['cat'])) {
         $cat = handleData($_GET['cat']);

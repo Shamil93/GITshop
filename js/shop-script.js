@@ -119,13 +119,14 @@ $(document).ready( function() {
     });
 
     /**
-     * Открыть закрыть пароль
+     * Открыть закрыть пароль и сменить изображение закрытого глаза на открытый
+     * и наоборот
      */
     $('#button-pass-show-hide').click(function(){
         var statuspass = $('#button-pass-show-hide').attr('class');
         if (statuspass == "pass-show") {
             $('#button-pass-show-hide').attr('class', 'pass-hide');
-            var $input = $('#auth_pass');
+            var $input = $('#auth-pass'); // ссылка на объект в JQ
             var change = "text";
             var rep = $("<input placeholder='Пароль' type='"+change+"' />")
                 .attr('id', $input.attr('id'))
@@ -134,10 +135,10 @@ $(document).ready( function() {
                 .val($input.val())
                 .insertBefore($input);
             $input.remove();
-            $input = rep;
+//            $input = rep;
         } else {
             $('#button-pass-show-hide').attr('class', 'pass-show');
-            var $input = $('#auth_pass');
+            var $input = $('#auth-pass'); // ссылка на объект в JQ
             var change = 'password';
             var rep = $("<input placeholder='Пароль' type='"+change+"' />")
                 .attr('id', $input.attr('id'))
@@ -146,9 +147,45 @@ $(document).ready( function() {
                 .val($input.val())
                 .insertBefore($input);
             $input.remove();
-            $input = rep;
+//            $input = rep;
         }
-    })
+    });
+
+
+    $('#button-auth').click(function() {
+        var auth_login = $('#auth_login').val(),
+            auth_pass = $('#auth_pass').val(),
+            send_login, send_pass, auth_rememberme;
+
+
+        if (auth_login == "" || auth_login.length > 30) {
+            $('#auth_login').css("borderColor", "#FDB6B6");
+            send_login = 'no';
+        } else {
+            $('#auth_login').css("borderColor", '#DBDBDB');
+            send_login = 'yes';
+        }
+
+        if (auth_pass == "" || auth_pass > 15) {
+            $('auth_pass').css("borderColor", '#FDB6B6');
+            send_pass = 'no';
+        } else {
+            $('#auth_pass').css('borderColor', '#DBDBDB');
+            send_pass = 'yes';
+        }
+
+         if ($('#rememberme').prop('checked')) {
+             auth_rememberme = 'yes';
+         } else {
+             auth_rememberme = 'no';
+         }
+
+        if (send_login == 'yes' && send_pass == 'yes') {
+            $('#button-auth').hide();
+            $('.auth-loading').show();
+        }
+
+    });
 
 
 
