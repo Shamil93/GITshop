@@ -847,7 +847,7 @@
 #block-captcha p:hover {
     text-decoration: none;
 }
-#form-submit {
+#form_submit {
     background: url(../images/grd_reg_button.png);
     border: 1px solid #E4E4E4;
     font: bold 13px sans-serif;
@@ -862,7 +862,7 @@
     margin-top: -15px;
     margin-right: 15px;
 }
-#form-submit:active {
+#form_submit:active {
     background: url(../images/grd_reg_button_vert.png);
 }
 .error {
@@ -1085,4 +1085,140 @@
     padding-bottom: 10px;
     color: #000000;
     background-color: #D0E7AA;
+}
+
+
+#block-user {
+    border: 1px solid #DBDBDB;
+    width: 140px;
+    height: 60px;
+    position: absolute;
+    z-index: 7;
+    margin-left: 860px;
+    margin-top: -3px;
+    background-color: #FFFFFF;
+    display: none;
+    -khtml-box-shadow: 0 0 15px #DBDBDB;
+    -ms-box-shadow: 0 0 15px #DBDBDB;
+    -o-box-shadow: 0 0 15px #DBDBDB;
+    -moz-box-shadow: 0 0 15px #DBDBDB;
+    -webkit-box-shadow: 0 0 15px #DBDBDB;
+    box-shadow: 0 0 15px #DBDBDB;
+}
+.corner2 {
+    background: url('../images/bulleticon.png');
+    width: 19px;
+    height: 10px;
+    margin-top: -9px;
+    margin-left: 60px;
+}
+#block-user ul {
+    margin-top: 10px;
+}
+#block-user li {
+    margin-left: 8px;
+    margin-top: 6px;
+}
+#block-user a {
+    text-decoration: none;
+    font: bold 13px sans-serif;
+    color: #57678C;
+}
+#block-user a:hover {
+    border-bottom: 1px dashed #EF662B;
+    color: #EF662B;
+    cursor: pointer;
+}
+#block-user img {
+    float: left;
+    margin-right: 8px;
+}
+
+
+
+/*Форма профиля*/
+
+.h3-title {
+    font: bold 17px sans-serif;
+    color: #666666;
+    border-bottom: 1px solid #E5E5E5;
+    padding-bottom: 5px;
+}
+#info-profile {
+    margin-top: 25px;
+}
+#info-profile li {
+    margin-top: 10px;
+}
+#info-profile > li > input {
+    height: 30px;
+    width: 350px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: #000000;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+#info-profile > li > label {
+    position: absolute;
+    font: 15px sans-serif;
+    margin-top: 7px;
+}
+.star {
+    font: 16px sans-serif;
+    color: #E35903;
+    position: absolute;
+    margin-left: 188px;
+    margin-top: 10px;
+}
+#info-profile > li > input#info_pass,
+#info-profile > li > input#info_new_pass {
+    height: 30px;
+    width: 200px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    padding-left: 5px;
+    color: #000000;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+#info-profile > li > input:focus,
+#info-profile > li > input#info_pass:focus,
+#info-profile > li > input#info_new_pass:focus,
+#info-profile > li > textarea#info_address :focus {
+    border: 1px solid #C4E1EB;
+}
+#info-profile > li > textarea {
+    height: 110px;
+    width: 350px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+}
+
+#form-error {
+    font: bold 15px sans-serif;
+    color: #FF0000;
+    background-color: #F7EDEF;
+    border: 1px solid #FAC8D3;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
+#form-success {
+    font: bold 14px sans-serif;
+    color: #000000;
+    background-color: #D9FFCA;
+    border: 1px solid #B7E787;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
 }

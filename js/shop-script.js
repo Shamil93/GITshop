@@ -173,7 +173,7 @@ $(document).ready( function() {
             send_login = 'yes';
         }
 
-        if (auth_pass == "" || auth_pass > 15) {
+        if (auth_pass.length == "" || auth_pass.length > 15) {
             $('#auth-pass').css("borderColor", '#FDB6B6');
             send_pass = 'no';
         } else {
@@ -261,7 +261,40 @@ $(document).ready( function() {
         }
     });
 
+    /**
+     * Появление окна с профилем
+     */
+    $('#auth-user-info').click(function(){
+        $('#block-user').fadeToggle(100);
+    })
 
 
-} );
+    /**
+     * Обработчик logout
+     */
+     $('#logout').click(function() {
+         $.ajax({
+             type: 'POST',
+             url: 'include/logout.php',
+             dataType: 'html',
+             cache: false,
+             success: function(data) {
+                 if (data == 'logout') {
+                     location.reload();
+                 }
+             }
+         });
+     });
+
+
+    $('#user-info').click(function(){
+
+    });
+
+
+
+
+
+
+});
 

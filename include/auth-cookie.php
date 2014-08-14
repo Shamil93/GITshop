@@ -14,7 +14,7 @@
  * Из базы данных получаем пользователя
  * и сохраняем в сессию данные о нем
  */
-if ((!isset($_SESSION['auth']) || $_SESSION['auth'] != 'yes_auth') && $_COOKIE['rememberme']) {
+if ((!isset($_SESSION['auth']) || $_SESSION['auth'] != 'yes_auth') && isset($_COOKIE['rememberme']) && $_COOKIE['rememberme']) {
     $str = $_COOKIE['rememberme'];
     $allLen = strlen($str);
     $loginLen = strpos($str, "+");

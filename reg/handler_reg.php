@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (strlen($name) < 3  or strlen($name) > 15) $error[] = "Укажите имя от 3 до 15!";
     if (strlen($patronymic) < 3  or strlen($patronymic) > 25) $error[] = "Укажите отчество от 3 до 25!";
     //if (! preg_match('|^(?:[a-z0-9]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,6}|i', trim($email))); $error[] = "Укажите корректный E-mail!";
-    if (! preg_match('|[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}|i', $email))  $error[] = "Укажите корректный E-mail!";
+    if (! preg_match('|^[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}$|i', $email))  $error[] = "Укажите корректный E-mail!";
     if (! $phone) $error[] = "Укажите номер телефона!";
     if (! $address) $error[] = "Необходимо указать адрес доставки!";
 

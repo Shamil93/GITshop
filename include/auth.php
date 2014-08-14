@@ -9,7 +9,6 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include ('DB.php');
     include ('../utility/handleData.php');
-
     $login = handleData($_POST['login']);
     $pass  = strtolower(handleData($_POST['pass']));
     $pass  = strrev(md5($pass));
@@ -25,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (! empty($rows)) {
         session_start();
         $_SESSION['auth']           = 'yes_auth';
-        $_SESSION['auth_pass']      = $rows['pass'];
+        $_SESSION['auth_pass']      = $pass;
         $_SESSION['auth_login']     = $rows['login'];
         $_SESSION['auth_surname']   = $rows['surname'];
         $_SESSION['auth_name']      = $rows['name'];

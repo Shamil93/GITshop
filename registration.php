@@ -56,43 +56,43 @@ try {
             <div id="block-form-registration">
                 <ul id="form-registration">
                     <li>
-                        <label>Логин</label>
+                        <label for="reg_login">Логин</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_login" id="reg_login" />
                     </li>
                     <li>
-                        <label>Пароль</label>
+                        <label for="reg_pass">Пароль</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_pass" id="reg_pass" />
                         <span id="genpass">Сгенерировать</span>
                     </li>
                     <li>
-                        <label>Фамилия</label>
+                        <label for="reg_surname">Фамилия</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_surname" id="reg_surname" />
                     </li>
                     <li>
-                        <label>Имя</label>
+                        <label for="reg_name">Имя</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_name" id="reg_name" />
                     </li>
                     <li>
-                        <label>Отчество</label>
+                        <label for="reg_patronymic">Отчество</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_patronymic" id="reg_patronymic" />
                     </li>
                     <li>
-                        <label>Email</label>
+                        <label for="reg_email">Email</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_email" id="reg_email" />
                     </li>
                     <li>
-                        <label>Мобильный телефон</label>
+                        <label for="reg_phone">Мобильный телефон</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_phone" id="reg_phone" />
                     </li>
                     <li>
-                        <label>Адрес доставки</label>
+                        <label for="reg_address">Адрес доставки</label>
                         <span class="star">*</span>
                         <input type="text" name="reg_address" id="reg_address" />
                     </li>
