@@ -169,8 +169,8 @@
     height: auto;
     margin-top: 23px;
     margin-left: 700px;
-    /*position: absolute;*/
-    /*z-index: 999;*/
+    position: absolute;
+    z-index: 999;
 }
 #block-search span {
     background: url( ../images/icon-search.png );
@@ -1221,4 +1221,31 @@
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
+}
+
+
+/*Блок поиска*/
+
+#result-search {
+    display: none;
+    border-left: 1px solid #E1E1E2;
+    border-right: 1px solid #E1E1E2;
+    border-bottom: 1px solid #E1E1E2;
+    width: 275px;
+    height: auto;
+    background-color: #FFFFFF;
+}
+#result-search a {
+    font: 14px sans-serif;
+    text-decoration: none;
+    padding-right: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: block;
+    color: #000000;
+}
+#result-search a:hover {
+    text-decoration: underline;
+    background-color: #E1E1E2;
 }

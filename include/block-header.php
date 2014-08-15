@@ -5,7 +5,7 @@
  * Date: 08/08/14
  * Time: 12:09
  */
-session_start();
+//session_start();
 ?>
 <!--Основной верхний блок-->
 <div id="block-header">
@@ -81,9 +81,10 @@ session_start();
     <div id="block-search">
         <form action="search.php?q=" method="GET">
             <span></span>
-            <input type="text" id="input-search" name="q" placeholder="Поиск среди более 100 000 товаров"/>
+            <input type="text" id="input-search" name="q" placeholder="Поиск среди более 100 000 товаров" value="<?php echo $search; ?>"/>
             <input type="submit" id="button-search" value="Поиск"/>
         </form>
+        <ul id="result-search"></ul>
     </div>
 </div>
 
