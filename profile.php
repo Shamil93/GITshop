@@ -141,7 +141,7 @@ if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'yes_auth') {
                             </li>
                             <li>
                                 <label for="info_new_pass">Новый пароль</label>
-                                <span class="star">*</span>
+                                <span class="star"></span>
                                 <input type="text" name="info_new_pass" id="info_new_pass" />
                             </li>
                             <li>
