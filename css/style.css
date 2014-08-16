@@ -1300,3 +1300,129 @@
     color: #EF662B;
     font: bold 14px sans-serif;
 }
+#header-list-cart {
+    height: 30px;
+    border-bottom: 1px solid #DBDBDB;
+}
+#header-list-cart > div {
+    float: left;
+    margin-left: 5px;
+    text-align: center;
+    font: bold 13px sans-serif;
+    color: #6D6D6D;
+    margin-top: 7px;
+}
+#head1 {
+    width: 130px;
+}
+#head2 {
+    width: 400px;
+}
+#head3 {
+    width: 55px;
+}
+#head4 {
+    width: 140px;
+}
+.block-list-cart {
+     height: 130px;
+}
+.block-list-cart > div {
+    float: left;
+    margin-left: 5px;
+}
+.img-cart {
+    width: 130px;
+    height: 125px;
+}
+.title-cart {
+    width: 400px;
+    height: 125px;
+}
+.count-cart {
+    width: 55px;
+    height: 125px;
+}
+.price-product {
+    width: 140px;
+    height: 125px;
+}
+.delete-cart {
+    height: 125px;
+}
+.title-cart > p {
+    margin-top: 15px;
+}
+.title-cart > p > a {
+    font: 15px sans-serif;
+    color: #097A9F;
+}
+.title-cart > p > a:hover {
+    text-decoration: none;
+}
+.input-count-style {
+    margin-top: 31px;
+}
+.input-count-style input {
+    text-align: center;
+    border: 1px solid #DDDDDD;
+    width: 32px;
+    height: 22px;
+    font: 15px sans-serif;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.input-count-style p {
+    cursor: pointer;
+    font: 15px sans-serif;
+    margin: 1px;
+}
+.price-product p {
+    margin-left: 15px;
+    margin-top: 65px;
+    font: bold 18px sans-serif;
+}
+.price-product h5 {
+    position: absolute;
+    font: bold 13px sans-serif;
+    margin-top: 42px;
+    margin-left: 15px;
+    color: #848484;
+}
+.delete-cart img {
+    margin-top: 50px;
+}
+#bottom-cart-line {
+    background: url('../images/bottom-line.png');
+    height: 5px;
+    width: 790px;
+    margin: 0 auto;
+}
+.itog-price {
+    font: 20px sans-serif;
+}
+.itog-price > strong {
+    font: 18px sans-serif;
+}
+.button-next {
+    margin-top: 30px;
+    margin-right: 20px;
+}
+.button-next > a {
+    border: 1px solid #B0C181;
+    font: 15px sans-serif;
+    color: #FFFFFF;
+    padding: 6px 18px 6px 18px;
+    text-decoration: none;
+    background: url('../images/grd-next.png');
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -o-border-radius: 6px;
+}
+#clear-cart {
+    font: 22px sans-serif;
+    margin-top: 40px;
+}
