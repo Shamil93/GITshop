@@ -1498,3 +1498,20 @@
     padding: 6px 18px;
     cursor: pointer;
 }
+#list-info {
+    width: 807px;
+    height: 228px;
+    padding-top: 7px;
+    margin-top: 15px;
+    background: url('../images/boxshadow.png') no-repeat;
+}
+#list-info > li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font: 17px Verdana;
+    padding-left: 15px;
+}
+#list-info > li > strong {
+    font: bold 14px Verdana;
+    margin-right: 10px;
+}

@@ -315,8 +315,76 @@ $(document).ready( function() {
     });
 
 
+    /**
+     * Функция проверки E-mail
+     * @param $email
+     * @returns {boolean}
+     */
+    function isValidEmail($email) {
+        var pattern = new RegExp(/^[-a-z0-9_\.]+@[-a-z0-9_\.]+\.[a-z]{2,6}$/i);
+        return pattern.test($email);
+    }
 
+    // Контактные данные
+    $('#confirm-button-next').click(function(e) {
 
+        var order_fio = $('#order_fio').val();
+        var order_email = $('#order_email').val();
+        var order_phone = $('#order_phone').val();
+        var order_address = $('#order_address').val();
+        var send_order_error = "";
+
+        // Проверка способа доставки
+        if (!$('.order_delivery').is(":checked")) {
+            $(".label_delivery").css('color', '#E07B7B');
+//            send_order_delivery = '0';
+            send_order_error = 'error';
+        } else {
+            $('.label_delivery').css('color','#000000');
+//            send_order_delivery = '1';
+        }
+        // Проверка фамилии
+        if (order_fio == "" || order_fio.length > 50) {
+            $("#order_fio").css('borderColor', '#FDB6B6');
+//            send_order_fio = '0';
+            send_order_error = 'error';
+        } else {
+            $('#order_fio').css('borderColor','#DBDBDB');
+//            send_order_fio = '1';
+        }
+        // Проверка email
+        if (order_email == "" || isValidEmail(order_email) == false) {
+            $('#order_email').css('borderColor','#FDB6B6');
+//            send_order_email = '0';
+            send_order_error = 'error';
+        } else {
+            $('#order_email').css('borderColor','#DBDBDB');
+//            send_order_email = '1';
+        }
+        // Проверка телефона
+        if (order_phone == "" || order_phone.length > 50) {
+            $('#order_phone').css('borderColor','#FDB6B6');
+//            send_order_phone = '0';
+            send_order_error = 'error';
+        } else {
+            $('#order_phone').css('borderColor', '#DBDBDB');
+//            send_order_phone = '1';
+        }
+        // Проверка адреса
+        if (order_address == "" || order_address.length > 150) {
+            $('#order_address').css('borderColor', '#DBDBDB');
+//            send_order_address = '0';
+            send_order_error = 'error';
+        } else {
+            $('#order_address').css('borderColor', '#DBDBDB');
+//            send_order_address = '1';
+        }
+        // Если нет ошибки, то отправляем форму
+        if( send_order_error.indexOf('error') === -1) {
+            return true;
+        }
+        e.preventDefault();
+    });
 
 
 });
