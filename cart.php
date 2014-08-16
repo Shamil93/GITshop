@@ -32,6 +32,17 @@ switch ($action) {
         break;
 }
 
+if (isset($_POST["submitdata"])) {
+    $_SESSION['order_delivery'] = $_POST['order_delivery'];
+    $_SESSION['order_fio'] = $_POST['order_fio'];
+    $_SESSION['order_email'] = $_POST['order_email'];
+    $_SESSION['order_phone'] = $_POST['order_phone'];
+    $_SESSION['order_address'] = $_POST['order_address'];
+    $_SESSION['order_note'] = $_POST['order_note'];
+
+    header("Location: cart.php?action=completion");
+}
+
 //unset($_SESSION['auth']);
 //setcookie('rememberme','',0,'/');
 try {
@@ -166,6 +177,40 @@ try {
                         <p>Шаг 2 из 3</p>
                         <a href="cart.php?action=clear">Очистить</a>
                     </div>';
+
+                    if ($_SESSION['order_delivery'] == "По почте") $chck1 = "checked";
+                    if ($_SESSION['order_delivery'] == "Курьером") $chck2 = "checked";
+                    if ($_SESSION['order_delivery'] == "Самовывоз") $chck3 = "checked";
+
+                    echo '<h3 class="title-h3">Способы доставки: </h3>
+                    <form method="POST">
+                    <ul id="info-radio">
+                        <li>
+                            <input type="radio" name="order_delivery" class="order_delivery" id="order_delivery1" value="По почте" '.$chck1.' />
+                            <label class="label_delivery" for="order_delivery1">По почте</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="order_delivery" class="order_delivery" id="order_delivery2" value="Курьером" '.$chck2.' />
+                            <label class="label_delivery" for="order_delivery2">Курьером</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="order_delivery" class="order_delivery" id="order_delivery3" value="Самовывоз" '.$chck3.' />
+                            <label class="label_delivery" for="order_delivery3">Самовывоз</label>
+                        </li>
+                    </ul>
+                    <h3 class="title-h3">Информация для доставки: </h3>
+                    <ul id="info-order">';
+                    if ($_SESSION['auth'] != 'yes_auth') {
+                        echo '<li><label for="order_fio"><span>*</span>ФИО</label><input type="text" name="order_fio" id="order_fio" value="'.$_SESSION["order_fio"].'" /><span class="order_span_style">Пример: Иванов Иван Иванович</span></li>
+                            <li><label for="order_email"><span>*</span>E-mail</label><input type="text" name="order_email" id="order_email" value="'.$_SESSION["order_email"].'"  /><span class="order_span_style">Пример: ivanov@mail.ru</span></li>
+                            <li><label for="order_phone"><span>*</span>Телефон</label><input type="text" name="order_phone" id="order_email" value="'.$_SESSION["order_phone"].'"  /><span class="order_span_style">Пример: 8 950 333-22-11</span></li>
+                            <li><label class="order_label_style" for="order_address"><span>*</span>Адрес<br /> доставки</label><input type="text" name="order_address" id="order_address" value="'.$_SESSION["order_address"].'"  /><span class="order_span_style">Пример: г. Москва,<br /> ул. Строителей 35, корп.2, кв.35 </span></li>';
+                    }
+
+                    echo '<li><label class="order_label_style" for="order_note">Примечание</label>
+                            <textarea name="order_note">'.$_SESSION["order_note"].'</textarea><span>Уточните информацию о заказе.<br /> Например, удобное время для звонка<br /> нашего менеджера</span></li></ul>
+                        <p align="right"><input type="submit" name="submitdata" id="confirm-button-next" value="Далее" /></p>
+                    </form>';
                     break;
                 case 'completion':
                     echo '<div id="block-step">
