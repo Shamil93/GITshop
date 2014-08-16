@@ -6,6 +6,16 @@
  * Time: 12:09
  */
 //session_start();
+// получаем переменную с поиском
+if (isset( $_GET['q'])) {
+    $search = handleData($_GET['q']);
+    $searchLike = "LIKE '%".$search."%'";
+    $searchQ = "&q=".$search;
+} else {
+    $search = '';
+    $searchLike = '';
+    $searchQ = "&q=";
+}
 ?>
 <!--Основной верхний блок-->
 <div id="block-header">
@@ -91,9 +101,9 @@
 <div id="top-menu">
     <ul>
         <li><img src="images/shop.png" /><a href="index.php">Главная</a></li>
-        <li><img src="images/new-32.png"/><a href="">Новинки</a></li>
-        <li><img src="images/bestprice-32.png"/><a href="">Лидеры продаж</a></li>
-        <li><img src="images/sale-32.png"/><a href="">Распродажа</a></li>
+        <li><img src="images/new-32.png"/><a href="view_icetopper.php?go=news">Новинки</a></li>
+        <li><img src="images/bestprice-32.png"/><a href="view_icetopper.php?go=leaders">Лидеры продаж</a></li>
+        <li><img src="images/sale-32.png"/><a href="view_icetopper.php?go=sale">Распродажа</a></li>
     </ul>
 
     <p align="right" id="block-basket"><img src="images/cart-icon.png" /><a href="">Корзина пуста</a></p>

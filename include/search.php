@@ -6,20 +6,19 @@
  * Time: 00:25
  */
 
+/**
+ * Обработчик появления подсказок при вводе текста в строку для поиска по сайту
+ */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     include('DB.php');
     include('../utility/handleData.php');
 
     $search = strtolower(handleData($_POST['text']));
-    $searchLike =  "LIKE '%$search%'";
-    $sth = DB::getStatement('SELECT * FROM table_products WHERE title ? AND visible = ?');
-    $sth->execute(array( $searchLike, 1));
+    $sth = DB::getStatement("SELECT * FROM table_products WHERE title LIKE '%".$search."%' AND visible = ? LIMIT 10");
+    $sth->execute(array(1));
     $rows = $sth->fetchAll();
     if (!empty($rows)){
-        $sth2 = DB::getStatement('SELECT * FROM table_products WHERE title ? AND visible = ? LIMIT 10');
-        $sth2->execute(array($searchLike, 1));
-        $rows2 = $sth2->fetchAll();
-        foreach ($rows2 as $row):
+        foreach ($rows as $row):
             echo '<li><a href="search.php?q='.$row['title'].'">'.$row['title'].'</a></li>';
         endforeach;
     }

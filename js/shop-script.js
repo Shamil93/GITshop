@@ -266,7 +266,7 @@ $(document).ready( function() {
      */
     $('#auth-user-info').click(function(){
         $('#block-user').fadeToggle(100);
-    })
+    });
 
 
     /**
@@ -287,14 +287,17 @@ $(document).ready( function() {
      });
 
 
+    /**
+     * Появление результатов при вводе в поле поиска
+     */
     $('#input-search').bind('textchange', function(e){
         e.preventDefault();
         var input_search = $('#input-search').val();
 
-        if (input_search.length >= 3 && input_search.length < 150) {
+        if (input_search.length >= 2 && input_search.length < 150) {
             $.ajax({
                 type: 'POST',
-                url: '../include/search.php',
+                url: 'include/search.php',
                 data: 'text='+input_search,
                 dataType: 'html',
                 cache: false,

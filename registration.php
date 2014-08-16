@@ -31,6 +31,7 @@ try {
         <script type="text/javascript" src="js/shop-script.js"></script>
         <script type="text/javascript" src="js/jquery.form.js"></script>
         <script type="text/javascript" src="js/jquery.validate.js"></script>
+        <script type="text/javascript" src="js/jquery.TextChange.js"></script>
         <script type="text/javascript" src="js/check-form.js"></script>
 
     </head>

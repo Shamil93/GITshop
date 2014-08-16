@@ -108,6 +108,7 @@ if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'yes_auth') {
             <script type="text/javascript" src="js/jcarouserllite_1.0.1.js"></script>
             <script type="text/javascript" src="js/jquery.cookie.js"></script>
             <script type="text/javascript" src="TrackBar/jQuery/jquery.trackbar.js"></script>
+            <script type="text/javascript" src="js/jquery.TextChange.js"></script>
             <script type="text/javascript" src="js/shop-script.js"></script>
         </head>
         <body>
