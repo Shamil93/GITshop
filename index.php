@@ -9,6 +9,7 @@ require_once('include/Exceptions.php');
 require_once('utility/pager.php');
 include "include/DB.php";
 include ('utility/handleData.php');
+include ('utility/groupPrice.php');
 session_start();
 include "include/auth-cookie.php";
 
@@ -163,13 +164,13 @@ try {
                     ?>
                     <li>
                         <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
-                        <p class="style-title-grid"><a href="" ><?php echo $row['title'];  ?></a></p>
+                        <p class="style-title-grid"><a href="view_content.php?id=<?php echo $row['products_id']; ?>" ><?php echo $row['title'];  ?></a></p>
                         <ul class="reviews-and-counts-grid">
-                            <li><img src="images/eye-icon.png" /><p>0</p></li>
+                            <li><img src="images/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
                             <li><img src="images/comment-icon.png" /><p>0</p></li>
                         </ul>
-                        <a href="" class="add-cart-style-grid"></a>
-                        <p class="style-price-grid"><strong><?php echo $row['price']; ?></strong> руб.</p>
+                        <a href="" class="add-cart-style-grid" tid="<?php echo $row['products_id']; ?>"></a>
+                        <p class="style-price-grid"><strong><?php echo groupPrice($row['price']); ?></strong> руб.</p>
                         <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
                     </li>
 
@@ -208,12 +209,12 @@ try {
                     <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
 
                     <ul class="reviews-and-counts-list">
-                        <li><img src="images/eye-icon.png" /><p>0</p></li>
+                        <li><img src="images/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
                         <li><img src="images/comment-icon.png" /><p>0</p></li>
                     </ul>
-                    <p class="style-title-list"><a href="" ><?php echo $row['title'];  ?></a></p>
-                    <a href="" class="add-cart-style-list"></a>
-                    <p class="style-price-list"><strong><?php echo $row['price']; ?></strong> руб.</p>
+                    <p class="style-title-list"><a href="view_content.php?id=<?php echo $row['products_id']; ?>"" ><?php echo $row['title'];  ?></a></p>
+                    <a href="" class="add-cart-style-list" tid="<?php echo $row['products_id']; ?>"></a>
+                    <p class="style-price-list"><strong><?php echo groupPrice($row['price']); ?></strong> руб.</p>
                     <div class="style-text-list"><?php echo $row['mini_description'];  ?></div>
                 </li>
 

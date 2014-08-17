@@ -10,6 +10,7 @@ require_once('utility/pager.php');
 include "include/DB.php";
 include ('utility/handleData.php');
 include ('utility/getIP.php');
+include ('utility/groupPrice.php');
 session_start();
 include "include/auth-cookie.php";
 
@@ -187,12 +188,12 @@ try {
                                 </div>
                                 <div class="count-cart">
                                     <ul class="input-count-style">
-                                        <li><p align="center" class="count-minus">-</p></li>
-                                        <li><p align="center"><input class="count-input" maxlength="3" type="text" value="'.$row["cart_count"].'" /></p></li>
-                                        <li><p align="center" class="count-plus">+</p></li>
+                                        <li><p align="center" class="count-minus" iid="'.$row['cart_id'].'">-</p></li>
+                                        <li><p align="center"><input id="input-id'.$row['cart_id'].'" iid="'.$row['cart_id'].'" class="count-input" maxlength="3" type="text" value="'.$row["cart_count"].'" /></p></li>
+                                        <li><p align="center" class="count-plus" iid="'.$row['cart_id'].'">+</p></li>
                                     </ul>
                                 </div>
-                                <div class="price-product"><h5><span class="span-count">1</span> x <span>'.$row["cart_price"].'</span></h5><p>'.$int.'</p></div>
+                                <div id="tovar'.$row['cart_id'].'" class="price-product"><h5><span class="span-count">'.$row["cart_count"].'</span> x <span>'.groupPrice($row["cart_price"]).' руб</span></h5><p price="'.$row['cart_price'].'">'.groupPrice($int).' руб</p></div>
                                 <div class="delete-cart"><a href="cart.php?id='.$row["cart_id"].'&action=delete" ><img src="images/bsk_item_del.png" /></a></div>
                                 <div id="bottom-cart-line"></div>
                             </div>';
@@ -201,7 +202,7 @@ try {
 
 
                         }
-                        echo '<h2 class="itog-price" align="right">Итого: <strong>'.$allPrice.'</strong> руб</h2>
+                        echo '<h2 class="itog-price" align="right">Итого: <strong>'.groupPrice($allPrice).'</strong> руб</h2>
                         <p align="right" class="button-next"><a href="cart.php?action=confirm">Далее</a></p>';
                     } else {
                         echo '<h3 id="clear-cart" align="center">Корзина пуста</h3>';
@@ -327,7 +328,7 @@ try {
                                 <li><strong>Примечание: </strong>'.$_SESSION['order_note'].'</li>
                         </ul>';
                     }
-                    echo '<h2 class="itog-price" align="right">Итого: <strong>'.$itogPriceCart.'</strong> руб</h2>
+                    echo '<h2 class="itog-price" align="right">Итого: <strong>'.groupPrice($itogPriceCart).'</strong> руб</h2>
                     <p align="right" class="button-next"><a href="">Оплатить</a></p>';
                     break;
                 default:
@@ -379,6 +380,7 @@ try {
                                 $height = 105;
                             }
 
+
                             // блок с отображение товара в таблице
                             echo '<div class="block-list-cart">
                                 <div class="img-cart">
@@ -390,12 +392,12 @@ try {
                                 </div>
                                 <div class="count-cart">
                                     <ul class="input-count-style">
-                                        <li><p align="center" class="count-minus">-</p></li>
-                                        <li><p align="center"><input class="count-input" maxlength="3" type="text" value="'.$row["cart_count"].'" /></p></li>
-                                        <li><p align="center" class="count-plus">+</p></li>
+                                        <li><p align="center" class="count-minus" iid="'.$row['cart_id'].'">-</p></li>
+                                        <li><p align="center"><input id="input-id'.$row['cart_id'].'" iid="'.$row['cart_id'].'" class="count-input" maxlength="3" type="text" value="'.$row["cart_count"].'" /></p></li>
+                                        <li><p align="center" class="count-plus" iid="'.$row['cart_id'].'">+</p></li>
                                     </ul>
                                 </div>
-                                <div class="price-product"><h5><span class="span-count">1</span> x <span>'.$row["cart_price"].'</span></h5><p>'.$int.'</p></div>
+                                <div id="tovar'.$row['cart_id'].'" class="price-product"><h5><span class="span-count">'.$row["cart_count"].'</span> x <span>'.groupPrice($row["cart_price"]).' руб</span></h5><p price="'.$row['cart_price'].'">'.groupPrice($int).' руб</p></div>
                                 <div class="delete-cart"><a href="cart.php?id='.$row["cart_id"].'&action=delete" ><img src="images/bsk_item_del.png" /></a></div>
                                 <div id="bottom-cart-line"></div>
                             </div>';
@@ -404,7 +406,7 @@ try {
 
 
                         }
-                        echo '<h2 class="itog-price" align="right">Итого: <strong>'.$allPrice.'</strong> руб</h2>
+                        echo '<h2 class="itog-price" align="right">Итого: <strong>'.groupPrice($allPrice).'</strong> руб</h2>
                         <p align="right" class="button-next"><a href="cart.php?action=confirm">Далее</a></p>';
                     } else {
                         echo '<h3 id="clear-cart" align="center">Корзина пуста</h3>';

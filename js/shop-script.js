@@ -16,6 +16,11 @@ $(document).ready( function() {
     } );
 
     /**
+     * Обновление данных в корзине товаров
+     */
+    loadCart();
+
+    /**
      * Изменяем вид списка товаров на сетку
      * и меняем цвет иконки
      */
@@ -385,6 +390,165 @@ $(document).ready( function() {
         }
         e.preventDefault();
     });
+
+
+    /**
+     * Добавление товара в корзину
+     */
+    $('.add-cart-style-list, .add-cart-style-grid, .add-cart').click(function(e){
+        e.preventDefault();
+        var tid = $(this).attr("tid");
+        $.ajax({
+            type: 'POST',
+            url: "include/addtocart.php",
+            data: "id="+tid,
+            dataType: 'html',
+            cache: false,
+            success: function(data){
+                loadCart();
+            }
+        });
+    });
+    function loadCart() {
+        $.ajax({
+            type: 'POST',
+            url: 'include/loadcart.php',
+            dataType: 'html',
+            cache: false,
+            success: function(data) {
+                if (data == "0") {
+                    $("#block-basket > a").html('Корзина пуста');
+                } else {
+                    $('#block-basket > a').html(data);
+//                    $('.itog-price > strong').html(data);
+                }
+            }
+        });
+    }
+
+    /**
+     * Форматируем цену
+     * Находим разрывы между цифрами, если после каждого разрыва следует
+     * блоки по 3 цифры в каждом и при этом после этого блока из 3-х цифр нет одиночных цифр
+     * Эти разрывы заменяем пробелами
+     * @param value
+     */
+    function groupPrice(value) {
+        var value = String(value);
+        // \B - находит не границу слов, антоним \b
+        // x(?=y) - находит x, только если за x следует y
+        // x(!y) - находит x, только если за x не следует y
+        // (:x) - находит x, но не запоминает
+        // g - глобальный поиск(обрабатываются все совпадения)
+        return  value.replace(/\B(?=(?:\d{3})+(?!\d))/g,' ');
+    }
+
+
+    /**
+     *  Уменьшение количества товаров
+     * с их перерасчетом
+     */
+    $('.count-minus').click(function(){
+        var iid = $(this).attr('iid');
+        $.ajax({
+           type: 'POST',
+            url: 'include/count-minus.php',
+            data: 'id='+iid,
+            dataType: 'html',
+            cache: false,
+            success: function(data) {
+                $('#input-id'+iid).val(data);
+                loadCart();
+
+                var priceproduct = $('#tovar' + iid + " > p").attr('price'),
+                    result_total = Number(priceproduct) * Number(data);
+
+                $('#tovar'+iid+' > p').html(groupPrice(result_total)+" руб");
+                $('#tovar'+iid+' > h5 > .span-count').html(data);
+
+                itogPrice();
+            }
+
+        });
+    });
+
+    /**
+     * Увеличение количества товаров
+     * с их перерасчетом
+     */
+    $('.count-plus').click(function(){
+        var iid = $(this).attr('iid');
+
+        $.ajax({
+            type: 'POST',
+            url: 'include/count-plus.php',
+            data: 'id='+iid,
+            dataType: 'html',
+            cache: false,
+            success: function(data) {
+                $('#input-id'+iid).val(data);
+                loadCart();
+
+                var priceproduct = $('#tovar' + iid + " > p").attr('price'),
+                    result_total = Number(priceproduct) * Number(data);
+
+                $('#tovar'+iid+' > p').html(groupPrice(result_total)+" руб");
+                $('#tovar'+iid+' > h5 > .span-count').html(data);
+
+                itogPrice();
+            }
+
+        });
+    });
+
+
+    /**
+     * Изменение количества товара в корзине
+     * при изменении его в поле input
+     * и нажатии на Enter
+     */
+    $('.count-input').keypress(function(e){
+        if (e.keyCode == 13) {
+            var iid = $(this).attr('iid');
+            var inc = $('#input-id'+iid).val();
+
+            $.ajax({
+                type: "POST",
+                url: 'include/count-input.php',
+                data: 'id='+iid+'&count='+inc,
+                dataType: 'html',
+                cache: false,
+                success: function(data) {
+                    $('#input-id'+iid).val(data);
+                    loadCart();
+
+                    var priceProduct = $('#tovar'+iid+" > p").attr('price'),
+                        result_total = Number(priceProduct) * Number(data);
+
+                    $('#tovar'+iid+' > p').html(groupPrice(result_total) + ' руб');
+                    $('#tovar'+iid+' > h5 > .span-count').html(data);
+                    itogPrice();
+                }
+            });
+        }
+    });
+
+    /**
+     * Обновление итоговой суммы в корзине при перерасчете
+     */
+    function itogPrice(){
+        $.ajax({
+            type: 'POST',
+            url: 'include/itog-price.php',
+            dataType: 'html',
+            cache: false,
+            success: function(data) {
+                $(".itog-price > strong").html(data);
+            }
+        });
+    }
+
+
 
 
 });
