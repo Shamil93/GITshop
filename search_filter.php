@@ -137,13 +137,21 @@ try {
                     $width    = 110;
                     $height   = 200;
                 }
+                // количество отзывов
+                $sthReview = DB::getStatement('SELECT COUNT(*) as count FROM table_reviews WHERE products_id = ? AND moderat = ?');
+                $sthReview->execute(array($row['products_id'], 1));
+                $rowReview = $sthReview->fetch();
+
+                if ($rowReview['count'] >=0 ) {
+                    $count_review = $rowReview['count'];
+                }
                 ?>
                 <li>
                     <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
                     <p class="style-title-grid"><a href="view_content.php?id=<?php echo $row['products_id']; ?>"" ><?php echo $row['title'];  ?></a></p>
                     <ul class="reviews-and-counts-grid">
-                        <li><img src="images/eye-icon.png" /><p>0</p></li>
-                        <li><img src="images/comment-icon.png" /><p>0</p></li>
+                        <li><img src="images/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
+                        <li><img src="images/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                     </ul>
                     <a href="" class="add-cart-style-grid"></a>
                     <p class="style-price-grid"><strong><?php echo groupPrice($row['price']); ?></strong> руб.</p>
@@ -180,14 +188,23 @@ try {
                         $width    = 80;
                         $height   = 70;
                     }
+
+                    // количество отзывов
+                    $sthReview = DB::getStatement('SELECT COUNT(*) as count FROM table_reviews WHERE products_id = ? AND moderat = ?');
+                    $sthReview->execute(array($row['products_id'], 1));
+                    $rowReview = $sthReview->fetch();
+
+                    if ($rowReview['count'] >=0 ) {
+                        $count_review = $rowReview['count'];
+                    }
                     //echo "<tt><pre>".print_r($row['image'], true). "</pre></tt>";
                     ?>
                     <li>
                         <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
 
                         <ul class="reviews-and-counts-list">
-                            <li><img src="images/eye-icon.png" /><p>0</p></li>
-                            <li><img src="images/comment-icon.png" /><p>0</p></li>
+                            <li><img src="images/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
+                            <li><img src="images/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                         </ul>
                         <p class="style-title-list"><a href="view_content.php?id=<?php echo $row['products_id']; ?>"" ><?php echo $row['title'];  ?></a></p>
                         <a href="" class="add-cart-style-list"></a>
@@ -208,7 +225,7 @@ try {
 
         </div><!-- end block-content -->
 
-
+        <?php include('include/block-random.php'); ?>
         <?php include('include/block-footer.php'); ?>
 
     </div>
