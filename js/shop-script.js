@@ -377,7 +377,7 @@ $(document).ready( function() {
         }
         // Проверка адреса
         if (order_address == "" || order_address.length > 150) {
-            $('#order_address').css('borderColor', '#DBDBDB');
+            $('#order_address').css('borderColor', '#FDB6B6');
 //            send_order_address = '0';
             send_order_error = 'error';
         } else {

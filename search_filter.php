@@ -105,17 +105,6 @@ try {
                             <li>Вид: </li>
                             <li><img id="style-grid" src="images/icon-grid.png" /></li>
                             <li><img id="style-list" src="images/icon-list.png" /></li>
-
-                            <li>Сортировать: </li>
-                            <li><a href="#" id="select-sort">'.$sort_name.'</a>
-                                <ul id="sorting-list">
-                                    <li><a href="view_cat.php?'.$catLink.'type='.$type.'&sort=price-asc" >От дешевых к дорогим</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=price-desc" >От дорогих к дешевым</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=popular" >Популярное</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=news" >Новинки</a> </li>
-                                    <li><a href="view_cat.php?'.$catLink.'&type='.$type.'&sort=brand" >От А до Я</a> </li>
-                                </ul>
-                            </li>
                         </ul>
                     </div>
 

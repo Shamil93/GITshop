@@ -118,7 +118,7 @@ try {
 
 
                 echo '<div id="block-breadcrumbs-and-rating">
-                    <p id="nav-breadcrumbs"><a href="view_mobile.php">Мобильные телефоны</a> \ <span>'.$row['brand'].'</span></p>
+                    <p id="nav-breadcrumbs"><a href="view_cat.php?type=mobile">Мобильные телефоны</a> \ <span>'.$row['brand'].'</span></p>
                 </div>
                 <div id="block-like">
                 <p id="likegood" tid="'.$id.'">Нравится</p><p id="likegoodcount">'.$row['yes_like'].'</p>

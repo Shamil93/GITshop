@@ -184,7 +184,7 @@ try {
                                     <p align="center"><img src="'.$imgPath.'" width="'.$width.'" height="'.$height.'" /></p>
                                 </div>
                                 <div class="title-cart">
-                                    <p><a href="" >'.$row["title"].'</a></p>
+                                    <p><a href="view_content.php?id='.$row["products_id"].'" >'.$row["title"].'</a></p>
                                     <p class="cart-mini-features">'.$row["mini_features"].'</p>
                                 </div>
                                 <div class="count-cart">
@@ -211,6 +211,11 @@ try {
 
                     break;
                 case 'confirm':
+
+
+
+
+
                     echo '<div id="block-step">
                         <div id="name-step">
                             <ul>

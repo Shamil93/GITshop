@@ -120,7 +120,7 @@ try {
                 if ($total > 0) {
 
 
-                    echo '<ul id="block-tovar-grid">';
+
 
                     echo '<div id="block-sorting">
                         <p id="nav-breadcrumbs"><a href="index.php">Главная страница</a> \ <span>Все товары</span></p>
@@ -157,7 +157,7 @@ try {
                     $sth->execute(array(1));
                     $rows = $sth->fetchAll();
 
-
+                    echo '<ul id="block-tovar-grid">';
                     foreach ($rows as $row):
 
                         if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
@@ -215,6 +215,7 @@ try {
     //if ($total > 0) {
 
         echo '<ul id="block-tovar-list">';
+
                 foreach ($rows as $row):
 
                     if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {

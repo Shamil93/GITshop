@@ -213,7 +213,7 @@ try {
                                     <li><img src="images/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
                                     <li><img src="images/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                                 </ul>
-                                <a href="" class="add-cart-style-grid"></a>
+                                <a href="" class="add-cart-style-grid" tid="<?php echo $row['products_id']; ?>"></a>
                                 <p class="style-price-grid"><strong><?php echo groupPrice($row['price']); ?></strong> руб.</p>
                                 <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
                             </li>
@@ -259,7 +259,7 @@ try {
                                     <li><img src="images/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                                 </ul>
                                 <p class="style-title-list"><a href="view_content.php?id=<?php echo $row['products_id']; ?>"" ><?php echo $row['title'];  ?></a></p>
-                                <a href="" class="add-cart-style-list"></a>
+                                <a href="" class="add-cart-style-list" tid="<?php echo $row['products_id']; ?>"></a>
                                 <p class="style-price-list"><strong><?php echo groupPrice($row['price']); ?></strong> руб.</p>
                                 <div class="style-text-list"><?php echo $row['mini_description'];  ?></div>
                             </li>
