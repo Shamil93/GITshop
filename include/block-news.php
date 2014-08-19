@@ -5,6 +5,7 @@
  * Date: 08/08/14
  * Time: 19:38
  */
+defined('myeshop') or header('Location: index.php');
 ?>
 <div id="block-news">
     <img id="news-prev" src="images/img-prev.png">

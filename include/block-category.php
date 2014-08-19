@@ -5,6 +5,7 @@
  * Date: 08/08/14
  * Time: 17:34
  */
+defined('myeshop') or header('Location: index.php');
 ?>
 
 <div id="block-category">

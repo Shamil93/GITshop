@@ -5,6 +5,7 @@
  * Date: 08/08/14
  * Time: 12:45
  */
+defined('myeshop') or header('Location: index.php');
 ?>
 <div id="block-footer">
     <div id="bottom-line"></div>

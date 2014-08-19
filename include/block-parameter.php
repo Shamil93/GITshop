@@ -5,6 +5,7 @@
  * Date: 08/08/14
  * Time: 18:17
  */
+defined('myeshop') or header('Location: index.php');
 ?>
 <script type="text/javascript">
     $(document).ready(function() {

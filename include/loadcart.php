@@ -14,6 +14,7 @@ require_once ('../utility/getIP.php');
 require_once ('../utility/groupPrice.php');
 require_once ('../utility/inclineItems.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     $ip = getIP();
     $itemArr = array('товар', 'товара', 'товаров');
     $sth = DB::getStatement('SELECT * FROM cart, table_products WHERE cart.cart_ip = ? and table_products.products_id = cart.cart_id_product');

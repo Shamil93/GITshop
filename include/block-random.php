@@ -5,7 +5,7 @@
  * Date: 18/08/14
  * Time: 19:53
  */
-
+defined('myeshop') or header('Location: index.php');
 /**
  * Блок случайного вывода изображения в футере
  */

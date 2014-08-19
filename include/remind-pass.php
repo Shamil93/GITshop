@@ -10,6 +10,7 @@
  * Восстанавливаем забытый пароль
  */
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     include('DB.php');
     include('../utility/handleData.php');
     include('../utility/funGenPass.php');

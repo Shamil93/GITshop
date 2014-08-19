@@ -6,11 +6,8 @@
  * Time: 16:42
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
-
+    define('myeshop', true);
     session_start();
-
     require_once('../include/DB.php');
     require_once('../utility/handleData.php');
     require_once('../utility/getIP.php');

@@ -10,6 +10,7 @@
  * Обработчик для добавления/обновления продуктов в корзину(е)
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     require_once ('DB.php');
     require_once ('../utility/handleData.php');
     require_once ('../utility/getIP.php');

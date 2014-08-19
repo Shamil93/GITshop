@@ -11,6 +11,7 @@
  * количества
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     require_once ('DB.php');
     require_once ('../utility/getIP.php');
     require_once ('../utility/groupPrice.php');

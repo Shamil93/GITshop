@@ -10,6 +10,7 @@
  * Обработчик появления подсказок при вводе текста в строку для поиска по сайту
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     include('DB.php');
     include('../utility/handleData.php');
 

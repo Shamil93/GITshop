@@ -6,6 +6,7 @@
  * Time: 12:09
  */
 //session_start();
+defined('myeshop') or header('Location: index.php');
 // получаем переменную с поиском
 if (isset( $_GET['q'])) {
     $search = handleData($_GET['q']);
@@ -26,7 +27,7 @@ if (isset( $_GET['q'])) {
             <li>Ваш город - <span>Санкт-Петербург</span></li>
             <li><a href="about.php">О нас</a></li>
             <li><a href="shops.php">Магазины</a></li>
-            <li><a href="contacts.php">Контакты</a></li>
+            <li><a href="feedback.php">Контакты</a></li>
         </ul>
 <!--        Вход и регистрация-->
         <?php

@@ -5,7 +5,7 @@
  * Date: 17/08/14
  * Time: 20:48
  */
-
+define('myeshop', true);
 require_once('include/Exceptions.php');
 require_once('utility/pager.php');
 include "include/DB.php";

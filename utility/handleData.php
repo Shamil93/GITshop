@@ -5,7 +5,7 @@
  * Date: 10/08/14
  * Time: 18:00
  */
-
+defined('myeshop') or header('Location: index.php');
 /**
  * Обрабатываем входящие данные
  * @param $str

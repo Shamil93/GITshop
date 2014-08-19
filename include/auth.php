@@ -7,6 +7,7 @@
  */
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     include ('DB.php');
     include ('../utility/handleData.php');
     $login = handleData($_POST['login']);

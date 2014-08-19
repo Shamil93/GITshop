@@ -1838,3 +1838,47 @@ div.tabs_content > div {
     background: url('../images/button-pay.png');
     float: left;
 }
+
+
+
+/*Форма обратной связи*/
+
+#block-feedback {
+    height: 450px;
+}
+#feedback {
+    margin-top: 50px;
+}
+#feedback li {
+    margin-top: 10px;
+}
+#feedback input {
+    height: 30px;
+    width: 300px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    border-left: 1px solid #ABABAB;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    padding-left: 5px;
+}
+#feedback label {
+    font: 14px arial;
+    color: #464646;
+    position: absolute;
+    margin-top: 7px;
+}
+#feedback textarea {
+    width: 450px;
+    height: 180px;
+    font: 17px sans-serif;
+    margin-left: 200px;
+    border-top: 1px solid #ABABAB;
+    border-right: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #ABABAB;
+}
+#feedback input:focus, #feedback textarea:focus {
+    border: 1px solid #C4E1EB;
+}

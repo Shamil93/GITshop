@@ -6,7 +6,7 @@
  * Time: 19:46
  */
 session_start();
-
+define('myeshop', true);
 if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'yes_auth') {
     require_once('include/Exceptions.php');
     require_once('utility/pager.php');
@@ -61,8 +61,7 @@ if (isset($_SESSION['auth']) && $_SESSION['auth'] == 'yes_auth') {
                 }
                 if (strlen($_POST['info_email']) == "") {
                     $error[] = 'Укажите E-mail!';
-                }
-                if (!preg_match('|^[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}$|i',$_POST['info_email'])) {
+                } else if (!preg_match('|^[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}$|i',$_POST['info_email'])) {
                     $error[] = 'Укажите корректный E-mail!';
                 }
             }

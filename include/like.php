@@ -9,6 +9,7 @@
  * Обработчик обновления счетчика "Нравится"
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     session_start();
 
     if ($_SESSION['likeid'] != (int)$_POST['id']) {

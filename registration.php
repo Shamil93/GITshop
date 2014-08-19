@@ -5,7 +5,7 @@
  * Date: 12/08/14
  * Time: 16:38
  */
-
+define('myeshop', true);
 require_once('include/Exceptions.php');
 require_once('include/DB.php');
 require_once('utility/handleData.php');

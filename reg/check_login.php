@@ -12,6 +12,7 @@
  */
 // проверяем, как обратились к этому скрипту
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    define('myeshop', true);
     require_once ('../include/DB.php');
     require_once ('../utility/handleData.php');
 

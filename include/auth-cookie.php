@@ -5,7 +5,7 @@
  * Date: 14/08/14
  * Time: 16:06
  */
-
+defined('myeshop') or header('Location: index.php');
 /**
  * Авторизация
  * файл включен в каждую страницу

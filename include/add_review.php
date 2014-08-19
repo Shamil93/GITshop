@@ -5,10 +5,12 @@
  * Date: 18/08/14
  * Time: 18:10
  */
+
 /**
  * Обработчик для добавления отзыва на товар
  */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    define('myeshop', true);
     require_once ('DB.php');
     require_once ('../utility/handleData.php');
 
