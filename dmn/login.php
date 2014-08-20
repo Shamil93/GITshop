@@ -16,6 +16,7 @@ if ($_POST['submit_enter']){
 }
 
 if ($login && $pass) {
+
 //    $pass = md5($pass);
 //    $pass = strrev($pass);
 //    $pass = strtolower('mb03foo51'.$pass.'qj2jjdp9');
@@ -23,6 +24,7 @@ if ($login && $pass) {
     $sth = DB::getStatement('SELECT * FROM reg_admin WHERE login = ? AND pass = ?');
     $sth->execute(array($login, $pass));
     $row = $sth->fetch();
+//    echo "<tt><pre>".print_r($row)."</pre></tt>";
     if (! empty($row)) {
         $_SESSION['auth_admin'] = 'yes_auth';
         header('Location: index.php');
