@@ -1,7 +1,7 @@
 /**
  * Created by zhalnin on 08/08/14.
- */
-/*!
+ *
+ *!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
  *

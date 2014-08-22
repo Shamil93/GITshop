@@ -217,3 +217,118 @@ a.pstr-prev:hover, a.pstr-next:hover {
 #list-links > ul > li > a:hover {
     text-decoration: underline;
 }
+#add-style {
+    margin-top: 12px;
+    margin-left: 618px;
+    position: absolute;
+}
+#add-style > a {
+    font: 13px arial;
+    color: #000000;
+    text-decoration: none;
+    border: 1px solid #FFDACA;
+    background-color: #FFE7E7;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+#add-style > a:hover {
+    border: 1px solid #FFBFA4;
+}
+
+/*форма добавление товара*/
+#edit-tovar label {
+    position: absolute;
+    font: 15px sans-serif;
+    margin-top: 6px;
+    margin-left: 20px;
+}
+#edit-tovar {
+    margin-top: 20px;
+}
+#edit-tovar li {
+    margin-top: 10px;
+}
+#edit-tovar input {
+    margin-left: 170px;
+    width: 400px;
+    height: 25px;
+    border: 1px solid #D4D4D4;
+}
+#edit-tovar textarea {
+    margin-left: 170px;
+    width: 401px;
+    height: 80px;
+    border: 1px solid #D4D4D4;
+    font: 15px sans-serif;
+}
+#edit-tovar select#type {
+    margin-left: 170px;
+}
+#edit-tovar select {
+    margin-left: 170px;
+    width: 250px;
+    border: 1px solid #D4D4D4;
+    font: 15px sans-serif;
+}
+
+#baseimg-upload {
+    margin-top: 40px;
+}
+#baseimg-upload input {
+    margin-left: 15px;
+}
+.h3click {
+    font: bold 15px sans-serif;
+    cursor: pointer;
+    padding-left: 25px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    background-color: #eaeaea;
+    border: 1px solid #E3E3E3;
+}
+.stylelabel {
+    position: absolute;
+    font: 15px sans-serif;
+    margin-top: 6px;
+    margin-left: 20px;
+}
+#objects {
+    margin-top: 50px;
+}
+.addimage {
+    margin-left: 50px;
+    margin-top: 5px;
+}
+.div-editor1,.div-editor2,.div-editor3,.div-editor4 {
+    display: none;
+}
+.h3click:hover {
+    background-color: #DDDDDD;
+}
+#chkbox > li {
+    margin-top: 5px;
+    margin-left: 10px;
+    font: 15px sans-serif;
+}
+#submit_form {
+    border: 1px solid #a8bbd4;
+    background-color: #bbd0ec;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 6px;
+    padding-bottom: 5px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    font: bold 12px sans-serif;
+    color: #000000;
+    cursor: pointer;
+}
+#submit_form:hover {
+    border: 1px solid #779fd3;
+}
+.h3title {
+    font: bold 17px sans-serif;
+    margin-left: 10px;
+}

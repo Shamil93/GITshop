@@ -33,5 +33,11 @@ $(document).ready(function(){
        $('#list-links').slideToggle(200);
     });
 
+    /**
+     * Обработчик сокрытия/отображения поля с текстовым редактором
+     */
+    $('.h3click').click(function(){
+        $(this).next().slideToggle(400);
+    });
 
 });
