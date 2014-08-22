@@ -28,6 +28,8 @@ try {
         <title>E-commerce</title>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <script type="text/javascript" src="ecommerce/view/js/jquery-2.1.1.js"></script>
+        <script type="text/javascript" src="ecommerce/view/js/jquery.migrate.js"></script>
+        <script type="text/javascript" src="ecommerce/view/js/jquery.cookie.js"></script>
         <script type="text/javascript" src="ecommerce/view/js/jcarouserllite_1.0.1.js"></script>
         <script type="text/javascript" src="ecommerce/view/js/shop-script.js"></script>
         <link href="ecommerce/view/css/reset.css" rel="stylesheet" type="text/css" />
@@ -71,58 +73,83 @@ try {
 
             <ul id="block-tovar-grid">
 
-                <?php
+                <?php foreach ($products['select'] as $product):
+                    $image_product = $product->getImage();
+                    if (isset($image_product) && file_exists('ecommerce/view/uploads_images/'.$image_product)) {
+//                        echo "<tt><pre>".print_r($image_product, true). "</pre></tt>";
+                        $img_path   = 'ecommerce/view/uploads_images/'.$image_product;
+                        $max_width  = 200;
+                        $max_height = 200;
+                        list($width, $height) = getimagesize($img_path);
+                        $ratioh = $max_height / $height;
+                        $ratiow = $max_width / $width;
+                        $ratio  = min($ratioh, $ratiow);
+                        $width  = intval($ratio * $width);
+                        $height = intval($ratio * $height);
+                    } else {
+                        $img_path = "ecommerce/view/images/no-image.png";
+                        $width    = 110;
+                        $height   = 200;
+                    }
 
-                foreach ($products['select'] as $product):
-//                echo "<tt><pre>".print_r($products['navigation'], true). "</pre></tt>";
-                ?>
-
+                    ?>
 
                 <li>
                     <div class="block-images-grid"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
                     <p class="style-title-grid"><a href="view_content.php?id=<?php echo $product->getId(); ?>" ><?php echo $product->getTitle();  ?></a></p>
                     <ul class="reviews-and-counts-grid">
-                        <li><img src="ecommerce/view/icons/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
+                        <li><img src="ecommerce/view/icons/eye-icon.png" /><p><?php echo $product->getCount(); ?></p></li>
                         <li><img src="ecommerce/view/icons/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                     </ul>
-                    <a href="" class="add-cart-style-grid" tid="<?php echo $row['products_id']; ?>"></a>
-                    <p class="style-price-grid"><strong><?php echo \ecommerce\view\utils\groupPrice($row['price']); ?></strong> руб.</p>
-                    <div class="mini-features"><?php echo $row['mini_features'];  ?></div>
+                    <a href="" class="add-cart-style-grid" tid="<?php echo $product->getId(); ?>"></a>
+                    <p class="style-price-grid"><strong><?php echo \ecommerce\view\utils\groupPrice($product->getPrice()); ?></strong> руб.</p>
+                    <div class="mini-features"><?php echo $product->getMiniFeatures();  ?></div>
                 </li>
 
-                    <?php endforeach;
-                echo $products['navigation'];
-                ?>
+                <?php endforeach; echo $products['navigation']; ?>
 
             </ul>
 
             <ul id="block-tovar-list">
 
+                <?php foreach ($products['select'] as $product):
+                    $image_product = $product->getImage();
+                    if (isset($image_product) && file_exists('ecommerce/view/uploads_images/'.$image_product)) {
+//                        echo "<tt><pre>".print_r($image_product, true). "</pre></tt>";
+                        $img_path   = 'ecommerce/view/uploads_images/'.$image_product;
+                        $max_width  = 150;
+                        $max_height = 150;
+                        list($width, $height) = getimagesize($img_path);
+                        $ratioh = $max_height / $height;
+                        $ratiow = $max_width / $width;
+                        $ratio  = min($ratioh, $ratiow);
+                        $width  = intval($ratio * $width);
+                        $height = intval($ratio * $height);
+                    } else {
+                        $img_path = "ecommerce/view/images/no-image.png";
+                        $width    = 80;
+                        $height   = 70;
+                    }
+                    ?>
 
                 <li>
                     <div class="block-images-list"><img src="<?php echo $img_path;  ?>" width="<?php echo $width; ?>" height="<?php echo $height; ?>" /></div>
 
                     <ul class="reviews-and-counts-list">
-                        <li><img src="ecommerce/view/icons/eye-icon.png" /><p><?php echo $row['count']; ?></p></li>
+                        <li><img src="ecommerce/view/icons/eye-icon.png" /><p><?php echo $product->getCount(); ?></p></li>
                         <li><img src="ecommerce/view/icons/comment-icon.png" /><p><?php echo $count_review; ?></p></li>
                     </ul>
-                    <p class="style-title-list"><a href="view_content.php?id=<?php echo $row['products_id']; ?>"" ><?php echo $row['title'];  ?></a></p>
-                    <a href="" class="add-cart-style-list" tid="<?php echo $row['products_id']; ?>"></a>
-                    <p class="style-price-list"><strong><?php echo \ecommerce\view\utils\groupPrice($row['price']); ?></strong> руб.</p>
-                    <div class="style-text-list"><?php echo $row['mini_description'];  ?></div>
+                    <p class="style-title-list"><a href="view_content.php?id=<?php echo $product->getId(); ?>"" ><?php echo $product->getTitle();  ?></a></p>
+                    <a href="" class="add-cart-style-list" tid="<?php echo $product->getId(); ?>"></a>
+                    <p class="style-price-list"><strong><?php echo \ecommerce\view\utils\groupPrice($product->getPrice()); ?></strong> руб.</p>
+                    <div class="style-text-list"><?php echo $product->getMiniDescription();  ?></div>
                 </li>
 
+            <?php endforeach; echo $products['navigation']; ?>
 
             </ul>
 
 
-            <?php
-
-
-            //echo $products['navigaion'];
-
-
-            ?>
 
 
         </div><!-- end block-content -->
