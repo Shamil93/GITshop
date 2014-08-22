@@ -1,0 +1,13 @@
+<ecommerce-options>
+    <dsn>mysql:host=localhost;dbname=shop</dsn>
+<control>
+    <view>main</view>
+    <view status="CMD_OK">main</view>
+    <view status="CMD_ERROR">error</view>
+
+    <command name="Main">
+        <view>main</view>
+    </command>
+
+</control>
+</ecommerce-options>

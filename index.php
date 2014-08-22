@@ -76,8 +76,11 @@ try {
     <?php include('include/block-header.php'); ?>
 
     <div id="block-right">
+        <!--    подключаем блок block-category-->
         <?php include('include/block-category.php'); ?>
+        <!--    подключаем блок block-parameter-->
         <?php include('include/block-parameter.php'); ?>
+        <!--    подключаем блок block-news-->
         <?php include('include/block-news.php'); ?>
     </div>
 
@@ -255,8 +258,9 @@ try {
 
     </div><!-- end block-content -->
 
-
+    <!--    подключаем блок block-random-->
     <?php include('include/block-random.php'); ?>
+    <!--    подключаем блок block-footer-->
     <?php include('include/block-footer.php'); ?>
 
 </div>

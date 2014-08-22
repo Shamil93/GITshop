@@ -5,7 +5,7 @@
  * Date: 11/08/14
  * Time: 22:02
  */
-
+namespace ecommerce\view\utils;
 /**
  * Для постраничной навигации
  * @param $page - номер страницы
@@ -16,7 +16,7 @@
  * @return string - возвращаем строку
  */
 function pager( $page, $pageLink, $number, $total, $parameters=null ) {
-//    echo "<tt><pre> - djflskdjf - ".print_r($page, true). "</pre></tt>";
+
     $return_page = "";
     // Print reference "Back", if this is not first page
     // Reference to first page
