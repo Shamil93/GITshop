@@ -19,6 +19,90 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     require_once ('utility/pager.php');
     require_once ('utility/handleData.php');
 
+    if ($_POST['submit_add']) {
+        $error = array();
+
+        if (!isset($_POST['form_title'])) {
+            $error[] = "Укажите название товара!";
+        }
+        if (!isset($_POST['form_price'])) {
+            $error[] = "Укажите цену!";
+        }
+        if (!isset($_POST['form_category'])) {
+            $error[] = "Укажите категорию!";
+        } else {
+            $sth_category2 = DB::getStatement('SELECT * FROM category WHERE id=?');
+            $sth_category2->execute(array($_POST['form_category']));
+            $rows_category2 = $sth_category2->fetch();
+            $selectbrand = $rows_category2['brand'];
+//            echo "<tt><pre> - djflskdjf - ".print_r($rows_category2['brand'], true). "</pre></tt>";
+        }
+        if (isset($_POST['chk_visible'])) { $chk_visible = "1"; }
+        else { $chk_visible = "0"; }
+
+        if (isset($_POST['chk_new'])) { $chk_new = "1"; }
+        else { $chk_new = "0"; }
+
+        if (isset($_POST['chk_leader'])) { $chk_leader = "1"; }
+        else { $chk_leader = "0"; }
+
+        if (isset($_POST['chk_sale'])) { $chk_sale = "1"; }
+        else { $chk_sale = "0"; }
+
+        if (!empty($error)) {
+            $_SESSION['message'] = '<p id="form-error">'.implode('<br />', $error).'</p>';
+        } else {
+
+            $sth_insert = DB::getStatement('INSERT INTO table_products( title,
+                                                                        price,
+                                                                        brand,
+                                                                        seo_words,
+                                                                        seo_description,
+                                                                        mini_description,
+                                                                        description,
+                                                                        mini_features,
+                                                                        features,
+                                                                        datetime,
+                                                                        new,
+                                                                        leader,
+                                                                        sale,
+                                                                        visible,
+                                                                        type_tovara,
+                                                                        brand_id )
+                                              VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+            $date = date('Y-m-d H:i:s', time());
+            $sth_insert->execute(array( $_POST['form_title'],
+                                        $_POST['form_price'],
+                                        $selectbrand,
+                                        $_POST['form_seo_words'],
+                                        $_POST['form_seo_description'],
+                                        $_POST['txt1'],
+                                        $_POST['txt2'],
+                                        $_POST['txt3'],
+                                        $_POST['txt4'],
+                                        $date,
+                                        $chk_new,
+                                        $chk_leader,
+                                        $chk_sale,
+                                        $chk_visible,
+                                        $_POST['form_type'],
+                                        $_POST['form_category']));
+            $_SESSION['message'] = '<p id="form-success">Товар успешно добавлен!</p>';
+            $id = DB::getId();
+//            echo "<tt><pre> - djflskdjf - ".print_r($_POST, true). "</pre></tt>";
+            if (empty($_POST['upload_image'])) {
+                include('actions/upload-image.php');
+                unset($_POST['upload_image']);
+            } else {
+                print "no";
+            }
+            if (empty($_POST['galleryimg'])) {
+                include('actions/upload-gallery.php');
+                unset($_POST['galleryimg']);
+            }
+         }
+    }
+
     ?>
     <!DOCTYPE html>
     <html>
@@ -30,6 +114,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="js/jquery.migrate.js"></script>
         <script type="text/javascript" src="js/admin-script.js"></script>
+        <script type="text/javascript" src="js/ckeditor/AjexFileManager/ajex.js"></script>
         <script type="text/javascript" src="js/ckeditor/ckeditor.js"></script>
     </head>
     <body>
@@ -44,6 +129,17 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             <div id="block-parameters">
                 <p id="title-page">Добавление товара</p>
             </div>
+            <?php
+            // вывод сообщений об ошибках
+            if (isset($_SESSION['message'])) {
+                echo $_SESSION['message'];
+                unset($_SESSION['message']);
+            }
+            if (isset($_SESSION['answer'])) {
+                echo $_SESSION['answer'];
+                unset($_SESSION['answer']);
+            }
+            ?>
 
             <form  enctype="multipart/form-data" method="POST">
                 <ul id="edit-tovar">
@@ -130,8 +226,8 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
 
                 <div id="objects">
                     <div id="addimage1" class="addimage">
-                        <input type="hidden" name="MAX_FILE_SIZE" value="2000000">
-                        <input type="file" name="galleryimg[]">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />
+                        <input type="file" name="galleryimg[]" />
                     </div>
                 </div>
 

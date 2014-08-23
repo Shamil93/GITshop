@@ -22,6 +22,9 @@ try {
     if (isset($_GET['id'])) {
         $id = handleData($_GET['id']);
     }
+    $sth_seo = DB::getStatement('SELECT seo_words, seo_description FROM table_products WHERE products_id = ? AND visible=?');
+    $sth_seo->execute(array($id,1));
+    $row_seo = $sth_seo->fetch();
     if ($id != $_SESSION['countid']) {
         $sth1 = DB::getStatement('SELECT count FROM table_products WHERE products_id = ?');
         $sth1->execute(array($id));
@@ -40,6 +43,8 @@ try {
     <head>
         <title>Shop</title>
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="Description" content="<?php echo $row_seo['seo_description']; ?>" />
+        <meta name="keywords" content="<?php echo $row_seo['seo_words']; ?>" />
         <link href="css/reset.css" rel="stylesheet" type="text/css" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="TrackBar/jQuery/trackbar.css" rel="stylesheet" type="text/css" />

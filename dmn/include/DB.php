@@ -44,6 +44,10 @@ class DB {
         }
         return $prepare;
     }
+
+    static function getId() {
+        return self::getDB()->lastInsertId();
+    }
 }
 
 
