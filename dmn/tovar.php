@@ -181,9 +181,8 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                 $sth_select->execute();
                 $rows = $sth_select->fetchAll();
                 foreach ($rows as $row):
-
-                    if (isset($row['image']) && file_exists('uploads_images/'.$row['image'])) {
-                        $img_path   = 'uploads_images/'.$row['image'];
+                    if (isset($row['image']) && file_exists('../uploads_images/'.$row['image'])) {
+                        $img_path   = '../uploads_images/'.$row['image'];
                         $max_width  = 160;
                         $max_height = 160;
                         list($width, $height) = getimagesize($img_path);
@@ -193,7 +192,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                         $width  = intval($ratio * $width);
                         $height = intval($ratio * $height);
                     } else {
-                        $img_path = "uploads_images/no-image.png";
+                        $img_path = "../images/no-image.png";
                         $width    = 110;
                         $height   = 200;
                     }

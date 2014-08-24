@@ -71,9 +71,9 @@ class ProductsObjectFactory extends DomainObjectFactory {
      */
     function createObject( array $array ) {
         $class = "\\ecommerce\\domain\\Products"; // название класса
-        $old = $this->getFromMap( $class, $array['id'] );
+        $old = $this->getFromMap( $class, $array['products_id'] );
         if( $old ) { return $old; }
-        $obj = new $class( $array['id'] ); // создаем экземпляр класса, в конструктор передаем id
+        $obj = new $class( $array['products_id'] ); // создаем экземпляр класса, в конструктор передаем id
         // используем методы set...( array ) - и добавляем результат запроса в класс, получим их, соответственно методами get...()
         $obj->setTitle( $array['title'] );
         $obj->setPrice( $array['price'] );

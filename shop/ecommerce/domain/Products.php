@@ -127,17 +127,21 @@ class Products extends DomainObject {
         return $finder->findOne( $idobj->eq( $products_id )->field( 'visible' )->eq(1) );
     }
 
-    static function paginationMysql( $page=null ) {
+    static function findGoCount( \ecommerce\mapper\IdentityObject $idobj ) {
         $finder = self::getFinder( __CLASS__ );
-        $idobj = new \ecommerce\mapper\ProductsIdentityObject( 'visible' );
-        $idobj->eq( '1' );
+//        $idobj = new \ecommerce\mapper\ProductsIdentityObject( $go );
+        return $finder->find($idobj);
+    }
 
+//    static function paginationMysql( $page=null, $where='', $order='' ) {
+    static function paginationMysql( $page=null, \ecommerce\mapper\IdentityObject $idobj, $order='', $parameters='') {
+        $finder = self::getFinder( __CLASS__ );
         return $finder->findPagination( "table_products",
                                         $idobj,
-                                        "",
+                                        $order,
                                         10,
                                         3,
-                                        "",
+                                        $parameters,
                                         $page.'&cmd=Main');
     }
 

@@ -7,6 +7,7 @@
  */
 
 namespace ecommerce\mapper;
+error_reporting(E_ALL &~E_NOTICE);
 require_once('ecommerce/mapper/PaginationFactory.php');
 
 
@@ -119,6 +120,7 @@ class ProductsPaginationFactory extends PaginationFactory  {
 
         $result = $sth->execute( );
         if( ! $result ) {
+
             throw new \PDOException( "Ошибка при выборке в getPage()" );
         }
 //        while( $arr[] = $sth->fetchAll() );
@@ -126,6 +128,7 @@ class ProductsPaginationFactory extends PaginationFactory  {
 //        $sth->closeCursor();
 
         $arr = $sth->fetchAll();
+
         return $arr;
     }
 

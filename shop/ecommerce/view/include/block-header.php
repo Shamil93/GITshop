@@ -101,10 +101,10 @@ defined('ecommerceShop') or die();
 
 <div id="top-menu">
     <ul>
-        <li><img src="ecommerce/view/icons/shop.png" /><a href="index.php">Главная</a></li>
-        <li><img src="ecommerce/view/icons/new-32.png"/><a href="view_icetopper.php?go=news">Новинки</a></li>
-        <li><img src="ecommerce/view/icons/bestprice-32.png"/><a href="view_icetopper.php?go=leaders">Лидеры продаж</a></li>
-        <li><img src="ecommerce/view/icons/sale-32.png"/><a href="view_icetopper.php?go=sale">Распродажа</a></li>
+        <li><img src="ecommerce/view/icons/shop.png" /><a href="<?php echo $_SERVER['PHP_SELF']; ?>">Главная</a></li>
+        <li><img src="ecommerce/view/icons/new-32.png"/><a href="<?php echo $_SERVER['PHP_SELF']; ?>?go=new">Новинки</a></li>
+        <li><img src="ecommerce/view/icons/bestprice-32.png"/><a href="<?php echo $_SERVER['PHP_SELF']; ?>?go=leader">Лидеры продаж</a></li>
+        <li><img src="ecommerce/view/icons/sale-32.png"/><a href="<?php echo $_SERVER['PHP_SELF']; ?>?go=sale">Распродажа</a></li>
     </ul>
 
     <p align="right" id="block-basket"><img src="ecommerce/view/icons//cart-icon.png" /><a href="cart.php?action=oneclick">Корзина пуста</a></p>
