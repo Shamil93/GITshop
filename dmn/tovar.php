@@ -186,15 +186,16 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                         $max_width  = 160;
                         $max_height = 160;
                         list($width, $height) = getimagesize($img_path);
+//                        echo "<tt><pre>".print_r($width, true). "</pre></tt>";
                         $ratioh = $max_height / $height;
                         $ratiow = $max_width / $width;
                         $ratio  = min($ratioh, $ratiow);
                         $width  = intval($ratio * $width);
                         $height = intval($ratio * $height);
                     } else {
-                        $img_path = "../images/no-image.png";
-                        $width    = 110;
-                        $height   = 200;
+                        $img_path = "images/no-image-90.png";
+                        $width    = 90;
+                        $height   = 164;
                     }
 
                     echo '<li><p>'.$row['title'].'</p>

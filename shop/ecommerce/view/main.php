@@ -22,7 +22,7 @@ try {
     $products = $request->getObject('products'); // получаем объект с выборкой продуктов с постраничной навигацией
     $sort     = $request->getProperty('sort'); // получаем название сортировки
     $feedback = $request->getFeedbackString(); // сообщение об ошибке
-        echo "<tt><pre>".print_r($request, true). "</pre></tt>";
+//        echo "<tt><pre>".print_r($request, true). "</pre></tt>";
 
 
     // Формируем надпись на сортировке

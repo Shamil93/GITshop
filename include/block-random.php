@@ -42,6 +42,7 @@ require_once ('utility/groupPrice.php');
                         $width  = intval($ratio * $width);
                         $height = intval($ratio * $height);
                     } else {
+//                        $img_path = "images/noimages65.png";
                         $img_path = "images/noimages80x70.png";
                         $width    = 65;
                         $height   = 119;

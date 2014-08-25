@@ -159,12 +159,14 @@ try {
                         $max_width  = 70;
                         $max_height = 70;
                         list($width, $height) = getimagesize($img_path);
+
                         $ratioh = $max_height / $height;
                         $ratiow = $max_width / $width;
                         $ratio  = min($ratioh, $ratiow);
                         $width  = intval($ratio * $width);
                         $height = intval($ratio * $height);
 
+//                        echo "<tt><pre>".print_r($height, true). "</pre></tt>";
                         echo '<li>
                                 <a class="image-modal" href="#image'.$row1["id"].'"><img src="'.$img_path.'" width="'.$width.'" height="'.$height.'" /></a>
                             </li>
