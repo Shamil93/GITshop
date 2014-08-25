@@ -23,7 +23,7 @@ if (! empty($_FILES['galleryimg']['name'][0])) {
             // директория для загрузки
             $uploaddir = '../uploads_images/';
             // имя нового файла
-            $newfilename = $_POST['form_type'].'_upload-gallery-'.rand(100,500).'.'.$imgext;
+            $newfilename = $_POST['form_type'].'-'.rand(100,500).'.'.$imgext;
             // путь к файлу
             $uploadfile = $uploaddir.$newfilename;
 
