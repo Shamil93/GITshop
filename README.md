@@ -4,7 +4,7 @@ GITshop
 Implementation of internet shop on PHP/MySQL(pdo)/JQuery
 
 
-Continue - 3.6
+Continue - 3.6 - 12:20
 
 - в DMN добавить images
 - В таблицу cart можно добавить user_id, чтобы формировать заказ,

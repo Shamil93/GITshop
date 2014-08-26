@@ -13,6 +13,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         unset($_SESSION['auth_admin']);
         header ('Location: login.php');
     }
+    // строка навигации
     $_SESSION['urlpage'] = "<a href='index.php'>Главная</a> \ <a href='tovar.php'>Товары</a> \ <a>Изменение товара</a> ";
 
     require_once ('include/DB.php');
@@ -21,6 +22,17 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
 
     if (isset($_GET['id'])) {
         $id = handleData($_GET['id']);
+    }
+    // удаляем изображение из upload-image
+    if (isset($_GET['action'])) {
+        $action = handleData($_GET['action']);
+        switch ($action) {
+            case 'delete':
+                if (file_exists("../uploads_images/".$_GET['img'])) {
+                    unlink("../uploads_images/".$_GET['img']);
+                }
+                break;
+        }
     }
 
     if ($_POST['submit_save']) {
@@ -41,6 +53,18 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             $selectbrand = $rows_category2['brand'];
 //            echo "<tt><pre> - djflskdjf - ".print_r($rows_category2['brand'], true). "</pre></tt>";
         }
+
+        if (empty($_POST['upload_image'])) {
+            include('actions/upload-image.php');
+            unset($_POST['upload_image']);
+        } else {
+            print "no";
+        }
+        if (empty($_POST['galleryimg'])) {
+            include('actions/upload-gallery.php');
+            unset($_POST['galleryimg']);
+        }
+
         if (isset($_POST['chk_visible'])) { $chk_visible = "1"; }
         else { $chk_visible = "0"; }
 
@@ -57,53 +81,44 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             $_SESSION['message'] = '<p id="form-error">'.implode('<br />', $error).'</p>';
         } else {
 
-            $sth_insert = DB::getStatement('INSERT INTO table_products( title,
-                                                                        price,
-                                                                        brand,
-                                                                        seo_words,
-                                                                        seo_description,
-                                                                        mini_description,
-                                                                        description,
-                                                                        mini_features,
-                                                                        features,
-                                                                        datetime,
-                                                                        new,
-                                                                        leader,
-                                                                        sale,
-                                                                        visible,
-                                                                        type_tovara,
-                                                                        brand_id )
-                                              VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+            $sth_update = DB::getStatement('UPDATE table_products SET  title=?,
+                                                                        price=?,
+                                                                        brand=?,
+                                                                        seo_words=?,
+                                                                        seo_description=?,
+                                                                        mini_description=?,
+                                                                        description=?,
+                                                                        mini_features=?,
+                                                                        features=?,
+                                                                        datetime=?,
+                                                                        new=?,
+                                                                        leader=?,
+                                                                        sale=?,
+                                                                        visible=?,
+                                                                        type_tovara=?,
+                                                                        brand_id=?
+                                                                 WHERE products_id=?');
             $date = date('Y-m-d H:i:s', time());
-            $sth_insert->execute(array( $_POST['form_title'],
-                $_POST['form_price'],
-                $selectbrand,
-                $_POST['form_seo_words'],
-                $_POST['form_seo_description'],
-                $_POST['txt1'],
-                $_POST['txt2'],
-                $_POST['txt3'],
-                $_POST['txt4'],
-                $date,
-                $chk_new,
-                $chk_leader,
-                $chk_sale,
-                $chk_visible,
-                $_POST['form_type'],
-                $_POST['form_category']));
-            $_SESSION['message'] = '<p id="form-success">Товар успешно добавлен!</p>';
-            $id = DB::getId();
+            $sth_update->execute(array( $_POST['form_title'],
+                                        $_POST['form_price'],
+                                        $selectbrand,
+                                        $_POST['form_seo_words'],
+                                        $_POST['form_seo_description'],
+                                        $_POST['txt1'],
+                                        $_POST['txt2'],
+                                        $_POST['txt3'],
+                                        $_POST['txt4'],
+                                        $date,
+                                        $chk_new,
+                                        $chk_leader,
+                                        $chk_sale,
+                                        $chk_visible,
+                                        $_POST['form_type'],
+                                        $_POST['form_category'],
+                                        $id ));
+            $_SESSION['message'] = '<p id="form-success">Товар успешно изменен!</p>';
 //            echo "<tt><pre> - djflskdjf - ".print_r($_POST, true). "</pre></tt>";
-            if (empty($_POST['upload_image'])) {
-                include('actions/upload-image.php');
-                unset($_POST['upload_image']);
-            } else {
-                print "no";
-            }
-            if (empty($_POST['galleryimg'])) {
-                include('actions/upload-gallery.php');
-                unset($_POST['galleryimg']);
-            }
+
         }
     }
 
@@ -131,7 +146,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         ?>
         <div id="block-content">
             <div id="block-parameters">
-                <p id="title-page">Добавление товара</p>
+                <p id="title-page">Изменение товара</p>
             </div>
             <?php
             // вывод сообщений об ошибках
@@ -162,7 +177,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                         $type_notepad = 'selected';
                         break;
                 }
-                echo "<tt><pre>".print_r($row_edit, true). "</pre></tt>";
+//                echo "<tt><pre>".print_r($row_edit, true). "</pre></tt>";
                 ?>
 
                 <form  enctype="multipart/form-data" method="POST">
@@ -183,13 +198,10 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                                 $rows_category = $sth_category->fetchAll();
                                 if(!empty($rows_category)) {
                                     foreach($rows_category as $row_category){
-                                        if($row_edit['brand_id'] == $row_category['id']){
-                                            echo "aa";
-                                            $brand = "selected";
-                                        } else {
-                                            $brand = "";
-                                            echo "no";
-                                        }
+
+                                        if($row_edit['brand_id'] == $row_category['id']){ $brand = "selected"; }
+                                        else { $brand = ""; }
+
                                         echo "<option value='".$row_category['id']."' $brand >$row_edit[type_tovara]-$row_category[brand]</option>";
                                     }
                                 }
@@ -325,6 +337,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                     <h3 class="h3title">Настройки товара</h3>
                     <ul id="checkbox">
                         <?php
+                        $chk1 = $chk2 = $chk3 = $chk4 = '';
                         if ($row_edit['visible'] == 1) $chk1 = "checked";
                         if ($row_edit['new'] == 1) $chk2 = "checked";
                         if ($row_edit['leader'] == 1) $chk3 = "checked";
@@ -336,7 +349,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                         <li><input type="checkbox" name="chk_sale" id="chk_sale" <?php echo $chk4; ?>  /><label for="chk_sale">Товар со скидкой</label></li>
                     </ul>
 
-                    <p align="right"><input id="submit_form" type="submit" name="submit_sav" value="Сохранить"/></p>
+                    <p align="right"><input id="submit_form" type="submit" name="submit_save" value="Сохранить"/></p>
 
 
                 </form>
