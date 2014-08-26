@@ -369,3 +369,41 @@ a.pstr-prev:hover, a.pstr-next:hover {
     padding-left: 10px;
     margin-top:0;
 }
+
+
+/*блок редактирования товара*/
+#baseimg {
+    margin-top: 40px;
+    height: 120px;
+}
+#baseimg img {
+    float: left;
+    margin-left: 15px;
+}
+#baseimg a {
+    width: 16px;
+    height: 16px;
+    background: url('../images/action_delete.png') no-repeat;
+    float: left;
+    cursor: pointer;
+    margin-left: 5px;
+}
+#gallery-img {
+    height: 125px;
+    margin-top: 20px;
+}
+#gallery-img li {
+    float: left;
+    margin-left: 20px;
+}
+#gallery-img img {
+    float: left;
+}
+#gallery-img a {
+    width: 16px;
+    height: 16px;
+    background: url('../images/action_delete.png') no-repeat;
+    float: right;
+    cursor: pointer;
+    margin-left: 5px;
+}
