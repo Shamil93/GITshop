@@ -16,7 +16,7 @@
  * @return string - возвращаем строку
  */
 function pager( $page, $pageLink, $number, $total, $parameters=null ) {
-//    echo "<tt><pre> - djflskdjf - ".print_r($page, true). "</pre></tt>";
+//    echo "<tt><pre> - djflskdjf - ".print_r($number, true). "</pre></tt>";
     $return_page = "";
     // Print reference "Back", if this is not first page
     // Reference to first page

@@ -165,7 +165,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             $rows   = $sth_count2->fetch();
             $total  = $rows['count']; // всего позиций
             $number = $total / $pnumber; // количество ссылок на странице
-            if ($total / $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
+            if ($total % $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
             $number = intval($number); // и приводим к целому числу
 
             if (empty($page) || $page < 0 ) $page = 1; // номер страницы

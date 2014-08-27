@@ -407,3 +407,257 @@ a.pstr-prev:hover, a.pstr-next:hover {
     cursor: pointer;
     margin-left: 5px;
 }
+
+
+/*блок управления отзывами*/
+
+#list-links-sort {
+    background-color: #ffffff;
+    border: 1px solid #a3c0d2;
+    position: absolute;
+    display: none;
+    width: 200px;
+    padding-top: 5px;
+    padding-bottom: 7px;
+    height: auto;
+    z-index: 1;
+}
+#list-links-sort li {
+    margin-top: 3px;
+    margin-left: 10px;
+}
+#list-links-sort a {
+    font: 15px sans-serif;
+    text-decoration: none;
+    color: #000000;
+}
+#list-links-sort a:hover {
+    text-decoration: underline;
+}
+#review-info-count li {
+    float: left;
+    margin-left: 10px;
+    font: 14px sans-serif;
+    margin-top: 12px;
+}
+.block-reviews {
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 170px;
+    height: auto;
+}
+.reviews-comment {
+    clear: both;
+    margin-left: 15px;
+    margin-right: 15px;
+    font: 15px sans-serif;
+}
+.block-title-img {
+    margin-right: 15px;
+    margin-bottom: 10px;
+    width: 190px;
+    min-height: 170px;
+    height: auto;
+    float: left;
+}
+.block-title-img > img {
+    margin-left: 60px;
+}
+.block-title-img > p {
+    text-align: center;
+    margin-top: 0;
+    margin-left: 10px;
+    margin-bottom: 15px;
+    font: 15px sans-serif;
+}
+.plus-minus {
+    margin-bottom: 10px;
+    float: left;
+    width: 530px;
+    min-height: 100px;
+    height: auto;
+}
+.plus-minus > img {
+    position: absolute;
+}
+.plus-minus > p {
+    font: 14px sans-serif;
+    margin-left: 30px;
+    margin-top: 0;
+}
+.author-date {
+    font: 14px arial;
+    margin-left: 20px;
+    color: #525252;
+}
+.links-actions {
+    margin-right: 15px;
+}
+
+
+/*блок управления категориями*/
+
+#cat_products {
+    margin-top: 20px;
+}
+#cat_products li {
+    margin-top: 15px;
+}
+#cat_products label {
+    position: absolute;
+    margin-left: 15px;
+    font: 14px arial;
+    margin-top: 3px;
+}
+#cat_products select {
+    margin-left: 150px;
+    width: 400px;
+    height: 350px;
+}
+#cat_products input {
+    margin-left: 150px;
+    width: 300px;
+    height: 25px;
+}
+#cat_products div {
+    position: absolute;
+    margin-left: 560px;
+    display: inline-block;
+}
+#cat_products a {
+    font: 14px sans-serif;
+    display: block;
+    margin-top: 4px;
+    cursor: pointer;
+    text-decoration: underline;
+}
+#cat_products a:hover {
+    text-decoration: none;
+}
+
+
+/*блок управления клиентами*/
+
+#count-client {
+    position: absolute;
+    font: 15px sans-serif;
+    margin-left: 10px;
+    margin-top: 12px;
+}
+.block-clients {
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 40px;
+    height: auto;
+    cursor: pointer;
+}
+.block-clients > ul {
+    display: none;
+    margin-bottom: 15px;
+}
+.block-clients > ul > li {
+    margin-left: 20px;
+    padding-top: 4px;
+    font: 14px sans-serif;
+}
+.block-clients > ul > li > strong {
+    color: #323232;
+    font-size: 12px;
+}
+.client-datetime {
+    font: 14px sans-serif;
+    margin-left: 10px;
+    color: #767676;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.client-email {
+    font: 14px sans-serif;
+    margin-left: 10px;
+    color: #000000;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.client-links {
+    font: 14px sans-serif;
+    margin-left: 580px;
+    margin-top: -36px;
+    position: absolute;
+}
+.client-links a:hover {
+    text-decoration: none;
+}
+
+
+/*блок управления новостями*/
+
+.block-news {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+}
+.block-news h3 {
+    font: 19px sans-serif;
+    margin: 0;
+}
+.block-news span {
+    font: 12px sans-serif;
+    margin-top: 5px;
+    display: block;
+}
+.block-news p {
+    font: 15px sans-serif;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+#add-style {
+    margin-top: 12px;
+    margin-left: 618px;
+    position: absolute;
+}
+#add-style > a {
+    font: 13px arial;
+    color: #000000;
+    text-decoration: none;
+    border: 1px solid #ffdaca;
+    background-color: #ffe7e7;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+#add-style > a:hover {
+    border: 1px solid #ffbfa4;
+}
+/*стиль для модального окна добавления новости*/
+#news {
+    width: 400px;
+    height: 250px;
+    display: none;
+}
+#block-input {
+    height: 200px;
+}
+#news label {
+    display: block;
+    font: 15px sans-serif;
+    margin-top: 15px;
+}
+#news input {
+    width: 300px;
+    height: 28px;
+    margin-left: 10px;
+    border: 1px solid #e0e0e0;
+}
+#news input#submit_news {
+    width: 100px;
+    height: 30px;
+    margin-right: 10px;
+    border: 1px solid #d7d7d7;
+    background-color: #E8E8E8;
+    cursor: pointer;
+}
+#news textarea {
+    width: 296px;
+    height: 120px;
+    position: absolute;
+    margin-left: 15px;
+    border: 1px solid #e0e0e0;
+}
