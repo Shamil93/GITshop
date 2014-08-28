@@ -126,4 +126,14 @@ $(document).ready(function(){
      */
     $(".news").fancybox();
 
+
+    /**
+     * Обработчик для выделения или снятия чекбоксов в привелегиях
+     */
+    $('#select-all').click(function(){
+         $('.privilege input:checkbox').attr('checked', true);
+    });
+    $('#remove-all').click(function(){
+         $('.privilege input:checkbox').attr('checked', false);
+    });
 });
