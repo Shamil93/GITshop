@@ -735,3 +735,84 @@ a.pstr-prev:hover, a.pstr-next:hover {
     margin-top: 3px;
     margin-left: 25px;
 }
+
+
+/*блок заказов*/
+
+.block-order {
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 40px;
+    height: auto;
+}
+.order-datetime {
+    font: 14px sans-serif;
+    margin-left: 10px;
+    color: #767676;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+.order-number {
+    font: 14px sans-serif;
+    margin-left: 10px;
+    color: #000000;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.order-link {
+    font: 14px sans-serif;
+    position: absolute;
+    margin-left: 580px;
+    margin-top: -36px;
+}
+.order-link > a.green {
+    font: bold 13px sans-serif;
+    color: green;
+}
+.order-link > a:hover {
+    text-decoration: none;
+}
+.green {
+    font: bold 13px sans-serif;
+    color: #008000;
+}
+.red {
+    font: bold 13px sans-serif;
+    color: #d6533c;
+}
+
+
+/*блок просмотра заказа*/
+
+.view-order-link {
+    margin-left: 10px;
+}
+table {
+    margin-top: 20px;
+}
+th {
+    font: bold 14px sans-serif;
+}
+td {
+    border: 1px solid #e0e0e0;
+    font: 15px sans-serif;
+}
+#info-order {
+    margin-top: 15px;
+}
+#info-order li {
+    font: 16px sans-serif;
+    margin-left: 10px;
+    margin-top: 6px;
+}
+#info-order span {
+    color: #5d6e78;
+    font: bold 15px sans-serif;
+}
+#info-order span.green {
+    color: #6ba100;
+    font: bold 15px sans-serif;
+}
+#info-order span.red {
+    color: #e05f5f;
+    font: bold 15px sans-serif;
+}

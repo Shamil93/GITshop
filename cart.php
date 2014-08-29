@@ -36,42 +36,91 @@ switch ($action) {
 
 if (isset($_POST["submitdata"])) {
 
-    if (isset($_POST['order_delivery']) && $_POST['order_delivery'] != '') {
-        $_POST['order_delivery'] = handleData($_POST['order_delivery']);
+    $sth_orders_insert = DB::getStatement('INSERT INTO orders (order_datetime,order_dostavka,
+                                                                 order_fio,order_address,order_phone,
+                                                                 order_note,order_email)
+                                                   VALUES (?,?,?,?,?,?,?)');
+    $date = date('Y-m-d H:i:s', time());
+    if ($_SESSION['auth'] == 'yes_auth'){
+        $sth_orders_insert->execute(array($date,
+                                    $_POST['order_delivery'],
+                                    "{$_SESSION['auth_surname']}.' '.{$_SESSION['auth_name']}.' '.{$_SESSION['auth_patronymic']}",
+                                    $_SESSION['auth_address'],
+                                    $_SESSION['auth_phone'],
+                                    $_POST['order_note'],
+                                    $_SESSION['auth_email']));
+        $_SESSION['order_id'] = DB::getId();
     } else {
-        $error[] = 'Выберите один из способов доставки!';
+        $_SESSION['order_delivery'] = handleData($_POST['order_delivery']);
+        $_SESSION['order_fio'] = handleData($_POST['order_fio']);
+        $_SESSION['order_email'] = handleData($_POST['order_email']);
+        $_SESSION['order_phone'] = handleData($_POST['order_phone']);
+        $_SESSION['order_address'] = handleData($_POST['order_address']);
+        $_SESSION['order_note'] = handleData($_POST['order_note']);
+        $sth_orders_insert->execute(array($date,
+                                $_POST['order_delivery'],
+                                $_POST['order_fio'],
+                                $_POST['order_address'],
+                                $_POST['order_phone'],
+                                $_POST['order_note'],
+                                $_POST['order_email']));
+        $_SESSION['order_id'] = DB::getId();
     }
-    $_POST['order_fio']      = handleData($_POST['order_fio']);
-    $_POST['order_email']    = handleData($_POST['order_email']);
-    $_POST['order_address']  = handleData($_POST['order_address']);
-    $_POST['order_phone']    = handleData($_POST['order_phone']);
 
-    if (strlen($_POST['order_fio']) < 3 || strlen($_POST['order_fio']) > 50) {
-        $error[] = 'Укажите ваши фамилию, имя и отчество от 3 до 50 символов!';
+    $sth_cart_select = DB::getStatement('SELECT * FROM cart WHERE cart_ip=?');
+    $sth_cart_select->execute(array($ip));
+    $rows_cart_select = $sth_cart_select->fetchAll();
+    if (!empty($rows_cart_select)) {
+        foreach ($rows_cart_select as $row_cart_select) {
+            $sth_products_insert = DB::getStatement('INSERT INTO buy_products (buy_id_order,
+                                                                            buy_id_product,
+                                                                            buy_count_product)
+                                                        VALUES (?,?,?)');
+            $sth_products_insert->execute(array($_SESSION['order_id'],
+                                                $row_cart_select['cart_id_product'],
+                                                $row_cart_select['cart_count']));
+
+        }
+
     }
-    if (strlen($_POST['order_email']) == "") {
-        $error[] = 'Укажите E-mail!';
-    } else if(!preg_match('|^[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}$|i',$_POST['order_email'])) {
-        $error[] = 'Укажите корректный E-mail!';
-    }
-    if (strlen($_POST['order_address']) == "") {
-        $error[] = 'Укажите адрес доставки!';
-    }
-    if (strlen($_POST['order_phone']) == "") {
-        $error[] = 'Укажите номер телефона!';
-    }
-    if (count($error)) {
-        $_SESSION['order_msg'] = "<p align='left' id='form-error'>".implode('<br />', $error)."</p>";
-    } else {
-        $_SESSION['order_delivery'] = $_POST['order_delivery'];
-        $_SESSION['order_fio']      = $_POST['order_fio'];
-        $_SESSION['order_email']    = $_POST['order_email'];
-        $_SESSION['order_phone']    = $_POST['order_phone'];
-        $_SESSION['order_address']  = $_POST['order_address'];
-        $_SESSION['order_note']     = $_POST['order_note'];
+
+
+//    if (isset($_POST['order_delivery']) && $_POST['order_delivery'] != '') {
+//        $_POST['order_delivery'] = handleData($_POST['order_delivery']);
+//    } else {
+//        $error[] = 'Выберите один из способов доставки!';
+//    }
+//    $_POST['order_fio']      = handleData($_POST['order_fio']);
+//    $_POST['order_email']    = handleData($_POST['order_email']);
+//    $_POST['order_address']  = handleData($_POST['order_address']);
+//    $_POST['order_phone']    = handleData($_POST['order_phone']);
+//
+//    if (strlen($_POST['order_fio']) < 3 || strlen($_POST['order_fio']) > 50) {
+//        $error[] = 'Укажите ваши фамилию, имя и отчество от 3 до 50 символов!';
+//    }
+//    if (strlen($_POST['order_email']) == "") {
+//        $error[] = 'Укажите E-mail!';
+//    } else if(!preg_match('|^[-a-z0-9_\.]+\@[-a-z0-9_\.]+\.[a-z]{2,6}$|i',$_POST['order_email'])) {
+//        $error[] = 'Укажите корректный E-mail!';
+//    }
+//    if (strlen($_POST['order_address']) == "") {
+//        $error[] = 'Укажите адрес доставки!';
+//    }
+//    if (strlen($_POST['order_phone']) == "") {
+//        $error[] = 'Укажите номер телефона!';
+//    }
+//    if (count($error)) {
+//        $_SESSION['order_msg'] = "<p align='left' id='form-error'>".implode('<br />', $error)."</p>";
+//    } else {
+//        $_SESSION['order_delivery'] = $_POST['order_delivery'];
+//        $_SESSION['order_fio']      = $_POST['order_fio'];
+//        $_SESSION['order_email']    = $_POST['order_email'];
+//        $_SESSION['order_phone']    = $_POST['order_phone'];
+//        $_SESSION['order_address']  = $_POST['order_address'];
+//        $_SESSION['order_note']     = $_POST['order_note'];
 
         header("Location: cart.php?action=completion");
-    }
+//    }
 }
 
 $sth1 = DB::getStatement("SELECT * FROM cart, table_products WHERE cart.cart_ip = '{$ip}' AND table_products.products_id = cart.cart_id_product");
