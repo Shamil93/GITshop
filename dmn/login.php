@@ -20,6 +20,7 @@ if ($login && $pass) {
     $pass = md5($pass);
     $pass = strrev($pass);
     $pass = strtolower('mb03foo51'.$pass.'qj2jjdp9');
+//$pass = '';
 
     $sth = DB::getStatement('SELECT * FROM reg_admin WHERE login = ? AND pass = ?');
     $sth->execute(array($login, $pass));

@@ -716,3 +716,22 @@ a.pstr-prev:hover, a.pstr-next:hover {
 #link-privilege a:hover {
     text-decoration: none;
 }
+
+/*блок администраторов*/
+
+#list-admin li {
+    border-bottom: 1px solid #ededed;
+    padding-bottom: 10px;
+}
+#list-admin h3 {
+    font: bold 15px sans-serif;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+}
+#list-admin p {
+    margin-bottom: 0;
+    font: 13px sans-serif;
+    margin-top: 3px;
+    margin-left: 25px;
+}

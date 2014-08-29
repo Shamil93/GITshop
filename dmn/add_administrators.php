@@ -18,7 +18,9 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     require_once ('include/DB.php');
     require_once ('utility/handleData.php');
 
-    if ($_POST['submit_add']) {
+
+
+    if (isset($_POST['submit_add'])) {
         if (isset($_POST['admin_login'])) {
             $login = handleData($_POST['admin_login']);
         }
@@ -32,16 +34,16 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $error[] = "Укажите логин!";
     }
 
-    if (!$_POST['admin_pass']) $error[] = "Укажите пароль!";
+    if (!isset($_POST['admin_pass'])) $error[] = "Укажите пароль!";
     else $pass = handleData($_POST['admin_pass']);
 
-    if (!$_POST['admin_fio']) $error[] = "Укажите ФИО!";
+    if (!isset($_POST['admin_fio'])) $error[] = "Укажите ФИО!";
     else $fio = handleData($_POST['admin_fio']);
 
-    if (!$_POST['admin_role']) $error[] = "Укажите должность!";
+    if (!isset($_POST['admin_role'])) $error[] = "Укажите должность!";
     else $role = handleData($_POST['admin_role']);
 
-    if (!$_POST['admin_email']) $error[] = "Укажите E-mail!";
+    if (!isset($_POST['admin_email'])) $error[] = "Укажите E-mail!";
     else $email = handleData($_POST['admin_email']);
 
     if (isset($_POST['admin_phone'])) $phone = handleData($_POST['admin_phone']);
@@ -84,6 +86,9 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                                         $_POST['view_admin'] ));
         $_SESSION['message'] = "<p id='form-success'>Пользователь успешно добавлен!</p>";
     }
+
+
+
 ?>
     <!DOCTYPE html>
     <html>
@@ -108,11 +113,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     </head>
     <body>
     <div id="block-body">
-        <?php require_once ('include/block-header.php');
-        $sth_select = DB::getStatement('SELECT COUNT(*) as count FROM reg_user');
-        $sth_select->execute();
-        $row_count = $sth_select->fetch();
-        ?>
+        <?php require_once ('include/block-header.php'); ?>
 
         <div id="block-content">
             <div id="block-parameters">
@@ -134,7 +135,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                     <li><label>Телефон</label><input type="text" name="admin_phone" /></li>
                 </ul>
 
-                <h3 id="title-privilege">Привелегии</h3>
+                <h3 id="title-privilege">Привилегии</h3>
                 <p id="link-privilege"><a id="select-all" >Выбрать все</a> | <a id="remove-all">Снять все</a></p>
 
                 <div class="block-privilege">

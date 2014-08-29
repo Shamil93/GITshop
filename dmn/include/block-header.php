@@ -14,7 +14,7 @@ defined('myeshop') or die('Доступ запрещен!');
         <p id="link-nav"><?php echo $_SESSION['urlpage']; ?></p>
     </div>
     <div id="block-header2">
-        <p align="right"><a href="add_administrators.php" >Администраторы</a> | <a href="?logout">Выход</a></p>
+        <p align="right"><a href="administrators.php" >Администраторы</a> | <a href="?logout">Выход</a></p>
         <p align="right">Вы - <span></span></p>
     </div>
 </div>
