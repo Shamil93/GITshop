@@ -48,12 +48,20 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $action = handleData($_GET['action']);
         switch($action) {
             case 'delete':
-                $sth_delete = DB::getStatement('DELETE FROM table_reviews WHERE reviews_id=?');
-                $sth_delete->execute(array($id));
+                if ($_SESSION['accept_review'] == 1) {
+                    $sth_delete = DB::getStatement('DELETE FROM table_reviews WHERE reviews_id=?');
+                    $sth_delete->execute(array($id));
+                } else {
+                    $msgerror = 'У вас нет прав на удаление отзывов!';
+                }
                 break;
             case 'accept':
-                $sth_update = DB::getStatement('UPDATE table_reviews SET moderat=1  WHERE reviews_id=?');
-                $sth_update->execute(array($id));
+                if ($_SESSION['accept_review'] == 1) {
+                    $sth_update = DB::getStatement('UPDATE table_reviews SET moderat=1  WHERE reviews_id=?');
+                    $sth_update->execute(array($id));
+                } else {
+                    $msgerror = 'У вас нет прав на одобрение отзывов!';
+                }
                 break;
         }
     }
@@ -66,10 +74,12 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         <link href="css/reset.css" rel="stylesheet" type="text/css" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="js/jquery_confirm/jquery.confirm/jquery.confirm.css" rel="stylesheet" type="text/css" />
+        <link href="js/fancyBox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="js/jquery.migrate.js"></script>
         <script type="text/javascript" src="js/admin-script.js"></script>
         <script type="text/javascript" src="js/jquery_confirm/jquery.confirm/jquery.confirm.js"></script>
+        <script type="text/javascript" src="js/fancyBox/source/jquery.fancybox.js" ></script>
     </head>
     <body>
     <div id="block-body">
@@ -104,7 +114,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             </div>
 
             <?php
-
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
     /**
      * Постраничная навигация
      */

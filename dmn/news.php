@@ -19,17 +19,21 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     require_once ('utility/handleData.php');
 
     if (isset($_POST['submit_news'])) {
-        if ($_POST['news_title'] == "" || $_POST['news_text'] == "") {
-            $message = "<p id='form-error'>Заполните все поля!</p>";
-        } else {
-            $data = date('Y-m-d H:i:s', time());
-            $sth_insert = DB::getStatement('INSERT INTO news (title,text,date)
-                                                VALUES(?,?,?)');
-            $sth_insert->execute(array($_POST['news_title'],
-                                        $_POST['news_text'],
-                                        $data));
-            $message = "<p id='form-success'>Новость добавлена!</p>";
+        if ($_SESSION['add_news'] == 1) {
+            if ($_POST['news_title'] == "" || $_POST['news_text'] == "") {
+                $message = "<p id='form-error'>Заполните все поля!</p>";
+            } else {
+                $data = date('Y-m-d H:i:s', time());
+                $sth_insert = DB::getStatement('INSERT INTO news (title,text,date)
+                                                    VALUES(?,?,?)');
+                $sth_insert->execute(array($_POST['news_title'],
+                                            $_POST['news_text'],
+                                            $data));
+                $message = "<p id='form-success'>Новость добавлена!</p>";
 
+            }
+        } else {
+            $msgerror = 'У вас нет прав на добавление новостей!';
         }
     }
 
@@ -40,8 +44,12 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $action = $_GET['action'];
         switch ($action) {
             case 'delete':
-                $sth_delete = DB::getStatement('DELETE FROM news WHERE id = ?');
-                $sth_delete->execute(array($id));
+                if ($_SESSION['delete_news'] == 1) {
+                    $sth_delete = DB::getStatement('DELETE FROM news WHERE id = ?');
+                    $sth_delete->execute(array($id));
+                } else {
+                    $msgerror = 'У вас нет прав на удаление новостей!';
+                }
                 break;
         }
     }
@@ -82,6 +90,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             </div>
 
             <?php
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
             if ($message != "") echo $message;
 
             $sth_news = DB::getStatement('SELECT * FROM news ORDER BY id DESC');

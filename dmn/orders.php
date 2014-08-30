@@ -56,10 +56,13 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         <link href="css/reset.css" rel="stylesheet" type="text/css" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
         <link href="js/jquery_confirm/jquery.confirm/jquery.confirm.css" rel="stylesheet" type="text/css" />
+        <link href="js/fancyBox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
         <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
         <script type="text/javascript" src="js/jquery.migrate.js"></script>
         <script type="text/javascript" src="js/admin-script.js"></script>
         <script type="text/javascript" src="js/jquery_confirm/jquery.confirm/jquery.confirm.js"></script>
+        <script type="text/javascript" src="js/fancyBox/source/jquery.fancybox.js" ></script>
+
     </head>
     <body>
     <div id="block-body">

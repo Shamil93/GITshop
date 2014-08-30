@@ -27,7 +27,45 @@ if ($login && $pass) {
     $row = $sth->fetch();
 //    echo "<tt><pre>".print_r($row)."</pre></tt>";
     if (! empty($row)) {
-        $_SESSION['auth_admin'] = 'yes_auth';
+        $_SESSION['auth_admin']      = 'yes_auth';
+        $_SESSION['auth_admin_login']      = $row['login'];
+
+        // должность
+        $_SESSION['admin_role']      = $row['role'];
+
+        // привилегии на блок заказов
+        $_SESSION['accept_orders']   = $row['accept_orders'];
+        $_SESSION['delete_orders']   = $row['delete_orders'];
+        $_SESSION['view_orders']     = $row['view_orders'];
+
+        // привилегии на блок товаров
+        $_SESSION['delete_tovar']    = $row['delete_tovar'];
+        $_SESSION['add_tovar']       = $row['add_tovar'];
+        $_SESSION['edit_tovar']      = $row['edit_tovar'];
+
+        // привилегии на блок отзывов
+        $_SESSION['accept_reviews']  = $row['accept_reviews'];
+        $_SESSION['delete_reviews']  = $row['delete_reviews'];
+
+        // привилегии на блок клиентов
+        $_SESSION['view_clients']    = $row['view_clients'];
+        $_SESSION['delete_clients']  = $row['delete_clients'];
+
+
+        // привилегии на блок новостей
+        $_SESSION['add_news']        = $row['add_news'];
+        $_SESSION['delete_news']     = $row['delete_news'];
+
+        // привилегии на блок категорий
+        $_SESSION['add_category']    = $row['add_category'];
+        $_SESSION['delete_category'] = $row['delete_category'];
+
+        // привилегии на блок администраторов
+        $_SESSION['view_admin']      = $row['view_admin'];
+
+//        echo '<tt><pre>'.print_r($row, true).'</pre></tt>';
+
+
         header('Location: index.php');
     } else {
         $msgerror = "Неверный Логин и(или) Пароль!";

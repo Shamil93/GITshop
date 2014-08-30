@@ -19,21 +19,25 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     require_once ('utility/handleData.php');
 
     if ($_POST['submit_cat']) {
-        $error = array();
+        if ($_SESSION['add_category']) {
+            $error = array();
 
-        if (!$_POST['cat_type']) $error[] = "Укажите тип товара!";
-        if (!$_POST['cat_brand']) $error[] = "Укажите название категории!";
+            if (!$_POST['cat_type']) $error[] = "Укажите тип товара!";
+            if (!$_POST['cat_brand']) $error[] = "Укажите название категории!";
 
-        if (count($error)) {
-            $_SESSION['message'] = "<p id='form-error'>".implode('<br />', $error)."</p>";
+            if (count($error)) {
+                $_SESSION['message'] = "<p id='form-error'>".implode('<br />', $error)."</p>";
+            } else {
+                $cat_type = handleData($_POST['cat_type']);
+                $cat_brand = handleData($_POST['cat_brand']);
+
+                $sth_insert = DB::getStatement('INSERT INTO category(type,brand)
+                                                VALUES(?,?)');
+                $sth_insert->execute(array($cat_type, $cat_brand));
+                $_SESSION['message'] = "<p id='form-success'>Категория успешно добавлена!</p>";
+            }
         } else {
-            $cat_type = handleData($_POST['cat_type']);
-            $cat_brand = handleData($_POST['cat_brand']);
-
-            $sth_insert = DB::getStatement('INSERT INTO category(type,brand)
-                                            VALUES(?,?)');
-            $sth_insert->execute(array($cat_type, $cat_brand));
-            $_SESSION['message'] = "<p id='form-success'>Категория успешно добавлена!</p>";
+            $msgerror = 'У вас нет прав на добавление категории!';
         }
     }
     ?>
@@ -44,6 +48,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
         <link href="css/reset.css" rel="stylesheet" type="text/css" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="js/fancyBox/source/jquery.fancybox.css" rel="stylesheet" type="text/css" />
         <!--    <link href="TrackBar/jQuery/trackbar.css" rel="stylesheet" type="text/css" />-->
             <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
         <!--    <script type="text/javascript" src="js/jcarouserllite_1.0.1.js"></script>-->
@@ -52,6 +57,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         <!--    <script type="text/javascript" src="js/jquery.TextChange.js"></script>-->
             <script type="text/javascript" src="js/jquery.migrate.js"></script>
             <script type="text/javascript" src="js/admin-script.js"></script>
+        <script type="text/javascript" src="js/fancyBox/source/jquery.fancybox.js" ></script>
     </head>
     <body>
     <div id="block-body">
@@ -61,6 +67,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                 <p id="title-page">Категории</p>
             </div>
             <?php
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
             if(isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
                 unset($_SESSION['message']);
@@ -71,7 +78,10 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                     <li>
                         <label>Категории</label>
                         <div>
-                            <a class="delete-cat">Удалить</a>
+                            <?php if ($_SESSION['delete_category'] == 1) {
+                                        echo '<a class="delete-cat">Удалить</a>';
+                            }
+                            ?>
                         </div>
                         <select name="cat_type" id="cat_type" size="10" >
                             <?php

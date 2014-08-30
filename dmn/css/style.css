@@ -367,7 +367,8 @@ a.pstr-prev:hover, a.pstr-next:hover {
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 10px;
-    margin-top:0;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 
@@ -815,4 +816,45 @@ td {
 #info-order span.red {
     color: #e05f5f;
     font: bold 15px sans-serif;
+}
+
+
+/*общая статистика*/
+
+#general-statistics {
+    margin-top: 15px;
+    margin-left: 160px;
+    width: 400px;
+}
+#general-statistics li {
+    border-bottom: 1px dashed #e0e0e0;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+#general-statistics p {
+    font: 17px sans-serif;
+    margin: 0;
+    padding: 5px;
+}
+#general-statistics span {
+    position: absolute;
+    margin-left: 330px;
+    display: block;
+    margin-top: -18px;
+    font: bold 14px sans-serif;
+}
+#title-statistics {
+    font: 20px sans-serif;
+    margin-left: 15px;
+    text-align: center;
+    text-decoration: underline;
+}
+#left-nav p {
+    font: 14px sans-serif;
+    color: #ffffff;
+    margin-left: 150px;
+    position: absolute;
+    background-color: #a3c0d2;
+    padding: 2px 5px;
+    margin-top: -19px;
 }

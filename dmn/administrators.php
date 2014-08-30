@@ -25,8 +25,12 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $action = $_GET['action'];
         switch ($action) {
             case 'delete':
-                $sth_delete = DB::getStatement('DELETE FROM reg_admin WHERE id = ?');
-                $sth_delete->execute(array($id));
+                if ($_SESSION['auth_admin_login'] == 'admin') {
+                    $sth_delete = DB::getStatement('DELETE FROM reg_admin WHERE id = ?');
+                    $sth_delete->execute(array($id));
+                } else {
+                    $msgerror = 'У вас нет прав на удаление администраторов!';
+                }
                 break;
         }
     }
@@ -63,25 +67,30 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             </div>
 
             <?php
-            $sth_select_administrators = DB::getStatement('SELECT * FROM reg_admin ORDER BY id DESC');
-            $sth_select_administrators->execute();
-            $rows_administrators = $sth_select_administrators->fetchAll();
-            if (!empty($rows_administrators)) {
-                foreach ($rows_administrators as $row_administrators) {
-                    echo '<ul id="list-admin">
-                        <li>
-                            <h3>'.$row_administrators["fio"].'</h3>
-                            <p><strong>Должность</strong> - '.$row_administrators["role"].'</p>
-                            <p><strong>E-mail</strong> - '.$row_administrators["email"].'</p>
-                            <p><strong>Телефон</strong> - '.$row_administrators["phone"].'</p>
-                            <p class="links-actions" align="right">
-                                <a class="green" href="edit_administrators.php?id='.$row_administrators['id'].'">Изменить</a>
-                                <a class="delete" rel="administrators.php?id='.$row_administrators['id'].'&action=delete">Удалить</a>
-                            </p>
-                        </li>
-                    </ul>';
-                }
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
+            if ($_SESSION['view_admin'] == '1') {
+                $sth_select_administrators = DB::getStatement('SELECT * FROM reg_admin ORDER BY id DESC');
+                $sth_select_administrators->execute();
+                $rows_administrators = $sth_select_administrators->fetchAll();
+                if (!empty($rows_administrators)) {
+                    foreach ($rows_administrators as $row_administrators) {
+                        echo '<ul id="list-admin">
+                            <li>
+                                <h3>'.$row_administrators["fio"].'</h3>
+                                <p><strong>Должность</strong> - '.$row_administrators["role"].'</p>
+                                <p><strong>E-mail</strong> - '.$row_administrators["email"].'</p>
+                                <p><strong>Телефон</strong> - '.$row_administrators["phone"].'</p>
+                                <p class="links-actions" align="right">
+                                    <a class="green" href="edit_administrators.php?id='.$row_administrators['id'].'">Изменить</a>
+                                    <a class="delete" rel="administrators.php?id='.$row_administrators['id'].'&action=delete">Удалить</a>
+                                </p>
+                            </li>
+                        </ul>';
+                    }
 
+                }
+            } else {
+                echo '<p id="form-error" align="center">У вас нет прав на просмотр данного раздела!</p>';
             }
             ?>
         </div>

@@ -26,68 +26,73 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['submit_edit'])) {
 
-            $error = array();
+            if ($_SESSION['auth_admin_login'] == 'admin') {
+                $error = array();
 
-            if (isset($_POST['admin_login'])) {
-                $login = handleData($_POST['admin_login']);
+                if (isset($_POST['admin_login'])) {
+                    $login = handleData($_POST['admin_login']);
+                } else {
+                    $error[] = "Укажите логин!";
+                }
+
+                if (isset($_POST['admin_pass'])) {
+                    $pass = handleData($_POST['admin_pass']);
+                    $pass = md5(handleData($pass));
+                    $pass = strrev($pass);
+                    $pass = strtolower("mb03foo51".$pass."qj2jjdp9");
+                    $pass = "pass='".$pass."'";
+                }
+
+                if (!isset($_POST['admin_fio'])) $error[] = "Укажите ФИО!";
+                else $fio = handleData($_POST['admin_fio']);
+
+                if (!isset($_POST['admin_role'])) $error[] = "Укажите должность!";
+                else $role = handleData($_POST['admin_role']);
+
+                if (!isset($_POST['admin_email'])) $error[] = "Укажите E-mail!";
+                else $email = handleData($_POST['admin_email']);
+
+                if (isset($_POST['admin_phone'])) $phone = handleData($_POST['admin_phone']);
+
+                if (count($error)) {
+                    $_SESSION['message'] = "<p id='form-error'>".implode('<br />', $error)."</p>";
+                } else {
+
+
+                    $sth_insert = DB::getStatement("UPDATE reg_admin SET login=?,{$pass},fio=?,role=?,email=?,
+                                                                                 phone=?,view_orders=?,accept_orders=?,
+                                                                                 delete_orders=?,add_tovar=?,edit_tovar=?,
+                                                                                 delete_tovar=?,accept_reviews=?,delete_reviews=?,
+                                                                                 view_clients=?,delete_clients=?,add_news=?,
+                                                                                 delete_news=?,add_category=?,delete_category=?,
+                                                                                 view_admin=?
+                                                                    WHERE id=?");
+                    $sth_insert->execute(array($login,
+                                                $fio,
+                                                $role,
+                                                $email,
+                                                $phone,
+                                                $_POST['view_orders'],
+                                                $_POST['accept_orders'],
+                                                $_POST['delete_orders'],
+                                                $_POST['add_tovar'],
+                                                $_POST['edit_tovar'],
+                                                $_POST['delete_tovar'],
+                                                $_POST['accept_reviews'],
+                                                $_POST['delete_reviews'],
+                                                $_POST['view_clients'],
+                                                $_POST['delete_clients'],
+                                                $_POST['add_news'],
+                                                $_POST['delete_news'],
+                                                $_POST['add_category'],
+                                                $_POST['delete_category'],
+                                                $_POST['view_admin'],
+                                                $id));
+                    $_SESSION['message'] = "<p id='form-success'>Пользователь успешно изменен!</p>";
+                }
+
             } else {
-                $error[] = "Укажите логин!";
-            }
-
-            if (isset($_POST['admin_pass'])) {
-                $pass = handleData($_POST['admin_pass']);
-                $pass = md5(handleData($pass));
-                $pass = strrev($pass);
-                $pass = strtolower("mb03foo51".$pass."qj2jjdp9");
-                $pass = "pass='".$pass."'";
-            }
-
-            if (!isset($_POST['admin_fio'])) $error[] = "Укажите ФИО!";
-            else $fio = handleData($_POST['admin_fio']);
-
-            if (!isset($_POST['admin_role'])) $error[] = "Укажите должность!";
-            else $role = handleData($_POST['admin_role']);
-
-            if (!isset($_POST['admin_email'])) $error[] = "Укажите E-mail!";
-            else $email = handleData($_POST['admin_email']);
-
-            if (isset($_POST['admin_phone'])) $phone = handleData($_POST['admin_phone']);
-
-            if (count($error)) {
-                $_SESSION['message'] = "<p id='form-error'>".implode('<br />', $error)."</p>";
-            } else {
-
-
-                $sth_insert = DB::getStatement("UPDATE reg_admin SET login=?,{$pass},fio=?,role=?,email=?,
-                                                                             phone=?,view_orders=?,accept_orders=?,
-                                                                             delete_orders=?,add_tovar=?,edit_tovar=?,
-                                                                             delete_tovar=?,accept_reviews=?,delete_reviews=?,
-                                                                             view_clients=?,delete_clients=?,add_news=?,
-                                                                             delete_news=?,add_category=?,delete_category=?,
-                                                                             view_admin=?
-                                                                WHERE id=?");
-                $sth_insert->execute(array($login,
-                                            $fio,
-                                            $role,
-                                            $email,
-                                            $phone,
-                                            $_POST['view_orders'],
-                                            $_POST['accept_orders'],
-                                            $_POST['delete_orders'],
-                                            $_POST['add_tovar'],
-                                            $_POST['edit_tovar'],
-                                            $_POST['delete_tovar'],
-                                            $_POST['accept_reviews'],
-                                            $_POST['delete_reviews'],
-                                            $_POST['view_clients'],
-                                            $_POST['delete_clients'],
-                                            $_POST['add_news'],
-                                            $_POST['delete_news'],
-                                            $_POST['add_category'],
-                                            $_POST['delete_category'],
-                                            $_POST['view_admin'],
-                                            $id));
-                $_SESSION['message'] = "<p id='form-success'>Пользователь успешно изменен!</p>";
+                $msgerror = 'У вас нет прав на изменение администраторов!';
             }
         }
     }
@@ -124,6 +129,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                 <p id="title-page">Изменение администратора</p>
             </div>
             <?php
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
             if(isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
                 unset($_SESSION['message']);

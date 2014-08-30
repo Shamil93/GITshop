@@ -25,8 +25,12 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $action = $_GET['action'];
         switch ($action) {
             case 'delete':
-                $sth_delete = DB::getStatement('DELETE FROM reg_user WHERE id = ?');
-                $sth_delete->execute(array($id));
+                if ($_SESSION['delete_client'] == 1) {
+                    $sth_delete = DB::getStatement('DELETE FROM reg_user WHERE id = ?');
+                    $sth_delete->execute(array($id));
+                } else {
+                    $msgerror = 'У вас нет прав на удаление клиентов!';
+                }
                 break;
         }
     }
@@ -66,72 +70,79 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
             </div>
 
             <?php
-            /**
-             * Постраничная навигация
-             */
-            $pnumber = 8; // количество выводимых предметов
-            $pageLink = 5; // количество ссылок слева и справа
-            if( isset($_GET['page'])) {
-                $page = intval($_GET['page']); // номер страницы
-            } else {
-                $page = 0;
-            }
-            $page   = intval($page);
-//            $sth_count2    = DB::getStatement("SELECT COUNT(*) as count FROM table_products $cat");
-//            $sth_count2->execute();
-//            $rows   = $sth_count2->fetch();
-            $total  = $row_count['count']; // всего позиций
-            $number = $total / $pnumber; // количество ссылок на странице
-            if ($total % $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
-            $number = intval($number); // и приводим к целому числу
+            // echo "<tt><pre>".print_r($_SESSION, true)."</pre></tt>";
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
+           if ($_SESSION['view_clients'] == 1) {
 
-            if (empty($page) || $page < 0 ) $page = 1; // номер страницы
-            if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
+                /**
+                 * Постраничная навигация
+                 */
+                $pnumber = 8; // количество выводимых предметов
+                $pageLink = 5; // количество ссылок слева и справа
+                if( isset($_GET['page'])) {
+                    $page = intval($_GET['page']); // номер страницы
+                } else {
+                    $page = 0;
+                }
+                $page   = intval($page);
+    //            $sth_count2    = DB::getStatement("SELECT COUNT(*) as count FROM table_products $cat");
+    //            $sth_count2->execute();
+    //            $rows   = $sth_count2->fetch();
+                $total  = $row_count['count']; // всего позиций
+                $number = $total / $pnumber; // количество ссылок на странице
+                if ($total % $pnumber != 0 ) $number++; // если не равно 0, то добавляем 1
+                $number = intval($number); // и приводим к целому числу
 
-            $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+                if (empty($page) || $page < 0 ) $page = 1; // номер страницы
+                if ($page > $number) $page = $number; // если страница больше общего числа, то она и есть максимальная
 
-            $queryStart = " LIMIT $start, $pnumber";
-            if ($total > 0) {
+                $start = $page * $pnumber - $pnumber; // с какого id выводить товар
+
+                $queryStart = " LIMIT $start, $pnumber";
+                if ($total > 0) {
 
 
-                $sth_select = DB::getStatement("SELECT * FROM reg_user  ORDER BY id DESC $queryStart");
-                $sth_select->execute();
-                $rows = $sth_select->fetchAll();
-                foreach ($rows as $row):
-                    if (isset($row['image']) && file_exists('../uploads_images/'.$row['image'])) {
-                        $img_path   = '../uploads_images/'.$row['image'];
-                        $max_width  = 160;
-                        $max_height = 160;
-                        list($width, $height) = getimagesize($img_path);
-//                        echo "<tt><pre>".print_r($width, true). "</pre></tt>";
-                        $ratioh = $max_height / $height;
-                        $ratiow = $max_width / $width;
-                        $ratio  = min($ratioh, $ratiow);
-                        $width  = intval($ratio * $width);
-                        $height = intval($ratio * $height);
-                    } else {
-                        $img_path = "images/no-image-90.png";
-                        $width    = 90;
-                        $height   = 164;
-                    }
+                    $sth_select = DB::getStatement("SELECT * FROM reg_user  ORDER BY id DESC $queryStart");
+                    $sth_select->execute();
+                    $rows = $sth_select->fetchAll();
+                    foreach ($rows as $row):
+                        if (isset($row['image']) && file_exists('../uploads_images/'.$row['image'])) {
+                            $img_path   = '../uploads_images/'.$row['image'];
+                            $max_width  = 160;
+                            $max_height = 160;
+                            list($width, $height) = getimagesize($img_path);
+    //                        echo "<tt><pre>".print_r($width, true). "</pre></tt>";
+                            $ratioh = $max_height / $height;
+                            $ratiow = $max_width / $width;
+                            $ratio  = min($ratioh, $ratiow);
+                            $width  = intval($ratio * $width);
+                            $height = intval($ratio * $height);
+                        } else {
+                            $img_path = "images/no-image-90.png";
+                            $width    = 90;
+                            $height   = 164;
+                        }
 
-                    echo '<div class="block-clients">
-                            <p class="client-datetime">'.$row['datetime'].'</p>
-                            <p class="client-email"><strong>'.$row['email'].'</strong></p>
-                            <p class="client-links"><a class="delete" rel="clients.php?id='.$row["id"].'&action=delete" >Удалить</a></p>
+                        echo '<div class="block-clients">
+                                <p class="client-datetime">'.$row['datetime'].'</p>
+                                <p class="client-email"><strong>'.$row['email'].'</strong></p>
+                                <p class="client-links"><a class="delete" rel="clients.php?id='.$row["id"].'&action=delete" >Удалить</a></p>
 
-                            <ul>
-                                <li><strong>E-Mail</strong> - '.$row['email'].'</li>
-                                <li><strong>ФИО</strong> - '.$row['surname'].' '.$row['name'].' '.$row['patronymic'].'</li>
-                                <li><strong>Адрес</strong> - '.$row['address'].'</li>
-                                <li><strong>Телефон</strong> - '.$row['phone'].'</li>
-                                <li><strong>IP</strong> - '.$row['ip'].'</li>
-                                <li><strong>Дата регистрации</strong> - '.$row['datetime'].'</li>
-                            </ul>
-                         </div>';
+                                <ul>
+                                    <li><strong>E-Mail</strong> - '.$row['email'].'</li>
+                                    <li><strong>ФИО</strong> - '.$row['surname'].' '.$row['name'].' '.$row['patronymic'].'</li>
+                                    <li><strong>Адрес</strong> - '.$row['address'].'</li>
+                                    <li><strong>Телефон</strong> - '.$row['phone'].'</li>
+                                    <li><strong>IP</strong> - '.$row['ip'].'</li>
+                                    <li><strong>Дата регистрации</strong> - '.$row['datetime'].'</li>
+                                </ul>
+                             </div>';
 
-                endforeach;
-            }
+                    endforeach;
+                }
+           } else {
+               echo '<p id="form-error" align="center">У вас нет прав на просмотр данного раздела!</p>';
+           }
             ?>
 
         </div>

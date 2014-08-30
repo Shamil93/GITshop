@@ -28,97 +28,106 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
         $action = handleData($_GET['action']);
         switch ($action) {
             case 'delete':
-                if (file_exists("../uploads_images/".$_GET['img'])) {
-                    unlink("../uploads_images/".$_GET['img']);
+                if ($_SESSION['delete_tovar'] == '1') {
+                    if (file_exists("../uploads_images/".$_GET['img'])) {
+                        unlink("../uploads_images/".$_GET['img']);
+                    }
+                } else {
+                    $msgerror = 'У вас нет прав на удаление изображения товара!';
                 }
                 break;
         }
     }
 
     if ($_POST['submit_save']) {
-        $error = array();
 
-        if (!isset($_POST['form_title'])) {
-            $error[] = "Укажите название товара!";
-        }
-        if (!isset($_POST['form_price'])) {
-            $error[] = "Укажите цену!";
-        }
-        if (!isset($_POST['form_category'])) {
-            $error[] = "Укажите категорию!";
+        if ($_SESSION['edit_tovar'] == '1') {
+            $error = array();
+
+            if (!isset($_POST['form_title'])) {
+                $error[] = "Укажите название товара!";
+            }
+            if (!isset($_POST['form_price'])) {
+                $error[] = "Укажите цену!";
+            }
+            if (!isset($_POST['form_category'])) {
+                $error[] = "Укажите категорию!";
+            } else {
+                $sth_category2 = DB::getStatement('SELECT * FROM category WHERE id=?');
+                $sth_category2->execute(array($_POST['form_category']));
+                $rows_category2 = $sth_category2->fetch();
+                $selectbrand = $rows_category2['brand'];
+    //            echo "<tt><pre> - djflskdjf - ".print_r($rows_category2['brand'], true). "</pre></tt>";
+            }
+
+            if (empty($_POST['upload_image'])) {
+                include('actions/upload-image.php');
+                unset($_POST['upload_image']);
+            } else {
+                print "no";
+            }
+            if (empty($_POST['galleryimg'])) {
+                include('actions/upload-gallery.php');
+                unset($_POST['galleryimg']);
+            }
+
+            if (isset($_POST['chk_visible'])) { $chk_visible = "1"; }
+            else { $chk_visible = "0"; }
+
+            if (isset($_POST['chk_new'])) { $chk_new = "1"; }
+            else { $chk_new = "0"; }
+
+            if (isset($_POST['chk_leader'])) { $chk_leader = "1"; }
+            else { $chk_leader = "0"; }
+
+            if (isset($_POST['chk_sale'])) { $chk_sale = "1"; }
+            else { $chk_sale = "0"; }
+
+            if (!empty($error)) {
+                $_SESSION['message'] = '<p id="form-error">'.implode('<br />', $error).'</p>';
+            } else {
+
+                $sth_update = DB::getStatement('UPDATE table_products SET  title=?,
+                                                                            price=?,
+                                                                            brand=?,
+                                                                            seo_words=?,
+                                                                            seo_description=?,
+                                                                            mini_description=?,
+                                                                            description=?,
+                                                                            mini_features=?,
+                                                                            features=?,
+                                                                            datetime=?,
+                                                                            new=?,
+                                                                            leader=?,
+                                                                            sale=?,
+                                                                            visible=?,
+                                                                            type_tovara=?,
+                                                                            brand_id=?
+                                                                     WHERE products_id=?');
+                $date = date('Y-m-d H:i:s', time());
+                $sth_update->execute(array( $_POST['form_title'],
+                                            $_POST['form_price'],
+                                            $selectbrand,
+                                            $_POST['form_seo_words'],
+                                            $_POST['form_seo_description'],
+                                            $_POST['txt1'],
+                                            $_POST['txt2'],
+                                            $_POST['txt3'],
+                                            $_POST['txt4'],
+                                            $date,
+                                            $chk_new,
+                                            $chk_leader,
+                                            $chk_sale,
+                                            $chk_visible,
+                                            $_POST['form_type'],
+                                            $_POST['form_category'],
+                                            $id ));
+                $_SESSION['message'] = '<p id="form-success">Товар успешно изменен!</p>';
+    //            echo "<tt><pre> - djflskdjf - ".print_r($_POST, true). "</pre></tt>";
+
+            }
         } else {
-            $sth_category2 = DB::getStatement('SELECT * FROM category WHERE id=?');
-            $sth_category2->execute(array($_POST['form_category']));
-            $rows_category2 = $sth_category2->fetch();
-            $selectbrand = $rows_category2['brand'];
-//            echo "<tt><pre> - djflskdjf - ".print_r($rows_category2['brand'], true). "</pre></tt>";
-        }
-
-        if (empty($_POST['upload_image'])) {
-            include('actions/upload-image.php');
-            unset($_POST['upload_image']);
-        } else {
-            print "no";
-        }
-        if (empty($_POST['galleryimg'])) {
-            include('actions/upload-gallery.php');
-            unset($_POST['galleryimg']);
-        }
-
-        if (isset($_POST['chk_visible'])) { $chk_visible = "1"; }
-        else { $chk_visible = "0"; }
-
-        if (isset($_POST['chk_new'])) { $chk_new = "1"; }
-        else { $chk_new = "0"; }
-
-        if (isset($_POST['chk_leader'])) { $chk_leader = "1"; }
-        else { $chk_leader = "0"; }
-
-        if (isset($_POST['chk_sale'])) { $chk_sale = "1"; }
-        else { $chk_sale = "0"; }
-
-        if (!empty($error)) {
-            $_SESSION['message'] = '<p id="form-error">'.implode('<br />', $error).'</p>';
-        } else {
-
-            $sth_update = DB::getStatement('UPDATE table_products SET  title=?,
-                                                                        price=?,
-                                                                        brand=?,
-                                                                        seo_words=?,
-                                                                        seo_description=?,
-                                                                        mini_description=?,
-                                                                        description=?,
-                                                                        mini_features=?,
-                                                                        features=?,
-                                                                        datetime=?,
-                                                                        new=?,
-                                                                        leader=?,
-                                                                        sale=?,
-                                                                        visible=?,
-                                                                        type_tovara=?,
-                                                                        brand_id=?
-                                                                 WHERE products_id=?');
-            $date = date('Y-m-d H:i:s', time());
-            $sth_update->execute(array( $_POST['form_title'],
-                                        $_POST['form_price'],
-                                        $selectbrand,
-                                        $_POST['form_seo_words'],
-                                        $_POST['form_seo_description'],
-                                        $_POST['txt1'],
-                                        $_POST['txt2'],
-                                        $_POST['txt3'],
-                                        $_POST['txt4'],
-                                        $date,
-                                        $chk_new,
-                                        $chk_leader,
-                                        $chk_sale,
-                                        $chk_visible,
-                                        $_POST['form_type'],
-                                        $_POST['form_category'],
-                                        $id ));
-            $_SESSION['message'] = '<p id="form-success">Товар успешно изменен!</p>';
-//            echo "<tt><pre> - djflskdjf - ".print_r($_POST, true). "</pre></tt>";
-
+            $msgerror = 'У вас нет прав на редактирование товара!';
         }
     }
 
@@ -149,6 +158,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                 <p id="title-page">Изменение товара</p>
             </div>
             <?php
+            if (isset($msgerror)) echo '<p id="form-error" align="center">'.$msgerror.'</p>';
             // вывод сообщений об ошибках
             if (isset($_SESSION['message'])) {
                 echo $_SESSION['message'];
@@ -326,9 +336,11 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
                         }
 
                         echo '<li id="del'.$row_edit_gallery['id'].'">
-                                    <img src="'.$img_path.'" width="'.$width.'" height="'.$height.'" title="'.$row_edit_gallery['image'].'" />
-                                    <a class="del-img" img_id="'.$row_edit_gallery['id'].'" ></a>
-                                </li>';
+                                    <img src="'.$img_path.'" width="'.$width.'" height="'.$height.'" title="'.$row_edit_gallery['image'].'" />';
+                        if ($_SESSION['edit_tovar'] == 1) {
+                            echo '<a class="del-img" img_id="'.$row_edit_gallery['id'].'" ></a>';
+                        }
+                        echo '</li>';
                     }
 
                     ?>
