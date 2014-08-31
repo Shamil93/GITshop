@@ -34,7 +34,7 @@ switch ($action) {
         break;
 }
 
-if (isset($_POST["submitdata"])) {
+if (isset($_POST["submitdata"]) || isset($_POST['pay now'])) {
 
     $sth_orders_insert = DB::getStatement('INSERT INTO orders (order_datetime,order_dostavka,
                                                                  order_fio,order_address,order_phone,
@@ -49,15 +49,18 @@ if (isset($_POST["submitdata"])) {
                                     $_SESSION['auth_phone'],
                                     $_POST['order_note'],
                                     $_SESSION['auth_email']));
-        $_SESSION['order_note'] = handleData($_POST['order_note']);
+        $_SESSION['order_delivery'] = $_POST['order_delivery'];
+        $_SESSION['order_payment'] = $_POST['order_payment'];
+        $_SESSION['order_note'] = $_POST['order_note'];
         $_SESSION['order_id'] = DB::getId();
     } else {
-        $_SESSION['order_delivery'] = handleData($_POST['order_delivery']);
-        $_SESSION['order_fio'] = handleData($_POST['order_fio']);
+        $_SESSION['order_delivery'] = $_POST['order_delivery'];
+        $_SESSION['order_payment'] = $_POST['order_payment'];
+        $_SESSION['order_fio'] = $_POST['order_fio'];
         $_SESSION['order_email'] = handleData($_POST['order_email']);
         $_SESSION['order_phone'] = handleData($_POST['order_phone']);
-        $_SESSION['order_address'] = handleData($_POST['order_address']);
-        $_SESSION['order_note'] = handleData($_POST['order_note']);
+        $_SESSION['order_address'] = $_POST['order_address'];
+        $_SESSION['order_note'] = $_POST['order_note'];
         $sth_orders_insert->execute(array($date,
                                 $_POST['order_delivery'],
                                 $_POST['order_fio'],
@@ -222,12 +225,8 @@ try {
                     }
 
                     break;
+                // переход к оплате
                 case 'confirm':
-
-
-
-
-
                     echo '<div id="block-step">
                         <div id="name-step">
                             <ul>
@@ -252,6 +251,15 @@ try {
                     if ($orderDelivery == "Курьером") $chck2 = "checked";
                     if ($orderDelivery == "Самовывоз") $chck3 = "checked";
 
+                    if (isset($_SESSION['order_payment']) && $_SESSION['order_payment'] != '') {
+                        $orderPayment = $_SESSION['order_payment'];
+                    } else {
+                        $orderPayment = $_POST['order_payment'];
+                    }
+                    $chk4 = $chk5 = '';
+                    if ($orderPayment == 'Другие виды оплаты') $chk4 = "checked";
+                    if ($orderPayment == 'PayPal') $chk4 = "checked";
+
                     echo '<h3 class="title-h3">Способы доставки: </h3>';
 
                     if (isset($_SESSION["order_msg"]) && $_SESSION["order_msg"]) {
@@ -273,6 +281,18 @@ try {
                             <label class="label_delivery" for="order_delivery3">Самовывоз</label>
                         </li>
                     </ul>
+                    <h3 class="title-h3">Способ оплаты: </h3>
+                    <ul id="info-radio">
+                        <li>
+                            <input type="radio" name="order_payment" class="order_payment" id="order_payment1" value="Другие виды оплаты" ' .$chck1.' />
+                            <label class="label_payment" for="order_payment1">Другие виды оплаты</label>
+                        </li>
+                        <li>
+                            <input type="radio" name="order_payment" class="order_payment" id="order_payment2" value="PayPal"  '.$chck2.' />
+                            <label class="label_payment" for="order_payment2">PayPal</label>
+                        </li>
+                    </ul>
+
                     <h3 class="title-h3">Информация для доставки: </h3>
                     <ul id="info-order">';
                     if ($_SESSION['auth'] != 'yes_auth') {
@@ -327,6 +347,7 @@ try {
                         <p>Шаг 3 из 3</p>
                     </div>
                     <h3>Конечная информация: </h3>';
+
                     if ($_SESSION['auth'] == 'yes_auth') { // если пользователь авторизован
                         echo '<ul id="list-info">
                                 <li><strong>Способ доставки: </strong>'.$_SESSION['order_delivery'].'</li>
@@ -346,17 +367,68 @@ try {
                                 <li><strong>Примечание: </strong>'.$_SESSION['order_note'].'</li>
                         </ul>';
                     }
-                    echo '<h2 class="itog-price" align="right">Итого: <strong>'.$itogPriceCart.'</strong> руб</h2>
-                    <form method="post" action="https://www.walletone.com/checkout/default.aspx" accept-charset="UTF-8">
-                      <input type="hidden" name="WMI_MERCHANT_ID"    value="169513168489"/>
-                      <input type="hidden"  name="WMI_PAYMENT_AMOUNT" value="0"/>
-                      <input type="hidden"  name="WMI_CURRENCY_ID"    value="643"/>
-                      <input type="hidden"  name="WMI_PAYMENT_NO"    value="'.$_SESSION["order_id"].'"/>
-                      <input type="hidden"  name="WMI_DESCRIPTION"    value="Оплата демонстрационного заказа"/>
-                      <input type="hidden"  name="WMI_SUCCESS_URL"    value="http://zhalnin.tmweb.ru"/>
-                      <input type="hidden"  name="WMI_FAIL_URL"       value="http://zhalnin.tmweb.ru"/>
-                      <input type="submit"/>
-                    </form>';
+                    if ($_SESSION['order_payment'] == 'PayPal') {
+                        ?>
+                        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+                                <input type="hidden" name="cmd" value="_cart" >
+                                <input type="hidden" name="upload" value="1" >
+                                <input type="hidden" name="business" value="zhalninpal-facilitator@me.com" >
+
+                            <?php
+                            $sth = DB::getStatement("SELECT * FROM cart, table_products WHERE cart.cart_ip = '{$ip}' AND table_products.products_id = cart.cart_id_product");
+                            $sth->execute();
+                            $rows = $sth->fetchAll();
+                            if (! empty($rows)) {
+                                $allPrice = 0;
+                                $i = 1;
+                                $sum_subtotal = 0;
+                                $sum_shipping = 0;
+//                                echo "<tt><pre>".print_r($rows , true)."</pre></tt>";
+                                foreach ($rows as $row) {
+                                    $int = $row['cart_price'] * $row['cart_count'];
+                                    $allPrice = $allPrice + $int;
+
+                            ?>
+                                <input type="hidden" name="item_name_<?php echo $i; ?>" value="<?php echo $row['title']; ?>" >
+                                <input type="hidden" name="item_number_<?php echo $i; ?>" value="<?php echo $_SESSION['order_id']; ?>" >
+                                <input type="hidden" name="amount_<?php echo $i; ?>" value="<?php echo $row['price']; ?>" >
+                                <input type="hidden" name="quantity_<?php echo $i; ?>" value="<?php echo $row['cart_count']; ?>" >
+
+                            <?php
+                                $i++;
+
+                                }
+                                if( $allPrice <= 10 ) {
+                                    $sum_shipping = $allPrice;
+                                } else {
+                                    $sum_shipping = $allPrice / 100  * 4.02;
+                                }
+                            }
+                            ?>
+
+                                <input type="hidden" name="currency_code" value="RUB" >
+                                <input type="hidden" name="lc" value="RUS" >
+                                <input type="hidden" name="rm" value="2" >
+                                <input type="hidden" name="shipping_1" value="<?php echo $sum_shipping; ?>" >
+                                <input type="hidden" name="return" value="http://zhalnin.tmweb.ru/" >
+                                <input type="hidden" name="cancel_return" value="http://zhalnin.tmweb.ru/" >
+                                <input type="hidden" name="notify_url" value="http://zhalnin.tmweb.ru/order/paypal.php" >
+                            <input type="image" src="images/paypal/paypal_mini.png" name="pay now" value="pay" class="pay-button" width="150" height="37" />
+                            </form>
+                        <?php
+                    } else {
+                        echo '<h2 class="itog-price" align="right">Итого: <strong>'.$itogPriceCart.'</strong> руб</h2>
+                        <form method="post" action="https://www.walletone.com/checkout/default.aspx" accept-charset="UTF-8">
+                          <input type="hidden" name="WMI_MERCHANT_ID"    value="169513168489"/>
+                          <input type="hidden"  name="WMI_PAYMENT_AMOUNT" value="0"/>
+                          <input type="hidden"  name="WMI_CURRENCY_ID"    value="643"/>
+                          <input type="hidden"  name="WMI_PAYMENT_NO"    value="'.$_SESSION["order_id"].'"/>
+                          <input type="hidden"  name="WMI_DESCRIPTION"    value="Оплата демонстрационного заказа"/>
+                          <input type="hidden"  name="WMI_SUCCESS_URL"    value="http://zhalnin.tmweb.ru"/>
+                          <input type="hidden"  name="WMI_FAIL_URL"       value="http://zhalnin.tmweb.ru"/>
+                          <p align="right" ><input type="submit" name="submitdata" id="confirm-button-next" value="Оплатить" /></p>
+                        </form>';
+                    }
                     break;
                 default:
                     // блок навигации

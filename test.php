@@ -1,12 +1,32 @@
 <?php
+require_once('include/DB.php');
 
-//include('utility/handleData.php');
-//$pass  = strtolower(handleData($_POST['pass']));
-$pass = 123;
-$pass  = strrev(md5($pass));
-//$pass  = '9nm2rv8q'.$pass.'2yo6z';
+function paymentAmountCorrect() {
 
-$pass_admin  = 'mb03foo51'.$pass.'qj2jjdp9';
-echo $pass_admin;
+    $amount = 0.00;
 
+    for( $i=1; $i <= 2; $i++ ) {
+        $sth = DB::getStatement( 'SELECT table_products.price
+                                FROM table_products, buy_products
+                                WHERE buy_products.buy_id_order=?
+                                AND table_products.products_id = buy_products.buy_id_product' );
+
+        $sth->execute( array( intval( 14 ) ) );
+        if( $sth ) {
+            $item_price = $sth->fetch();
+            echo "<tt><pre>".print_r($item_price, true)."</pre></tt>";
+            $amount += $item_price['price'] * 1;
+        }
+    }
+            echo "<tt><pre>".print_r($amount, true)."</pre></tt>";
+    if( ( $amount + 1 ) == 1 ) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+//paymentAmountCorrect();
+echo 33980.00 == 33980;
 ?>
