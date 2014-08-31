@@ -148,9 +148,9 @@ $.trackbar.hotSearch.prototype = {
 			// HTML Write
 			this.jq.html('<table' + (this.width ? ' style="width:'+this.width+'px;"' : '') + 'class="trackbar" onSelectStart="return false;">\
 				<tr>\
-					<td class="l"><div id="leftBlock"><span></span><span class="limit"></span><img id="leftBegun" ondragstart="return false;" src="Trackbar/jQuery/imgtrackbar/b_l.gif" width="5" height="17" alt="" /></div></td>\
+					<td class="l"><div id="leftBlock"><span></span><span class="limit"></span><img id="leftBegun" ondragstart="return false;" src="TrackBar/imgtrackbar/b_l.gif" width="5" height="17" alt="" /></div></td>\
 					<td class="c" id="centerBlock"></td>\
-					<td class="r"><div id="rightBlock"><span></span><span class="limit"></span><img id="rightBegun" ondragstart="return false;" src="Trackbar/jQuery/imgtrackbar/b_r.gif" width="5" height="17" alt="" /></div></td>\
+					<td class="r"><div id="rightBlock"><span></span><span class="limit"></span><img id="rightBegun" ondragstart="return false;" src="TrackBar/imgtrackbar/b_r.gif" width="5" height="17" alt="" /></div></td>\
 				</tr>\
 			</table>');
 			// Is all right?

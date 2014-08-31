@@ -26,7 +26,7 @@ if ($_SESSION['auth_admin'] == 'yes_auth') {
 
             if (isset($_POST['admin_login'])) {
                 $login = handleData($_POST['admin_login']);
-                $sth_select_admin = DB::getStatement('SELECT login FROM reg_user WHERE login=?');
+                $sth_select_admin = DB::getStatement('SELECT login FROM reg_admin WHERE login=?');
                 $sth_select_admin->execute(array($login));
                 $row_admin = $sth_select_admin->fetch();
                 if (!empty($row_admin)) {

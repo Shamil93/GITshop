@@ -727,7 +727,7 @@
 .pstrnav a {
     display: block;
     text-decoration: none;
-    background: url('../images/nav-block-norm.png');
+    background: url('../images/nav-block-norm.png') 0 1px;
     font: bold 14px sans-serif;
     text-align: center;
     color: #000000;
@@ -1343,7 +1343,8 @@
 }
 .title-cart {
     width: 400px;
-    height: 125px;
+    /*height: 125px;*/
+    height: auto;
 }
 .count-cart {
     width: 55px;
@@ -1408,6 +1409,7 @@
 }
 .itog-price {
     font: 20px sans-serif;
+    margin-top: 30px;
 }
 .itog-price > strong {
     font: 18px sans-serif;

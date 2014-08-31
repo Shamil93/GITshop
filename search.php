@@ -19,11 +19,11 @@ include "include/auth-cookie.php";
 try {
     // получаем переменную с поиском
     if (isset( $_GET['q'])) {
-        $search = handleData($_GET['q']);
-        $searchLike = "LIKE '%".$search."%'";
+        $search = $_GET['q'];
+        $searchl = "LIKE '%".$search."%'";
         $searchQ = "&q=".$search;
     } else {
-        $searchLike = '';
+        $searchl= '';
         $searchQ = "&q=";
     }
 
@@ -113,9 +113,11 @@ try {
                 }
 
 //                ( LCASE( {$this->tableName[1]}.name ) RLIKE '".$qLine."')
-                $sth    = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE title $searchLike AND visible=?");
-                $sth->execute(array(1));
-                $rows   = $sth->fetch();
+                $sth_count    = DB::getStatement("SELECT COUNT(*) as count FROM table_products WHERE title $searchl AND visible=?");
+
+//        echo "<tt><pre> 1 - ".print_r($sth_count, true)."</pre></tt>";
+                $sth_count->execute(array(1));
+                $rows   = $sth_count->fetch();
                 $total  = $rows['count']; // всего позиций
                 if ($total > 0) {
 
@@ -153,9 +155,13 @@ try {
                     $start = $page * $pnumber - $pnumber; // с какого id выводить товар
 
                     $queryStart = " LIMIT $start, $pnumber";
-                    $sth = DB::getStatement("SELECT * FROM table_products WHERE title $searchLike AND visible=? ORDER BY $sorting $queryStart");
-                    $sth->execute(array(1));
-                    $rows = $sth->fetchAll();
+                    $sth_select = DB::getStatement("SELECT * FROM table_products WHERE title $searchl AND visible=? ORDER BY $sorting $queryStart");
+//                    $sth = DB::getStatement("SELECT * FROM table_products WHERE title
+//                                                           ( LCASE( table_products.title ) RLIKE '".$searchLike."')
+//                                                            AND visible=? ORDER BY $sorting $queryStart");
+//                    echo "<tt><pre>".print_r($sth, true)."</pre></tt>";
+                    $sth_select->execute(array(1));
+                    $rows = $sth_select->fetchAll();
 
                     echo '<ul id="block-tovar-grid">';
                     foreach ($rows as $row):

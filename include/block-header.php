@@ -8,15 +8,15 @@
 //session_start();
 defined('myeshop') or header('Location: index.php');
 // получаем переменную с поиском
-if (isset( $_GET['q'])) {
-    $search = handleData($_GET['q']);
-    $searchLike = "LIKE '%".$search."%'";
-    $searchQ = "&q=".$search;
-} else {
-    $search = '';
-    $searchLike = '';
-    $searchQ = "&q=";
-}
+//if (isset( $_GET['q'])) {
+//    $search = handleData($_GET['q']);
+//    $searchl2 = "LIKE '%".$search."%'";
+//    $searchQ = "&q=".$search;
+//} else {
+//    $search = '';
+//    $searchl2 = '';
+//    $searchQ = "&q=";
+//}
 ?>
 <!--Основной верхний блок-->
 <div id="block-header">
