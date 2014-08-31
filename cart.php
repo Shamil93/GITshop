@@ -96,7 +96,8 @@ if (! empty($rows1)) {
 //        $int = $row1['price'] * $row1['cart_count'];
 //        echo "<tt><pre>".print_r($row1['price'], true)."</pre></tt>";
     }
-    $itogPriceCart = $int1;
+    $itogPriceCart = groupPrice($int1);
+    $_SESSION['itog_price'] = $int1;
 }
 
 
@@ -345,8 +346,17 @@ try {
                                 <li><strong>Примечание: </strong>'.$_SESSION['order_note'].'</li>
                         </ul>';
                     }
-                    echo '<h2 class="itog-price" align="right">Итого: <strong>'.groupPrice($itogPriceCart).'</strong> руб</h2>
-                    <p align="right" class="button-next"><a href="">Оплатить</a></p>';
+                    echo '<h2 class="itog-price" align="right">Итого: <strong>'.$itogPriceCart.'</strong> руб</h2>
+                    <form method="post" action="https://www.walletone.com/checkout/default.aspx" accept-charset="UTF-8">
+                      <input type="hidden" name="WMI_MERCHANT_ID"    value="169513168489"/>
+                      <input type="hidden"  name="WMI_PAYMENT_AMOUNT" value="0"/>
+                      <input type="hidden"  name="WMI_CURRENCY_ID"    value="643"/>
+                      <input type="hidden"  name="WMI_PAYMENT_NO"    value="'.$_SESSION["order_id"].'"/>
+                      <input type="hidden"  name="WMI_DESCRIPTION"    value="Оплата демонстрационного заказа"/>
+                      <input type="hidden"  name="WMI_SUCCESS_URL"    value="http://zhalnin.tmweb.ru"/>
+                      <input type="hidden"  name="WMI_FAIL_URL"       value="http://zhalnin.tmweb.ru"/>
+                      <input type="submit"/>
+                    </form>';
                     break;
                 default:
                     // блок навигации
