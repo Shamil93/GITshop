@@ -401,7 +401,7 @@ try {
                                 if( $allPrice <= 10 ) {
                                     $sum_shipping = $allPrice;
                                 } else {
-                                    $sum_shipping = $allPrice / 100  * 4.02;
+                                    $sum_shipping = round($allPrice / 100  * 4.02);
                                 }
                             }
                             ?>
