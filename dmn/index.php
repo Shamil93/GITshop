@@ -93,7 +93,7 @@ require_once ('include/DB.php');
                     <tr>
                         <td align="center">'.$row_orders_products["order_datetime"].'</td>
                         <td align="center">'.$row_products["title"].'</td>
-                        <td align="center">'.$row_products["price"].'</td>
+                        <td align="center">'.$row_products["price"].'x'.$row_orders_products["buy_count_product"].'</td>
                         <td align="center">'.$statuspay.'</td>
                     </tr>';
                 }

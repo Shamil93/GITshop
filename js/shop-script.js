@@ -21,18 +21,6 @@ $(document).ready( function() {
     loadCart();
 
     /**
-     * Изменяем вид списка товаров на сетку
-     * и меняем цвет иконки
-     */
-    $( "#style-grid" ).click( function(e) {
-        e.preventDefault();
-        $("#block-tovar-list").hide();
-        $("#block-tovar-grid").show();
-        $("#style-grid").attr('src', 'images/icon-grid-active.png');
-        $("#style-list").attr('src', 'images/icon-list.png');
-        $.cookie( 'select_style', 'grid' );
-    } );
-    /**
      * Изменяем вид списка товаров на список
      * и меняем цвет иконки
      */
@@ -44,6 +32,18 @@ $(document).ready( function() {
         $("#style-grid").attr('src', 'images/icon-grid.png');
         $.cookie( 'select_style', 'list' ); // сохраняем в куки
     } );
+    /**
+     * Изменяем вид списка товаров на сетку
+     * и меняем цвет иконки
+     */
+    $( "#style-grid" ).click( function(e) {
+        e.preventDefault();
+        $("#block-tovar-list").hide();
+        $("#block-tovar-grid").show();
+        $("#style-grid").attr('src', 'images/icon-grid-active.png');
+        $("#style-list").attr('src', 'images/icon-list.png');
+        $.cookie( 'select_style', 'grid' );
+    } );
 
     $( '#select-sort' ).click( function(e) {
         e.preventDefault();
@@ -53,16 +53,16 @@ $(document).ready( function() {
     /**
      * Проверяем наличие установленных куки для вида расположения картинок
      */
-    if($.cookie( 'select_style' ) == 'grid' ) {
-        $("#block-tovar-list").hide();
-        $("#block-tovar-grid").show();
-        $("#style-grid").attr('src', 'images/icon-grid-active.png');
-        $("#style-list").attr('src', 'images/icon-list.png');
-    } else {
+    if($.cookie( 'select_style' ) == 'list' ) {
         $("#block-tovar-grid").hide();
         $("#block-tovar-list").show();
         $("#style-list").attr('src', 'images/icon-list-active.png');
         $("#style-grid").attr('src', 'images/icon-grid.png');
+    } else {
+        $("#block-tovar-list").hide();
+        $("#block-tovar-grid").show();
+        $("#style-grid").attr('src', 'images/icon-grid-active.png');
+        $("#style-list").attr('src', 'images/icon-list.png');
     }
 
 
